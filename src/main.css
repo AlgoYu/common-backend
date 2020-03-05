@@ -1,0 +1,9 @@
+/* 内容居中 */
+.content-center {
+	text-align: center;
+}
+
+/* 左右边距居中*/
+.margin-center {
+	margin: 0 auto;
+}
