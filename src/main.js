@@ -12,7 +12,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
-// 导入Echarts
+// 导入Echarts 模块表：https://github.com/apache/incubator-echarts/blob/master/index.js
+//require('./js/world.js')
 import VueECharts from 'vue-echarts'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/line'
@@ -29,6 +30,7 @@ Vue.component('v-chart',VueECharts)
 // 导入Axios
 import Axios from 'axios'
 import VueAxios from 'vue-axios'
+Axios.defaults.withCredentials=true;
 Vue.use(VueAxios,Axios)
 
 Vue.config.productionTip = false;

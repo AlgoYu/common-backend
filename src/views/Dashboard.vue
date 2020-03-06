@@ -2,7 +2,7 @@
 	<section>
 		<el-row :gutter="20" class="row-style">
 			<el-col :span="6">
-				<el-card class="box-card" shadow="hover">
+				<el-card class="box-card">
 					<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #42B983;">
 						<use xlink:href="#icon-bussiness-man-fill"></use>
 					</svg>
@@ -22,7 +22,7 @@
 				</el-card>
 			</el-col>
 			<el-col :span="6">
-				<el-card class="box-card" shadow="hover">
+				<el-card class="box-card">
 					<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #FDCF4B;">
 						<use xlink:href="#icon-form-fill"></use>
 					</svg>
@@ -42,7 +42,7 @@
 				</el-card>
 			</el-col>
 			<el-col :span="6">
-				<el-card class="box-card" shadow="hover">
+				<el-card class="box-card">
 					<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #FA4800;">
 						<use xlink:href="#icon-consumption"></use>
 					</svg>
@@ -62,7 +62,7 @@
 				</el-card>
 			</el-col>
 			<el-col :span="6">
-				<el-card class="box-card" shadow="hover">
+				<el-card class="box-card">
 					<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #00D2D0;">
 						<use xlink:href="#icon-feeds-fill"></use>
 					</svg>
@@ -86,14 +86,14 @@
 			<el-col :span="6">
 				<el-row :gutter="20">
 					<el-col :span="24">
-						<el-card class="box-card" shadow="hover">
+						<el-card class="box-card" >
 							<v-chart :options="basicLineChart" style="width: 100%;height: 200px;"></v-chart>
 						</el-card>
 					</el-col>
 				</el-row>
 				<el-row :gutter="20" class="row-style">
 					<el-col :span="24">
-						<el-card class="box-card" shadow="hover">
+						<el-card class="box-card" >
 							<v-chart :options="compareLineChart" style="width: 100%;height: 200px;"></v-chart>
 						</el-card>
 					</el-col>
@@ -102,38 +102,38 @@
 			<el-col :span="6">
 				<el-row :gutter="20">
 					<el-col :span="24">
-						<el-card class="box-card" shadow="hover">
+						<el-card class="box-card" >
 							<v-chart :options="areaLineChart" style="width: 100%;height: 200px;"></v-chart>
 						</el-card>
 					</el-col>
 				</el-row>
 				<el-row :gutter="20" class="row-style">
 					<el-col :span="24">
-						<el-card class="box-card" shadow="hover">
+						<el-card class="box-card" >
 							<v-chart :options="barChart" style="width: 100%;height: 200px;"></v-chart>
 						</el-card>
 					</el-col>
 				</el-row>
 			</el-col>
 			<el-col :span="6">
-				<el-card class="box-card" shadow="hover">
+				<el-card class="box-card" >
 					<v-chart :options="proportionPieChart" style="width:100%;height:460px;"></v-chart>
 				</el-card>
 			</el-col>
 			<el-col :span="6">
-				<el-card class="box-card" shadow="hover">
+				<el-card class="box-card" >
 					<v-chart :options="dataPieChart" style="width: 100%;height: 460px;"></v-chart>
 				</el-card>
 			</el-col>
 		</el-row>
 		<el-row :gutter="20" class="row-style">
 			<el-col :span="16">
-				<el-card class="box-card" shadow="hover">
+				<el-card class="box-card" >
 					<v-chart :options="mapChart" style="width: 100%;height: 460px;"></v-chart>
 				</el-card>
 			</el-col>
 			<el-col :span="8">
-				<el-card class="box-card" shadow="hover">
+				<el-card class="box-card" >
 					<AuthorCard></AuthorCard>
 				</el-card>
 			</el-col>

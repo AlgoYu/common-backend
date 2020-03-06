@@ -4,18 +4,17 @@
 		<el-aside width="200px" class="Aside-Area">
 			<!-- Profile Start -->
 			<section class="Profile">
-				<!-- <el-avatar icon="el-icon-user-solid" :size="75" :src="image"></el-avatar> -->
-				<img src="../assets/logo.jpg" class="Image" />
-				<p><b>AnyDev</b></p>
+				<el-avatar class="Image-Border" icon="el-icon-user-solid" :size="100" :src="image"></el-avatar>
+				<p><b style="color: #FFFFFF;">AnyDev</b></p>
 				<el-button-group>
-					<el-button icon="el-icon-edit" size="mini" type="primary">编辑</el-button>
-					<el-button icon="el-icon-s-tools" size="mini" type="primary">设置</el-button>
+					<el-button icon="el-icon-edit" size="mini">编辑</el-button>
+					<el-button icon="el-icon-s-tools" size="mini">设置</el-button>
 				</el-button-group>
 			</section>
 			<!-- Profile End -->
 			<!-- Menu Start -->
 			<section>
-				<el-menu default-active="/dashboard" router>
+				<el-menu active-text-color="#31BCD3" text-color="#ffffff" background-color="transparent" default-active="/dashboard" router>
 					<el-menu-item index="/dashboard">
 						<i class="el-icon-menu"></i>
 						<span slot="title">数据统计</span>
@@ -65,8 +64,11 @@
 		name: 'Container',
 		data() {
 			return {
-				image: '../assets/logo.jpg'
+				image: 'https://wx3.sinaimg.cn/large/0065B4vHgy1gcl0c200ijj30ku0kih4n.jpg'
 			}
+		},
+		mounted(){
+			this.$router.push('Dashboard');
 		},
 		methods: {
 			handleOpen() {
@@ -85,7 +87,7 @@
 	}
 
 	.Aside-Area {
-		background-color: #FFFFFF;
+		background-image: linear-gradient(#65615A, #000000);
 	}
 
 	.Main-Area {
@@ -98,10 +100,7 @@
 		padding-bottom: 10px;
 	}
 
-	.Image {
-		width: 85px;
-		height: 85px;
-		border-radius: 50%;
-		border: #000000 solid 3px;
+	.Image-Border {
+		border: #FFFFFF solid 3px;
 	}
 </style>
