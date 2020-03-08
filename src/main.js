@@ -25,18 +25,30 @@ import 'echarts/lib/component/polar'
 import 'echarts/lib/component/geo'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/visualMap'
-Vue.component('v-chart',VueECharts)
+Vue.component('v-chart', VueECharts)
+
+// 导入高德地图
+import VueAMap from 'vue-amap'
+Vue.use(VueAMap)
+VueAMap.initAMapApiLoader({
+	key: '09fa9218f1f40f737a32328c386dcd9c',
+	plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType',
+		'AMap.PolyEditor', 'AMap.CircleEditor'
+	],
+	// 默认高德 sdk 版本为 1.4.4
+	v: '1.4.4'
+})
 
 // 导入Axios
 import Axios from 'axios'
 import VueAxios from 'vue-axios'
-Axios.defaults.withCredentials=true;
-Vue.use(VueAxios,Axios)
+Axios.defaults.withCredentials = true;
+Vue.use(VueAxios, Axios)
 
 Vue.config.productionTip = false;
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+	router,
+	store,
+	render: h => h(App)
 }).$mount("#app");

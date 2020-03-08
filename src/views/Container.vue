@@ -8,13 +8,13 @@
 				<p><b style="color: #FFFFFF;">AnyDev</b></p>
 				<el-button-group>
 					<el-button icon="el-icon-edit" size="mini">编辑</el-button>
-					<el-button icon="el-icon-s-tools" size="mini">设置</el-button>
+					<el-button icon="el-icon-s-unfold" size="mini">退出</el-button>
 				</el-button-group>
 			</section>
 			<!-- Profile End -->
 			<!-- Menu Start -->
 			<section>
-				<el-menu active-text-color="#31BCD3" text-color="#ffffff" background-color="transparent" default-active="/dashboard" router>
+				<el-menu @select="selectMenu" active-text-color="#31BCD3" text-color="#ffffff" background-color="transparent" default-active="/dashboard" router>
 					<el-menu-item index="/dashboard">
 						<i class="el-icon-menu"></i>
 						<span slot="title">数据统计</span>
@@ -45,6 +45,10 @@
 						<i class="el-icon-warning"></i>
 						<span slot="title">权限管理</span>
 					</el-menu-item>
+					<el-menu-item index="/map">
+						<i class="el-icon-position"></i>
+						<span slot="title">地图信息</span>
+					</el-menu-item>
 					<el-menu-item index="/about">
 						<i class="el-icon-s-tools"></i>
 						<span slot="title">设置</span>
@@ -64,6 +68,7 @@
 		name: 'Container',
 		data() {
 			return {
+				search: '',
 				image: 'https://wx3.sinaimg.cn/large/0065B4vHgy1gcl0c200ijj30ku0kih4n.jpg'
 			}
 		},
@@ -71,11 +76,8 @@
 			this.$router.push('Dashboard');
 		},
 		methods: {
-			handleOpen() {
-				console.log("打开");
-			},
-			handleClose() {
-				console.log("关闭");
+			selectMenu(index,indexPath){
+				console.log(index+"|"+indexPath);
 			}
 		}
 	}
