@@ -1,17 +1,12 @@
 <template>
 	<div id="app">
-		<Container></Container>
+		<router-view></router-view>
 	</div>
 </template>
 
 <script>
-	import Container from './views/Container.vue'
-
 	export default {
-		name: 'App',
-		components: {
-			Container
-		}
+		name: 'App'
 	}
 </script>
 

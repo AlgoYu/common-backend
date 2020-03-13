@@ -1,24 +1,37 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Dashboard from "../views/Dashboard.vue";
 
 Vue.use(VueRouter);
 
 const routes = [{
-		path: "/dashboard",
-		name: "Dashboard",
-		component: Dashboard
-	},
-	{
-		path: "/map",
-		name: "Map",
-		// route level code-splitting
-		// this generates a separate chunk (about.[hash].js) for this route
-		// which is lazy-loaded when the route is visited.
-		component: () =>
-			import( /* webpackChunkName: "about" */ "../views/Map.vue")
-	}
-];
+		path: "/login",
+		name: "Login",
+		component: () => import("../views/Login.vue")
+	}, {
+		path: "/",
+		name: "Management",
+		component: () => import("../views/Management.vue"),
+		children: [{
+				path: "dashboard",
+				name: "Dashboard",
+				component: () => import("../views/Dashboard.vue")
+			},
+			{
+				path: "map",
+				name: "Map",
+				// route level code-splitting
+				// this generates a separate chunk (about.[hash].js) for this route
+				// which is lazy-loaded when the route is visited.
+				component: () =>
+					import( /* webpackChunkName: "about" */ "../views/Map.vue")
+			},
+			{
+				path: "setup",
+				name: "Setup",
+				component: () => import("../views/Setup.vue")
+			}
+		]
+	}];
 
 const router = new VueRouter({
 	routes

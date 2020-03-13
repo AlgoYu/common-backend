@@ -13,18 +13,23 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
 // 导入Echarts 模块表：https://github.com/apache/incubator-echarts/blob/master/index.js
-//require('./js/world.js')
+// import './assets/world.js'
+//require('js/world.js')
 import VueECharts from 'vue-echarts'
-import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/line'
+import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/pie'
-import 'echarts/lib/chart/map'
-import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
-import 'echarts/lib/component/polar'
+import 'echarts/lib/component/dataZoom'
 import 'echarts/lib/component/geo'
-import 'echarts/lib/component/legend'
+import 'echarts/lib/component/polar'
+import 'echarts/lib/component/dataset'
+import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/visualMap'
+import 'echarts/lib/component/visualMapContinuous'
+import 'echarts/lib/component/visualMapPiecewise'
+import 'echarts-gl'
+require('echarts/map/js/world.js');
 Vue.component('v-chart', VueECharts)
 
 // 导入高德地图

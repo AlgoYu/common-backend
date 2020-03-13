@@ -1,21 +1,20 @@
 <template>
-	<el-container class="Container">
-
-		<el-aside width="200px" class="Aside-Area">
+	<el-container class="container">
+		<el-aside width="200px" class="aside-area">
 			<!-- Profile Start -->
-			<section class="Profile">
-				<el-avatar class="Image-Border" icon="el-icon-user-solid" :size="100" :src="image"></el-avatar>
+			<section class="profile">
+				<el-avatar class="image-border" icon="el-icon-user-solid" :size="100" :src="image"></el-avatar>
 				<p><b style="color: #FFFFFF;">AnyDev</b></p>
 				<el-button-group>
 					<el-button icon="el-icon-edit" size="mini">编辑</el-button>
-					<el-button icon="el-icon-s-unfold" size="mini">退出</el-button>
+					<el-button @click="logout" icon="el-icon-s-unfold" size="mini">退出</el-button>
 				</el-button-group>
 			</section>
 			<!-- Profile End -->
 			<!-- Menu Start -->
 			<section>
-				<el-menu @select="selectMenu" active-text-color="#31BCD3" text-color="#ffffff" background-color="transparent" default-active="/dashboard" router>
-					<el-menu-item index="/dashboard">
+				<el-menu text-color="#ffffff" background-color="transparent" default-active="dashboard" router>
+					<el-menu-item index="dashboard">
 						<i class="el-icon-menu"></i>
 						<span slot="title">数据统计</span>
 					</el-menu-item>
@@ -45,11 +44,11 @@
 						<i class="el-icon-warning"></i>
 						<span slot="title">权限管理</span>
 					</el-menu-item>
-					<el-menu-item index="/map">
+					<el-menu-item index="map">
 						<i class="el-icon-position"></i>
 						<span slot="title">地图信息</span>
 					</el-menu-item>
-					<el-menu-item index="/about">
+					<el-menu-item index="setup">
 						<i class="el-icon-s-tools"></i>
 						<span slot="title">设置</span>
 					</el-menu-item>
@@ -57,7 +56,13 @@
 			</section>
 			<!-- Menu End -->
 		</el-aside>
-		<el-main class="Main-Area">
+		<el-main class="main-area">
+			<div class="main-head">
+				<el-button icon="el-icon-caret-left" circle></el-button>
+				<font size="5" color="#1D2F3B"><b>{{currentPage}}</b></font>
+				<el-input style="width: 250px;" prefix-icon="el-icon-search" v-model="search" placeholder="搜索"></el-input>
+			</div>
+			<el-divider></el-divider>
 			<router-view></router-view>
 		</el-main>
 	</el-container>
@@ -65,44 +70,57 @@
 
 <script>
 	export default {
-		name: 'Container',
+		name: 'Management',
 		data() {
 			return {
+				currentPage: '数据概览',
 				search: '',
 				image: 'https://wx3.sinaimg.cn/large/0065B4vHgy1gcl0c200ijj30ku0kih4n.jpg'
 			}
 		},
 		mounted(){
-			this.$router.push('Dashboard');
+			this.$router.push("dashboard");
 		},
 		methods: {
-			selectMenu(index,indexPath){
-				console.log(index+"|"+indexPath);
+			modifyTitle(event){
+				console.log(event);
+			},
+			logout(){
+				this.$router.push('login');
 			}
 		}
 	}
 </script>
 
 <style>
-	.Container {
+	.container {
 		height: 100%;
+		width: 100%;
 	}
 
-	.Aside-Area {
-		background-image: linear-gradient(#65615A, #000000);
+	.aside-area {
+		background-image: linear-gradient(rgb(145,191,191),rgb(188,208,198));
 	}
 
-	.Main-Area {
+	.main-area {
 		background-color: #F4F4EF;
 	}
 
-	.Profile {
-		text-align: center;
-		padding-top: 20px;
-		padding-bottom: 10px;
+	.profile {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-top: 20px;
+		margin-bottom: 20px;
 	}
 
-	.Image-Border {
+	.image-border {
 		border: #FFFFFF solid 3px;
+	}
+	
+	.main-head{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
 	}
 </style>

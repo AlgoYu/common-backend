@@ -3,82 +3,82 @@
 		<el-row :gutter="20" class="row-style">
 			<el-col :span="6">
 				<el-card class="box-card">
-					<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #42B983;">
-						<use xlink:href="#icon-bussiness-man-fill"></use>
-					</svg>
-					<div class="text-block">
-						<div>
-							<font size="3px" color="#9C9C9C">用户</font>
-						</div>
-						<div>
-							<font size="6px" color="#000000">2567</font>
+					<div class="info-box">
+						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #42B983;">
+							<use xlink:href="#icon-bussiness-man-fill"></use>
+						</svg>
+						<div class="num-box">
+							<div>
+								<font size="3px" color="#9C9C9C">用户</font>
+							</div>
+							<div>
+								<font size="6px" color="#000000">2567</font>
+							</div>
 						</div>
 					</div>
 					<el-divider></el-divider>
-					<svg class="icon" aria-hidden="true" style="font-size: 20px;color: #66625B;">
-						<use xlink:href="#icon-exchangerate"></use>
-					</svg>
-					<font size="4">更新</font>
+					<i class="el-icon-time"></i>
+					<font style="margin-left: 5px;">截止现在</font>
 				</el-card>
 			</el-col>
 			<el-col :span="6">
 				<el-card class="box-card">
-					<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #FDCF4B;">
-						<use xlink:href="#icon-form-fill"></use>
-					</svg>
-					<div class="text-block">
-						<div>
-							<font size="3px" color="#9C9C9C">订单</font>
-						</div>
-						<div>
-							<font size="6px" color="#000000">4056</font>
+					<div class="info-box">
+						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #FDCF4B;">
+							<use xlink:href="#icon-form-fill"></use>
+						</svg>
+						<div class="num-box">
+							<div>
+								<font size="3px" color="#9C9C9C">用户</font>
+							</div>
+							<div>
+								<font size="6px" color="#000000">2567</font>
+							</div>
 						</div>
 					</div>
 					<el-divider></el-divider>
-					<svg class="icon" aria-hidden="true" style="font-size: 20px;color: #66625B;">
-						<use xlink:href="#icon-exchangerate"></use>
-					</svg>
-					<font size="4">更新</font>
+					<i class="el-icon-time"></i>
+					<font style="margin-left: 5px;">截止现在</font>
 				</el-card>
 			</el-col>
 			<el-col :span="6">
 				<el-card class="box-card">
-					<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #FA4800;">
-						<use xlink:href="#icon-consumption"></use>
-					</svg>
-					<div class="text-block">
-						<div>
-							<font size="3px" color="#9C9C9C">收入</font>
-						</div>
-						<div>
-							<font size="6px" color="#000000">1005201.00</font>
+					<div class="info-box">
+						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #FA4800;">
+							<use xlink:href="#icon-consumption"></use>
+						</svg>
+						<div class="num-box">
+							<div>
+								<font size="3px" color="#9C9C9C">成交额</font>
+							</div>
+							<div>
+								<font size="6px" color="#000000">2504210.97</font>
+							</div>
 						</div>
 					</div>
 					<el-divider></el-divider>
-					<svg class="icon" aria-hidden="true" style="font-size: 20px;color: #66625B;">
-						<use xlink:href="#icon-exchangerate"></use>
-					</svg>
-					<font size="4">更新</font>
+					<i class="el-icon-time"></i>
+					<font style="margin-left: 5px;">截止现在</font>
 				</el-card>
 			</el-col>
 			<el-col :span="6">
 				<el-card class="box-card">
-					<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #00D2D0;">
-						<use xlink:href="#icon-feeds-fill"></use>
-					</svg>
-					<div class="text-block">
-						<div>
-							<font size="3px" color="#9C9C9C">订单</font>
-						</div>
-						<div>
-							<font size="6px" color="#000000">2567</font>
+					<div class="info-box">
+						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #00D2D0;">
+							<use xlink:href="#icon-feeds-fill"></use>
+						</svg>
+						<div class="num-box">
+							<div>
+								<font size="3px" color="#9C9C9C">订单</font>
+							</div>
+							<div>
+								<font size="6px" color="#000000">4327</font>
+							</div>
 						</div>
 					</div>
 					<el-divider></el-divider>
-					<svg class="icon" aria-hidden="true" style="font-size: 20px;color: #66625B;">
-						<use xlink:href="#icon-exchangerate"></use>
-					</svg>
-					<font size="4">更新</font>
+					<i class="el-icon-time"></i>
+					<font style="margin-left: 5px;">截止现在</font>
 				</el-card>
 			</el-col>
 		</el-row>
@@ -143,7 +143,6 @@
 
 <script>
 	import AuthorCard from '../components/AuthorCard.vue'
-	// 导入Echarts	
 	export default {
 		name: 'Dashboard',
 		components:{
@@ -1230,10 +1229,15 @@
 	.box-card {
 		border-radius: 15px;
 	}
-
-	.text-block {
-		float: right;
-		display: inline-block;
-		text-align: right;
+	
+	.info-box{
+		display: flex;
+		justify-content: space-between;
+	}
+	
+	.num-box{
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
 	}
 </style>
