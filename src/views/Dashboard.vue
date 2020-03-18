@@ -4,7 +4,7 @@
 			<el-col :span="6">
 				<el-card class="box-card">
 					<div class="info-box">
-						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #42B983;">
+						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #2E68AA;">
 							<use xlink:href="#icon-bussiness-man-fill"></use>
 						</svg>
 						<div class="num-box">
@@ -12,7 +12,7 @@
 								<font size="3px" color="#9C9C9C">用户</font>
 							</div>
 							<div>
-								<font size="6px" color="#000000">2567</font>
+								<font size="6px" color="#000000">58753</font>
 							</div>
 						</div>
 					</div>
@@ -24,15 +24,15 @@
 			<el-col :span="6">
 				<el-card class="box-card">
 					<div class="info-box">
-						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #FDCF4B;">
-							<use xlink:href="#icon-form-fill"></use>
+						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #56A36C;">
+							<use xlink:href="#icon-logistic-logo"></use>
 						</svg>
 						<div class="num-box">
 							<div>
-								<font size="3px" color="#9C9C9C">用户</font>
+								<font size="3px" color="#9C9C9C">当前在线</font>
 							</div>
 							<div>
-								<font size="6px" color="#000000">2567</font>
+								<font size="6px" color="#000000">12642</font>
 							</div>
 						</div>
 					</div>
@@ -44,8 +44,8 @@
 			<el-col :span="6">
 				<el-card class="box-card">
 					<div class="info-box">
-						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #FA4800;">
-							<use xlink:href="#icon-consumption"></use>
+						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #EB3F2F;">
+							<use xlink:href="#icon-discounts-fill"></use>
 						</svg>
 						<div class="num-box">
 							<div>

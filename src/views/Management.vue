@@ -126,7 +126,7 @@
 	}
 
 	.main-area {
-		background-color: #F4F4EF;
+		/* background-color: #F4F4EF; */
 	}
 
 	.profile {
