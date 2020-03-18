@@ -2,8 +2,8 @@
 自用后台管理模板。
 ## 项目技术
 1. **Vue**
-2. **vue-router**
-3. **vuex**
+2. **Vue-router**
+3. **Vuex**
 4. **ElementUI**
 5. **Vue-Axios**
 6. **Vue-Echarts**
