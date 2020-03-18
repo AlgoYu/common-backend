@@ -1,29 +1,33 @@
-# common-backend
+# 自用后台管理界面
+自用后台管理模板。
+## 项目技术
+1. **Vue**
+2. **vue-router**
+3. **vuex**
+4. **ElementUI**
+5. **Vue-Axios**
+6. **Vue-Echarts**
+7. **Vue-Amap**
+8. **XSS**
 
-## Project setup
-```
-npm install
-```
+## 界面预览
+![预览图](https://wx2.sinaimg.cn/large/0065B4vHgy1gcy9gb1veaj31gz0s8wnz.jpg)
+## 使用方法
+> 提醒：确保已经安装Node.js以及包管理工具NPM
 
-### Compiles and hot-reloads for development
+1. 克隆仓库
+
+```bash
+git clone https://github.com/QQ794763733/Base-RBAC-BackEnd.git
 ```
+2. 运行代码
+
+```bash
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## 关于作者
 
-### Run your unit tests
-```
-npm run test:unit
-```
+**如果这个项目有帮助到您就请作者喝一杯咖啡吧！**
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+<img src="https://wx3.sinaimg.cn/large/0065B4vHgy1g7mv8zdyvwj3078078jr5.jpg" width="20%"/>
