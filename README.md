@@ -11,7 +11,7 @@
 8. **XSS**
 
 ## 界面预览
-![预览图](https://wx2.sinaimg.cn/large/0065B4vHgy1gcy9gb1veaj31gz0s8wnz.jpg)
+![预览图](https://wx1.sinaimg.cn/large/0065B4vHgy1gcybfhpmrwj31gz0sy7dx.jpg)
 ## 使用方法
 > 提醒：确保已经安装Node.js以及包管理工具NPM
 
