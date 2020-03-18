@@ -13,8 +13,6 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
 // 导入Echarts 模块表：https://github.com/apache/incubator-echarts/blob/master/index.js
-// import './assets/world.js'
-//require('js/world.js')
 import VueECharts from 'vue-echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/bar'
@@ -47,7 +45,10 @@ VueAMap.initAMapApiLoader({
 // 导入Axios
 import Axios from 'axios'
 import VueAxios from 'vue-axios'
+// 携带Cookie
 Axios.defaults.withCredentials = true;
+// 默认URL
+Axios.defaults.baseURL = 'https://www.anydevelop.cn';
 Vue.use(VueAxios, Axios)
 
 Vue.config.productionTip = false;

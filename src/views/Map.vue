@@ -2,7 +2,7 @@
 	<div>
 		<el-card class="box-card">
 			<div class="amap-box">
-				<el-amap :plugin="plugin" :zoom="zoom" :center="center" class="amap-box" :vid="'amap-vue'">
+				<el-amap :plugin="plugins" :zoom="zoom" :center="center" class="amap-box" :vid="'amap-vue'">
 					<el-amap-marker vid="component-marker" :position="componentMarker.position"></el-amap-marker>
 				</el-amap>
 			</div>
@@ -20,7 +20,37 @@
 				center: [106.212443, 28.318501],
 				componentMarker: {
 					position: [106.212443, 28.318501]
-				}
+				},
+				plugins: [{
+					pName: 'MapType',
+					defaultType: 0,
+					events: {
+						init(instance) {
+							console.log(instance);
+						}
+					}
+				}, {
+					pName: 'OverView',
+					events: {
+						init(instance) {
+							console.log(instance);
+						}
+					}
+				}, {
+					pName: 'Scale',
+					events: {
+						init(instance) {
+							console.log(instance);
+						}
+					}
+				}, {
+					pName: 'ToolBar',
+					events: {
+						init(instance) {
+							console.log(instance);
+						}
+					}
+				}]
 			}
 		}
 	}

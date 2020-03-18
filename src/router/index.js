@@ -26,10 +26,19 @@ const routes = [{
 					import( /* webpackChunkName: "about" */ "../views/Map.vue")
 			},
 			{
+				path: "table",
+				name: "Table",
+				component: () => import("../views/Table.vue")
+			},
+			{
+				path: "editor",
+				name: "Editor",
+				component: () => import("../views/Editor.vue")
+			},{
 				path: "setup",
 				name: "Setup",
 				component: () => import("../views/Setup.vue")
-			}
+			},
 		]
 	}];
 

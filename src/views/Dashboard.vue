@@ -1227,7 +1227,7 @@
 	}
 
 	.box-card {
-		border-radius: 15px;
+		border-radius: 5px;
 	}
 	
 	.info-box{
