@@ -11,7 +11,7 @@
 8. **XSS**
 
 ## 界面预览
-![预览图](https://wx1.sinaimg.cn/large/0065B4vHgy1gcybfhpmrwj31gz0sy7dx.jpg)
+![预览图](http://i2.tiimg.com/835/a684ceeed8f28bdf.jpg)
 ## 使用方法
 > 提醒：确保已经安装Node.js以及包管理工具NPM
 
@@ -30,4 +30,4 @@ npm run serve
 
 **如果这个项目有帮助到您就请作者喝一杯咖啡吧！**
 
-<img src="https://wx3.sinaimg.cn/large/0065B4vHgy1g7mv8zdyvwj3078078jr5.jpg" width="20%"/>
+<img src="http://i2.tiimg.com/835/8b24f140ff13849b.jpg" width="20%"/>
