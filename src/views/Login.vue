@@ -11,7 +11,8 @@
 					<el-form-item prop="accountPassword" label="账户密码:">
 						<el-input v-model="form.accountPassword" placeholder="请输入账户密码" type="password" clearable></el-input>
 					</el-form-item>
-					<el-form-item>
+					<el-form-item label="验证:">
+						<SwipeVerification v-on:confirmSuccessChanged="confirmSuccessChanged"></SwipeVerification>
 						<el-switch v-model="form.rememberMe" active-color="#13ce66" inactive-color="#ff4949" active-text="自动登录">
 						</el-switch>
 					</el-form-item>
@@ -27,8 +28,13 @@
 
 <script>
 	import md5 from 'js-md5';
+	import SwipeVerification from '../components/SwipeVerification.vue'
+	
 	export default {
 		name: 'Login',
+		components:{
+			SwipeVerification: SwipeVerification
+		},
 		data() {
 			return {
 				form: {
@@ -61,11 +67,16 @@
 							trigger: 'blur'
 						}
 					]
-				}
+				},
+				confirmSuccess: false
 			}
 		},
 		methods: {
 			login(formName) {
+				if(!this.confirmSuccess){
+					this.$message.error('请完成滑动验证！');
+					return;
+				}
 				// 验证表单是否通过
 				this.$refs[formName].validate((isValid) => {
 					// 通过验证既登录
@@ -103,6 +114,9 @@
 							});
 					}
 				});
+			},
+			confirmSuccessChanged(value){
+				this.confirmSuccess = value;
 			},
 			resetForm(formName) {
 				this.$refs[formName].resetFields();
