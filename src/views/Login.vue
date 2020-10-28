@@ -2,29 +2,27 @@
 	<div class="container">
 		<el-card class="box-card">
 			<section class="option-panel">
-				<el-button circle @click="changePanel">
+				<!-- <el-button circle @click="changePanel">
 					<svg class="icon" aria-hidden="true" style="font-size: 25px;color: #909399;">
 						<use xlink:href="#icon-camera-fill"></use>
 					</svg>
-				</el-button>
+				</el-button> -->
 			</section>
 			<section v-if="!faceView" class="login-panel">
 				<img src="https://wx4.sinaimg.cn/large/0065B4vHgy1g7u65sx5jsj309s08jwek.jpg" style="width: 50px;" class="logo" />
 				<h2>后台管理系统</h2>
 				<el-form :model="form" :rules="rules" ref="loginForm" label-width="100px">
-					<el-form-item prop="accountName" label="账户名称:">
-						<el-input v-model="form.accountName" placeholder="请输入账户名称" clearable></el-input>
+					<el-form-item prop="username" label="账户名称:">
+						<el-input v-model="form.username" placeholder="请输入账户名称" clearable></el-input>
 					</el-form-item>
-					<el-form-item prop="accountPassword" label="账户密码:">
-						<el-input v-model="form.accountPassword" placeholder="请输入账户密码" type="password" clearable></el-input>
+					<el-form-item prop="password" label="账户密码:">
+						<el-input v-model="form.password" placeholder="请输入账户密码" type="password" clearable></el-input>
 					</el-form-item>
 					<el-form-item label="验证:">
 						<SwipeVerification v-on:confirmSuccessChanged="confirmSuccessChanged"></SwipeVerification>
-						<el-switch v-model="form.rememberMe" active-color="#13ce66" inactive-color="#ff4949" active-text="自动登录">
-						</el-switch>
 					</el-form-item>
 					<div class="form-buttons">
-						<el-button type="primary" @click="login('loginForm')">登录</el-button>
+						<el-button type="primary" @click="commit('loginForm')">登录</el-button>
 						<el-button @click="resetForm('loginForm')">重置</el-button>
 					</div>
 				</el-form>
@@ -39,7 +37,10 @@
 
 <script>
 	import md5 from 'js-md5';
-	import SwipeVerification from '../components/SwipeVerification.vue'
+	import SwipeVerification from '../components/SwipeVerification.vue';
+	import {
+		login
+	} from '../api/LoginApi.js';
 
 	export default {
 		name: 'Login',
@@ -51,12 +52,11 @@
 				faceView: false,
 				interval: null,
 				form: {
-					accountName: '',
-					accountPassword: '',
-					rememberMe: true
+					username: '',
+					password: ''
 				},
 				rules: {
-					accountName: [{
+					username: [{
 							required: true,
 							message: '请输入账户名称',
 							trigger: 'blur'
@@ -68,7 +68,7 @@
 							trigger: 'blur'
 						}
 					],
-					accountPassword: [{
+					password: [{
 							required: true,
 							message: '请输入账户名称',
 							trigger: 'blur'
@@ -88,7 +88,7 @@
 			faceView(value) {
 				if (value) {
 					this.initCamera();
-				}else{
+				} else {
 					window.clearInterval(this.interval);
 				}
 			}
@@ -114,15 +114,15 @@
 						video.onloadedmetadata = function(e) {
 							video.play();
 						};
-						video.addEventListener('loadeddata', function(){
+						video.addEventListener('loadeddata', function() {
 							var canvas = document.createElement("canvas");
 							canvas.width = video.videoWidth;
 							canvas.height = video.videoHeight;
-							self.interval = window.setInterval(function(){
-								canvas.getContext('2d').drawImage(video, 0, 0, canvas.width,canvas.height);
+							self.interval = window.setInterval(function() {
+								canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 								let url = canvas.toDataURL("image/png");
 								console.log(url);
-							},3000);
+							}, 3000);
 						});
 					}, function(err) {
 						console.log("访问用户媒体设备失败: " + err.name);
@@ -131,7 +131,7 @@
 					self.$message.error('不支持访问用户媒体');
 				}
 			},
-			login(formName) {
+			commit(formName) {
 				if (!this.confirmSuccess) {
 					this.$message.error('请完成滑动验证！');
 					return;
@@ -140,37 +140,33 @@
 				this.$refs[formName].validate((isValid) => {
 					// 通过验证既登录
 					if (isValid) {
-						this.axios.post('/login', {
-								accountName: this.form.accountName,
-								accountPassword: md5(this.form.accountPassword)
-							})
-							.then((response) => {
-								// 判断是否登录成功
-								if (response.data.data) {
-									this.$message({
-										message: '登录成功！3秒后跳转至管理界面！',
-										type: 'success'
+						login({
+							username: this.form.username,
+							password: md5(this.form.password).toUpperCase()
+						}).then((res) => {
+							console.log(res);
+							if (res.data.success) {
+								console.log("asdsad");
+								this.$store.commit("modifyToken", res.data.data)
+								this.$message({
+									message: '登录成功！3秒后跳转至管理界面！',
+									type: 'success'
+								});
+								// 跳转页面
+								setTimeout(() => {
+									this.$router.push({
+										name: 'Management'
 									});
-									// 跳转页面
-									setTimeout(() => {
-										this.$router.push({
-											name: 'Management',
-											params: {
-												accountName: this.form.accountName
-											}
-										});
-									}, 3000);
-								} else {
-									this.$message({
-										message: response.data.message,
-										type: 'warning'
-									});
-								}
-							})
-							.catch((error) => {
-								// 这里是请求失败
-								this.$message.error('当前网络不畅，请检查您的网络！' + error);
-							});
+								}, 3000);
+							} else {
+								this.$message({
+									message: response.data.msg,
+									type: 'warning'
+								});
+							}
+						}).catch((err) => {
+							this.$message.error('当前网络不畅，请检查您的网络！' + error);
+						})
 					}
 				});
 			},

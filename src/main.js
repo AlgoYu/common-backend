@@ -45,11 +45,11 @@ VueAMap.initAMapApiLoader({
 // 导入Axios
 import Axios from 'axios'
 import VueAxios from 'vue-axios'
-// 携带Cookie
-Axios.defaults.withCredentials = true;
-// 默认URL
-Axios.defaults.baseURL = 'https://www.anydevelop.cn';
 Vue.use(VueAxios, Axios)
+
+// 导入全局常量
+import Global from './global/Global.js'
+Vue.prototype.global = Global;
 
 Vue.config.productionTip = false;
 

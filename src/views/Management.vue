@@ -3,8 +3,8 @@
 		<el-aside width="200px" class="aside-area">
 			<!-- Profile Start -->
 			<section class="profile">
-				<el-avatar class="image-border" icon="el-icon-user-solid" :size="100" :src="image"></el-avatar>
-				<p><b style="color: #909399;">AnyDev</b></p>
+				<el-avatar class="image-border" icon="el-icon-user-solid" :size="100" :src="user.picture"></el-avatar>
+				<p><b style="color: #909399;">{{user.username}}</b></p>
 				<el-button-group>
 					<el-button icon="el-icon-edit" size="mini">编辑</el-button>
 					<el-button @click="logout" icon="el-icon-s-unfold" size="mini">退出</el-button>
@@ -89,19 +89,44 @@
 </template>
 
 <script>
+	import { getCurrent } from '../api/SystemUserApi.js';
+	import { getMenu } from '../api/SystemAuthorityApi.js';
 	export default {
 		name: 'Management',
 		data() {
 			return {
 				title: '数据概览',
 				search: '',
-				image: 'https://wx3.sinaimg.cn/large/0065B4vHgy1gcl0c200ijj30ku0kih4n.jpg'
+				user: {
+					username: 'MachineGeek',
+					picture: 'http://store.machine-geek.cn/Administrator.jpg'
+				},
+				menus: []
 			}
 		},
-		mounted() {
-			this.$router.push("dashboard");
+		created() {
+			this.init();
 		},
 		methods: {
+			init(){
+				// 获取菜单
+				getMenu().then((res)=>{
+					if(res.data.success){
+						this.menus = res.data.data;
+					}
+				}).catch((err)=>{
+					this.$message.error(err);
+				});
+				// 获取用户信息
+				getCurrent().then((res)=>{
+					if(res.data.success){
+						res.data.data.picture = this.global.apiUrl + res.data.data.picture;
+						this.user = res.data.data;
+					}
+				}).catch((err)=>{
+					this.$message.error(err);
+				});
+			},
 			modifyTitle(event) {
 				console.log(event);
 			},
