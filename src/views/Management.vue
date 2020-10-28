@@ -1,6 +1,6 @@
 <template>
 	<el-container class="container">
-		<el-aside width="200px" class="aside-area">
+		<el-aside width="auto" class="aside-area">
 			<!-- Profile Start -->
 			<section class="profile">
 				<el-avatar class="image-border" icon="el-icon-user-solid" :size="100" :src="user.picture"></el-avatar>
@@ -13,7 +13,7 @@
 			<!-- Profile End -->
 			<!-- Menu Start -->
 			<section>
-				<el-menu background-color="transparent" default-active="dashboard" router>
+				<el-menu router :collapse="isCollapse">
 					<el-menu-item index="dashboard" @click="setTitle('数据统计')">
 						<i class="el-icon-s-data"></i>
 						<span slot="title">数据统计</span>
@@ -64,27 +64,43 @@
 			</section>
 			<!-- Menu End -->
 		</el-aside>
-		<el-main class="main-area">
-			<div class="main-head">
-				<el-button icon="el-icon-caret-left" circle></el-button>
-				<font size="5" color="#1D2F3B" style="align-self:center"><b>{{title}}</b></font>
-				<div>
-					<el-input style="width: 250px;" prefix-icon="el-icon-search" v-model="search" placeholder="搜索"></el-input>
-					<el-dropdown>
-						<el-button icon="el-icon-menu" circle style="margin-left: 10px;"></el-button>
-						<el-dropdown-menu slot="dropdown">
-							<el-dropdown-item icon="el-icon-magic-stick">提醒</el-dropdown-item>
-							<el-dropdown-item icon="el-icon-attract">链接</el-dropdown-item>
-							<el-dropdown-item icon="el-icon-printer">打印机</el-dropdown-item>
-							<el-dropdown-item icon="el-icon-brush" disabled>皮肤</el-dropdown-item>
-							<el-dropdown-item icon="el-icon-close-notification" divided>关闭通知</el-dropdown-item>
-						</el-dropdown-menu>
-					</el-dropdown>
+		<el-container>
+		    <el-header>
+				<div class="main-head">
+					<el-row style="height: 100%;">
+						<el-col :span="1" style="height: 100%;">
+							<div class="flex-center">
+								<el-button icon="el-icon-caret-left" circle class="vertical-center"></el-button>
+							</div>
+						</el-col>
+						<el-col :span="17" style="height: 100%;">
+							<div class="flex-center">
+								<font size="5" color="#1D2F3B" style="align-self:center"><b>{{title}}</b></font>
+							</div>
+						</el-col>
+						<el-col :span="6" style="height: 100%;">
+							<div class="flex-center">
+								<el-input style="width: 250px;" prefix-icon="el-icon-search" v-model="search" placeholder="搜索"></el-input>
+								<el-dropdown>
+									<el-button icon="el-icon-menu" circle style="margin-left: 10px;"></el-button>
+									<el-dropdown-menu slot="dropdown">
+										<el-dropdown-item icon="el-icon-magic-stick">提醒</el-dropdown-item>
+										<el-dropdown-item icon="el-icon-attract">链接</el-dropdown-item>
+										<el-dropdown-item icon="el-icon-printer">打印机</el-dropdown-item>
+										<el-dropdown-item icon="el-icon-brush" disabled>皮肤</el-dropdown-item>
+										<el-dropdown-item icon="el-icon-close-notification" divided>关闭通知</el-dropdown-item>
+									</el-dropdown-menu>
+								</el-dropdown>
+							</div>
+						</el-col>
+					</el-row>
 				</div>
-			</div>
-			<el-divider></el-divider>
-			<router-view></router-view>
-		</el-main>
+				<el-divider style="margin: 10px 0px;"></el-divider>
+			</el-header>
+		    <el-main>
+				<router-view></router-view>
+			</el-main>
+		  </el-container>
 	</el-container>
 </template>
 
@@ -95,7 +111,8 @@
 		name: 'Management',
 		data() {
 			return {
-				title: '数据概览',
+				title: 'MachineGeek',
+				isCollapse: false,
 				search: '',
 				user: {
 					username: 'MachineGeek',
@@ -167,8 +184,11 @@
 	}
 
 	.main-head {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
+		width: 100%;
+		height: 100%;
+	}
+	
+	.el-divider--horizontal{
+		margin: 10px 0;
 	}
 </style>

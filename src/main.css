@@ -7,3 +7,17 @@
 .margin-center {
 	margin: 0 auto;
 }
+
+/* 垂直居中 */
+.vertical-center{
+	vertical-align: center;
+}
+
+/* flexbox居中 */
+.flex-center{
+	width: auto;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
