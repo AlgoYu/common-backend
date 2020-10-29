@@ -155,7 +155,7 @@
 								// 跳转页面
 								setTimeout(() => {
 									this.$router.push({
-										name: 'Management'
+										name: 'Main'
 									});
 								}, 3000);
 							} else {
