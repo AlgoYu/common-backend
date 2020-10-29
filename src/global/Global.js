@@ -10,9 +10,9 @@ icons.set("DEVELOP:EXCEPTION","icon-flashlight_fill");
 icons.set("MANAGEMENT","icon-manage_fill");
 icons.set("DEVELOP","icon-codelibrary-fill");
 icons.set("DEVELOP:DATABASE","icon-database");
-icons.set("MANAGEMENT:USER","icon-people_fill");
-icons.set("MANAGEMENT:ROLE","icon-role");
-icons.set("MANAGEMENT:AUTHORITY","icon-quanxian");
+icons.set("MANAGEMENT:SYSTEMUSER","icon-people_fill");
+icons.set("MANAGEMENT:SYSTEMROLE","icon-role");
+icons.set("MANAGEMENT:SYSTEMAUTHORITY","icon-quanxian");
 
 export default {
 	apiUrl,

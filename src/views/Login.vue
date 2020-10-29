@@ -175,7 +175,7 @@
 							component: () => import('@/views' + authority.path)
 						});
 					}
-				})
+				});
 				this.$router.addRoutes([{
 					path: "/login",
 					name: "Login",
