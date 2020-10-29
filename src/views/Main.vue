@@ -1,40 +1,40 @@
 <template>
 	<el-container class="container">
-		<el-aside width="auto" class="aside-area">
-			<transition name="el-zoom-in-center">
-				<section class="profile" v-show="!isCollapse">
-					<el-avatar class="image-border" icon="el-icon-user-solid" :size="100" :src="user.picture"></el-avatar>
-					<p><b style="color: #909399;">{{user.username}}</b></p>
+		<el-aside width="auto" class="aside-area" v-bind:style="{width: leftWith}">
+			<section class="profile">
+				<el-avatar icon="el-icon-user-solid" :size="isCollapse?35:80" :src="user.picture" style="border: #000000 3px solid;"></el-avatar>
+				<div v-show="!isCollapse">
+					<p style="text-align: center;"><b>{{user.username}}</b></p>
 					<el-button-group>
 						<el-button icon="el-icon-edit" size="mini">编辑</el-button>
 						<el-button @click="logout" icon="el-icon-s-unfold" size="mini">退出</el-button>
 					</el-button-group>
-				</section>
-			</transition>
+				</div>
+			</section>
 			<section>
-				<el-menu router :collapse="isCollapse" :collapse-transition="false" :unique-opened="true" style="width: 200px;">
-					<div v-for="menu in menus">
-						<el-submenu v-if="menu.children.length > 0" :index="menu.id">
+				<el-menu router :collapse="isCollapse" :collapse-transition="false" :unique-opened="true" style="width: auto;">
+					<template v-for="menu in menus">
+						<el-submenu v-if="menu.children.length > 0" :index="menu.path">
 							<template slot="title">
 								<svg class="icon" aria-hidden="true" style="font-size: 25px;margin-right: 5px;">
 									<use :xlink:href="'#'+global.icons.get(menu.key)"></use>
 								</svg>
 								<span slot="title">{{menu.name}}</span>
 							</template>
-							<el-menu-item :index="child.id" v-for="child in menu.children">
+							<el-menu-item :index="child.path" v-for="child in menu.children">
 								<svg class="icon" aria-hidden="true" style="font-size: 25px;margin-right: 5px;">
 									<use :xlink:href="'#'+global.icons.get(child.key)"></use>
 								</svg>
 								<span slot="title">{{child.name}}</span>
 							</el-menu-item>
 						</el-submenu>
-						<el-menu-item v-else :index="menu.id">
+						<el-menu-item v-else :index="menu.path">
 							<svg class="icon" aria-hidden="true" style="font-size: 25px;margin-right: 5px;">
 								<use :xlink:href="'#'+global.icons.get(menu.key)"></use>
 							</svg>
 							<span slot="title">{{menu.name}}</span>
 						</el-menu-item>
-					</div>
+					</template>
 				</el-menu>
 			</section>
 		</el-aside>
@@ -83,7 +83,7 @@
 		getCurrent
 	} from '../api/SystemUserApi.js';
 	import {
-		getMenu
+		getAuthorityTree
 	} from '../api/SystemAuthorityApi.js';
 	import {
 		logout
@@ -95,12 +95,18 @@
 			return {
 				title: 'MachineGeek',
 				isCollapse: false,
+				leftWith: '200px',
 				search: '',
 				user: {
 					username: 'MachineGeek',
 					picture: 'http://store.machine-geek.cn/Administrator.jpg'
 				},
 				menus: []
+			}
+		},
+		watch:{
+			isCollapse(value){
+				this.leftWith = value?'auto':'200px';
 			}
 		},
 		created() {
@@ -110,7 +116,7 @@
 			init() {
 				console.log(this.global.icons.get("SYSTEM"));
 				// 获取菜单
-				getMenu().then((res) => {
+				getAuthorityTree().then((res) => {
 					if (res.data.success) {
 						this.menus = res.data.data;
 					}
@@ -164,12 +170,9 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 		margin-top: 20px;
 		margin-bottom: 20px;
-	}
-
-	.image-border {
-		border: #000000 solid 4px;
 	}
 
 	.main-head {

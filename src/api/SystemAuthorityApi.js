@@ -1,8 +1,8 @@
 import { request } from "./Request.js"
 
 // 增加系统用户
-export function getMenu(){
-	return request("get","/systemAuthority/getMenu",null);
+export function getAuthorityTree(){
+	return request("get","/systemAuthority/getAuthorityTree",null);
 }
 
 // 根据ID更新系统用户
