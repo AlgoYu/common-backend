@@ -4,8 +4,8 @@ import router from "./router";
 import store from "./store";
 
 // 导入全局样式
-import Css from './main.css'
-Vue.use(Css)
+import GlobalCss from './global/Global.css'
+Vue.use(GlobalCss)
 
 // 导入ElementUI
 import ElementUI from 'element-ui'

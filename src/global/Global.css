@@ -1,0 +1,31 @@
+/* 内容居中 */
+.content-center {
+	text-align: center;
+}
+
+/* 左右边距居中*/
+.margin-center {
+	margin: 0 auto;
+}
+
+/* 垂直居中 */
+.vertical-center{
+	vertical-align: center;
+}
+
+/* flexbox居中 */
+.flex-center{
+	width: auto;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* 动画速度 */
+.transition-animations{
+	transition: all 0.4s;
+	-moz-transition: all 0.4s; /* Firefox 4 */
+	-webkit-transition: all 0.4s; /* Safari 和 Chrome */
+	-o-transition: all 0.4s; /* Opera */
+}

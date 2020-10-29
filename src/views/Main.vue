@@ -1,14 +1,10 @@
 <template>
 	<el-container class="container">
-		<el-aside width="auto" class="aside-area" v-bind:style="{width: leftWith}">
+		<el-aside class="aside-area transition-animations" v-bind:style="{width: asideWidth}">
 			<section class="profile">
-				<el-avatar icon="el-icon-user-solid" :size="isCollapse?35:80" :src="user.picture" style="border: #000000 3px solid;"></el-avatar>
-				<div v-show="!isCollapse">
+				<el-avatar class="transition-animations" icon="el-icon-user-solid" :size="isCollapse?35:100" :src="user.picture" style="border: #000000 3px solid;"></el-avatar>
+				<div>
 					<p style="text-align: center;"><b>{{user.username}}</b></p>
-					<el-button-group>
-						<el-button icon="el-icon-edit" size="mini">编辑</el-button>
-						<el-button @click="logout" icon="el-icon-s-unfold" size="mini">退出</el-button>
-					</el-button-group>
 				</div>
 			</section>
 			<section>
@@ -38,13 +34,13 @@
 				</el-menu>
 			</section>
 		</el-aside>
-		<el-container>
+		<el-container style="width: auto">
 			<el-header>
 				<div class="main-head">
 					<el-row style="height: 100%;">
 						<el-col :span="1" style="height: 100%;">
 							<div class="flex-center">
-								<el-button icon="el-icon-caret-left" circle class="vertical-center" v-on:click="isCollapse = !isCollapse"></el-button>
+								<el-button :icon="isCollapse?'el-icon-caret-right':'el-icon-caret-left'" circle class="vertical-center" v-on:click="isCollapse = !isCollapse"></el-button>
 							</div>
 						</el-col>
 						<el-col :span="18" style="height: 100%;">
@@ -88,14 +84,14 @@
 	import {
 		logout
 	} from '../api/LoginApi.js';
-	
+
 	export default {
 		name: 'Management',
 		data() {
 			return {
 				title: 'MachineGeek',
 				isCollapse: false,
-				leftWith: '200px',
+				asideWidth: '200px',
 				search: '',
 				user: {
 					username: 'MachineGeek',
@@ -104,9 +100,9 @@
 				menus: []
 			}
 		},
-		watch:{
-			isCollapse(value){
-				this.leftWith = value?'auto':'200px';
+		watch: {
+			isCollapse(value) {
+				this.asideWidth = value ? '70px' : '200px';
 			}
 		},
 		created() {
@@ -137,11 +133,11 @@
 				console.log(event);
 			},
 			logout() {
-				logout().then((res) =>{
-					if(res.data.success){
+				logout().then((res) => {
+					if (res.data.success) {
 						this.$router.push('login');
 					}
-				}).catch((err) =>{
+				}).catch((err) => {
 					this.$message.error(err);
 				})
 			},
@@ -173,6 +169,10 @@
 		justify-content: center;
 		margin-top: 20px;
 		margin-bottom: 20px;
+	}
+	
+	.profile-info{
+		width: 200px;
 	}
 
 	.main-head {
