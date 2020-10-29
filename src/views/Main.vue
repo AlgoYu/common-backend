@@ -85,6 +85,10 @@
 	import {
 		getMenu
 	} from '../api/SystemAuthorityApi.js';
+	import {
+		logout
+	} from '../api/LoginApi.js';
+	
 	export default {
 		name: 'Management',
 		data() {
@@ -127,7 +131,13 @@
 				console.log(event);
 			},
 			logout() {
-				this.$router.push('login');
+				logout().then((res) =>{
+					if(res.data.success){
+						this.$router.push('login');
+					}
+				}).catch((err) =>{
+					this.$message.error(err);
+				})
 			},
 			setTitle(title) {
 				this.title = title;

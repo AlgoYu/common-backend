@@ -11,7 +11,9 @@ icons.set("MANAGEMENT","icon-fencengpeizhi");
 icons.set("DEVELOP","icon-code");
 icons.set("DASHBOARD","icon-tradingdata");
 icons.set("DEVELOP:DATABASE","icon-hardware");
-icons.set("DEVELOP:EXCEPTION","icon-form-fill");
+icons.set("MANAGEMENT:USER","icon-account-fill");
+icons.set("MANAGEMENT:ROLE","icon-becomeagoldsupplier");
+icons.set("MANAGEMENT:AUTHORITY","icon-operation");
 
 export default {
 	apiUrl,
