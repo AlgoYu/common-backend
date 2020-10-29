@@ -110,7 +110,6 @@
 		},
 		methods: {
 			init() {
-				console.log(this.global.icons.get("SYSTEM"));
 				// 获取菜单
 				getAuthorityTree().then((res) => {
 					if (res.data.success) {
@@ -140,15 +139,12 @@
 				}).catch((err) => {
 					this.$message.error(err);
 				})
-			},
-			setTitle(title) {
-				this.title = title;
 			}
 		}
 	}
 </script>
 
-<style>
+<style scoped>
 	.container {
 		height: 100%;
 		width: 100%;

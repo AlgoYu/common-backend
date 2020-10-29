@@ -1,13 +1,6 @@
 <template>
 	<div class="container">
 		<el-card class="box-card">
-			<section class="option-panel">
-				<!-- <el-button circle @click="changePanel">
-					<svg class="icon" aria-hidden="true" style="font-size: 25px;color: #909399;">
-						<use xlink:href="#icon-camera-fill"></use>
-					</svg>
-				</el-button> -->
-			</section>
 			<section v-if="!faceView" class="login-panel">
 				<img src="https://wx4.sinaimg.cn/large/0065B4vHgy1g7u65sx5jsj309s08jwek.jpg" style="width: 50px;" class="logo" />
 				<h2>后台管理系统</h2>
@@ -26,10 +19,6 @@
 						<el-button @click="resetForm('loginForm')">重置</el-button>
 					</div>
 				</el-form>
-			</section>
-			<section v-if="faceView" class="face-panel">
-				<h2 style="margin: 0 auto;">人脸识别</h2>
-				<video autoplay="autoplay" class="video-style"></video>
 			</section>
 		</el-card>
 	</div>
@@ -146,8 +135,8 @@
 						}).then((res) => {
 							console.log(res);
 							if (res.data.success) {
-								console.log("asdsad");
-								this.$store.commit("modifyToken", res.data.data)
+								this.$store.commit("modifyToken", res.data.data);
+								this.addRoutes(res.data.data.user.authorities);
 								this.$message({
 									message: '登录成功！3秒后跳转至管理界面！',
 									type: 'success'
@@ -175,23 +164,40 @@
 			},
 			resetForm(formName) {
 				this.$refs[formName].resetFields();
+			},
+			addRoutes(authorities) {
+				var routes = new Array();
+				authorities.forEach((authority) => {
+					if (authority.type == 0 && authority.path != null) {
+						routes.push({
+							path: authority.path,
+							name: authority.name,
+							component: () => import('@/views' + authority.path)
+						});
+					}
+				})
+				this.$router.addRoutes([{
+					path: "/login",
+					name: "Login",
+					component: () => import("../views/Login.vue")
+				}, {
+					path: "/",
+					name: "Main",
+					component: () => import("../views/Main.vue"),
+					children: routes
+				}]);
 			}
 		}
 	}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
 	.container {
 		height: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-	}
-
-	.option-panel {
-		display: flex;
-		flex-direction: row-reverse;
 	}
 
 	.login-panel {
@@ -203,20 +209,6 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-	}
-
-	.face-panel {
-		width: 800px;
-		height: 500px;
-		padding-top: 20px;
-		padding-bottom: 20px;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.video-style {
-		height: 100%;
-		width: 100%;
 	}
 
 	.form-buttons {
