@@ -1,68 +1,42 @@
 <template>
 	<el-container class="container">
 		<el-aside width="auto" class="aside-area">
-			<!-- Profile Start -->
-			<section class="profile">
-				<el-avatar class="image-border" icon="el-icon-user-solid" :size="100" :src="user.picture"></el-avatar>
-				<p><b style="color: #909399;">{{user.username}}</b></p>
-				<el-button-group>
-					<el-button icon="el-icon-edit" size="mini">编辑</el-button>
-					<el-button @click="logout" icon="el-icon-s-unfold" size="mini">退出</el-button>
-				</el-button-group>
-			</section>
-			<!-- Profile End -->
-			<!-- Menu Start -->
+			<transition name="el-zoom-in-center">
+				<section class="profile" v-show="!isCollapse">
+					<el-avatar class="image-border" icon="el-icon-user-solid" :size="100" :src="user.picture"></el-avatar>
+					<p><b style="color: #909399;">{{user.username}}</b></p>
+					<el-button-group>
+						<el-button icon="el-icon-edit" size="mini">编辑</el-button>
+						<el-button @click="logout" icon="el-icon-s-unfold" size="mini">退出</el-button>
+					</el-button-group>
+				</section>
+			</transition>
 			<section>
-				<el-menu router :collapse="isCollapse">
-					<el-menu-item index="dashboard" @click="setTitle('数据统计')">
-						<i class="el-icon-s-data"></i>
-						<span slot="title">数据统计</span>
-					</el-menu-item>
-					<el-submenu index="">
-						<template slot="title">
-							<i class="el-icon-s-custom"></i>
-							<span>账户管理</span>
-						</template>
-						<el-menu-item-group>
-							<template slot="title">账户管理</template>
-							<el-menu-item index="">选项1</el-menu-item>
-							<el-menu-item index="">选项2</el-menu-item>
-						</el-menu-item-group>
-						<el-menu-item-group title="分组2">
-							<el-menu-item index="1-3">选项3</el-menu-item>
-						</el-menu-item-group>
-						<el-submenu index="">
-							<template slot="title">选项4</template>
-							<el-menu-item index="1-4-1">选项1</el-menu-item>
+				<el-menu router :collapse="isCollapse" :collapse-transition="false" :unique-opened="true" style="width: 200px;">
+					<div v-for="menu in menus">
+						<el-submenu :index="menu.id" v-if="menu.type == 0">
+							<template slot="title">
+								<svg class="icon" aria-hidden="true" style="font-size: 25px;margin-right: 5px;">
+									<use :xlink:href="'#'+global.icons.get(menu.key)"></use>
+								</svg>
+								<span slot="title">{{menu.name}}</span>
+							</template>
+							<el-menu-item :index="child.id" v-for="child in menu.children">
+								<svg class="icon" aria-hidden="true" style="font-size: 25px;margin-right: 5px;">
+									<use :xlink:href="'#'+global.icons.get(child.key)"></use>
+								</svg>
+								<span slot="title">{{child.name}}</span>
+							</el-menu-item>
 						</el-submenu>
-					</el-submenu>
-					<el-menu-item index="">
-						<i class="el-icon-s-check"></i>
-						<span slot="title">角色管理</span>
-					</el-menu-item>
-					<el-menu-item index="">
-						<i class="el-icon-warning"></i>
-						<span slot="title">权限管理</span>
-					</el-menu-item>
-					<el-menu-item index="table" @click="setTitle('数据表格')">
-						<i class="el-icon-document"></i>
-						<span slot="title">数据表格</span>
-					</el-menu-item>
-					<el-menu-item index="editor" @click="setTitle('文本编辑')">
-						<i class="el-icon-edit-outline"></i>
-						<span slot="title">文本编辑</span>
-					</el-menu-item>
-					<el-menu-item index="map" @click="setTitle('地图信息')">
-						<i class="el-icon-map-location"></i>
-						<span slot="title">地图信息</span>
-					</el-menu-item>
-					<el-menu-item index="setup" @click="setTitle('系统设置')">
-						<i class="el-icon-s-tools"></i>
-						<span slot="title">系统设置</span>
-					</el-menu-item>
+						<el-menu-item :index="menu.id" v-if="menu.type == 1">
+							<svg class="icon" aria-hidden="true" style="font-size: 25px;margin-right: 5px;">
+								<use :xlink:href="'#'+global.icons.get(menu.key)"></use>
+							</svg>
+							<span slot="title">{{menu.name}}</span>
+						</el-menu-item>
+					</div>
 				</el-menu>
 			</section>
-			<!-- Menu End -->
 		</el-aside>
 		<el-container>
 			<el-header>
@@ -130,6 +104,7 @@
 		},
 		methods: {
 			init() {
+				console.log(this.global.icons.get("SYSTEM"));
 				// 获取菜单
 				getMenu().then((res) => {
 					if (res.data.success) {
