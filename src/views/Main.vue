@@ -12,20 +12,20 @@
 					<template v-for="menu in menus">
 						<el-submenu v-if="menu.children.length > 0" :index="menu.path">
 							<template slot="title">
-								<svg class="icon" aria-hidden="true" style="font-size: 25px;margin-right: 5px;">
+								<svg class="icon" aria-hidden="true" style="font-size: 20px;margin-right: 10px;">
 									<use :xlink:href="'#'+global.icons.get(menu.key)"></use>
 								</svg>
 								<span slot="title">{{menu.name}}</span>
 							</template>
 							<el-menu-item :index="child.path" v-for="child in menu.children">
-								<svg class="icon" aria-hidden="true" style="font-size: 25px;margin-right: 5px;">
+								<svg class="icon" aria-hidden="true" style="font-size: 20px;margin-right: 10px">
 									<use :xlink:href="'#'+global.icons.get(child.key)"></use>
 								</svg>
 								<span slot="title">{{child.name}}</span>
 							</el-menu-item>
 						</el-submenu>
 						<el-menu-item v-else :index="menu.path">
-							<svg class="icon" aria-hidden="true" style="font-size: 25px;margin-right: 5px;">
+							<svg class="icon" aria-hidden="true" style="font-size: 20px;margin-right: 10px">
 								<use :xlink:href="'#'+global.icons.get(menu.key)"></use>
 							</svg>
 							<span slot="title">{{menu.name}}</span>
