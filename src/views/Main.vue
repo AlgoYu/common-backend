@@ -113,21 +113,17 @@
 				// 添加路由表
 				this.addRoutes(this.$store.state.user.authorities);
 				// 获取菜单
-				getAuthorityTree().then((res) => {
-					if (res.data.success) {
-						this.menus = res.data.data;
+				getAuthorityTree((result)=>{
+					if (result.success) {
+						this.menus = result.data;
 					}
-				}).catch((err) => {
-					this.$message.error(err);
 				});
 				// 获取用户信息
-				getCurrent().then((res) => {
-					if (res.data.success) {
-						res.data.data.picture = this.global.apiUrl + res.data.data.picture;
-						this.user = res.data.data;
+				getCurrent((result)=>{
+					if (result.success) {
+						result.data.picture = this.global.apiUrl + res.data.data.picture;
+						this.user = result.data;
 					}
-				}).catch((err) => {
-					this.$message.error(err);
 				});
 			},
 			addRoutes(authorities) {

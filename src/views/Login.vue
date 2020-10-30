@@ -86,9 +86,9 @@
 						login({
 							username: this.form.username,
 							password: md5(this.form.password).toUpperCase()
-						}).then((res) => {
-							if (res.data.success) {
-								this.$store.commit("modifyToken", res.data.data);
+						}, (result) => {
+							if (result.success) {
+								this.$store.commit("modifyToken", result.data);
 								this.$message({
 									message: '登录成功！3秒后跳转至管理界面！',
 									type: 'success'
@@ -99,15 +99,8 @@
 										name: 'Main'
 									});
 								}, 3000);
-							} else {
-								this.$message({
-									message: response.data.msg,
-									type: 'warning'
-								});
 							}
-						}).catch((err) => {
-							this.$message.error('当前网络不畅，请检查您的网络！' + error);
-						})
+						});
 					}
 				});
 			},

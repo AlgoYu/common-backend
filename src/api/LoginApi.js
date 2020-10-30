@@ -1,11 +1,13 @@
-import { request } from "./Request.js"
+import {
+	request
+} from "./Request.js"
 
 // 登录
-export function login(data){
-	return request("post","/login",data);
+export function login(data, callback) {
+	request("post", "/login", data, callback);
 }
 
 // 登录
-export function logout(){
-	return request("post","/logout",null);
+export function logout() {
+	request("post", "/logout", null, null);
 }

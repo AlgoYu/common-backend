@@ -72,16 +72,11 @@
 		},
 		methods: {
 			init() {
-				list(this.param).then((res) => {
-					if (res.data.success) {
-						this.table.total = res.data.data.total;
-						this.table.data = res.data.data.records;
+				list(this.param,(result)=>{
+					if (result.success) {
+						this.table.total = result.data.total;
+						this.table.data = result.data.records;
 					}
-				}).catch((err) => {
-					this.$message({
-						message: response.data.msg,
-						type: 'warning'
-					});
 				})
 			}
 		}
