@@ -5,7 +5,7 @@
 				<el-card class="box-card">
 					<div class="info-box">
 						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #2E68AA;">
-							<use xlink:href="#icon-bussiness-man-fill"></use>
+							<use xlink:href="#icon-people_fill"></use>
 						</svg>
 						<div class="num-box">
 							<div>
@@ -25,7 +25,7 @@
 				<el-card class="box-card">
 					<div class="info-box">
 						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #56A36C;">
-							<use xlink:href="#icon-logistic-logo"></use>
+							<use xlink:href="#icon-zhtn"></use>
 						</svg>
 						<div class="num-box">
 							<div>
@@ -45,7 +45,7 @@
 				<el-card class="box-card">
 					<div class="info-box">
 						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #EB3F2F;">
-							<use xlink:href="#icon-discounts-fill"></use>
+							<use xlink:href="#icon-redpacket_fill"></use>
 						</svg>
 						<div class="num-box">
 							<div>
@@ -65,7 +65,7 @@
 				<el-card class="box-card">
 					<div class="info-box">
 						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #00D2D0;">
-							<use xlink:href="#icon-feeds-fill"></use>
+							<use xlink:href="#icon-order1"></use>
 						</svg>
 						<div class="num-box">
 							<div>

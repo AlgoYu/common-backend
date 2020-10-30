@@ -8,13 +8,25 @@ Axios.defaults.withCredentials = true;
 Axios.defaults.baseURL = Global.apiUrl;
 
 export function request(method,url,data){
-	return Axios({
-		method: method,
-		url: url,
-		headers: {
-			'Content-Type': 'application/json',
-			'Token': store.state.accessToken
-		},
-		data: data
-	});
+	if(method === 'get' || method == 'delete'){
+		return Axios({
+			method: method,
+			url: url,
+			headers: {
+				'Content-Type': 'application/json',
+				'Token': store.state.accessToken
+			},
+			params: data
+		});
+	}else{
+		return Axios({
+			method: method,
+			url: url,
+			headers: {
+				'Content-Type': 'application/json',
+				'Token': store.state.accessToken
+			},
+			data: data
+		});
+	}
 }
