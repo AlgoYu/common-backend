@@ -110,6 +110,8 @@
 		},
 		methods: {
 			init() {
+				// 添加路由表
+				this.addRoutes(this.$store.state.user.authorities);
 				// 获取菜单
 				getAuthorityTree().then((res) => {
 					if (res.data.success) {
@@ -128,8 +130,27 @@
 					this.$message.error(err);
 				});
 			},
-			modifyTitle(event) {
-				console.log(event);
+			addRoutes(authorities) {
+				var routes = new Array();
+				authorities.forEach((authority) => {
+					if (authority.type == 0 && authority.path != null) {
+						routes.push({
+							path: authority.path,
+							name: authority.name,
+							component: () => import('@/views' + authority.path)
+						});
+					}
+				});
+				this.$router.addRoutes([{
+					path: "/login",
+					name: "Login",
+					component: () => import("../views/Login.vue")
+				}, {
+					path: "/",
+					name: "Main",
+					component: () => import("../views/Main.vue"),
+					children: routes
+				}]);
 			},
 			logout() {
 				logout().then((res) => {

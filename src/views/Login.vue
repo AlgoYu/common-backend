@@ -73,53 +73,7 @@
 				confirmSuccess: false
 			}
 		},
-		watch: {
-			faceView(value) {
-				if (value) {
-					this.initCamera();
-				} else {
-					window.clearInterval(this.interval);
-				}
-			}
-		},
 		methods: {
-			changePanel() {
-				this.faceView = !this.faceView;
-			},
-			initCamera() {
-				let self = this;
-				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-				if (navigator.getUserMedia) {
-					//调用用户媒体设备, 访问摄像头
-					navigator.getUserMedia({
-						video: {
-							width: 800,
-							height: 400
-						}
-					}, function(stream) {
-						var video = document.querySelector('video');
-						video.srcObject = stream;
-						self.streamPicture = stream; //关闭摄像头需要用
-						video.onloadedmetadata = function(e) {
-							video.play();
-						};
-						video.addEventListener('loadeddata', function() {
-							var canvas = document.createElement("canvas");
-							canvas.width = video.videoWidth;
-							canvas.height = video.videoHeight;
-							self.interval = window.setInterval(function() {
-								canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-								let url = canvas.toDataURL("image/png");
-								console.log(url);
-							}, 3000);
-						});
-					}, function(err) {
-						console.log("访问用户媒体设备失败: " + err.name);
-					})
-				} else {
-					self.$message.error('不支持访问用户媒体');
-				}
-			},
 			commit(formName) {
 				if (!this.confirmSuccess) {
 					this.$message.error('请完成滑动验证！');
@@ -133,10 +87,8 @@
 							username: this.form.username,
 							password: md5(this.form.password).toUpperCase()
 						}).then((res) => {
-							console.log(res);
 							if (res.data.success) {
 								this.$store.commit("modifyToken", res.data.data);
-								this.addRoutes(res.data.data.user.authorities);
 								this.$message({
 									message: '登录成功！3秒后跳转至管理界面！',
 									type: 'success'
@@ -164,28 +116,6 @@
 			},
 			resetForm(formName) {
 				this.$refs[formName].resetFields();
-			},
-			addRoutes(authorities) {
-				var routes = new Array();
-				authorities.forEach((authority) => {
-					if (authority.type == 0 && authority.path != null) {
-						routes.push({
-							path: authority.path,
-							name: authority.name,
-							component: () => import('@/views' + authority.path)
-						});
-					}
-				});
-				this.$router.addRoutes([{
-					path: "/login",
-					name: "Login",
-					component: () => import("../views/Login.vue")
-				}, {
-					path: "/",
-					name: "Main",
-					component: () => import("../views/Main.vue"),
-					children: routes
-				}]);
 			}
 		}
 	}
