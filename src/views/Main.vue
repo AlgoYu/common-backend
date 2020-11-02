@@ -116,6 +116,10 @@
 				getAuthorityTree((result)=>{
 					if (result.success) {
 						this.menus = result.data;
+					}else{
+						this.$router.push({
+							name: 'Login'
+						});
 					}
 				});
 				// 获取用户信息

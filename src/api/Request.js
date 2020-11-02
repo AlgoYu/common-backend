@@ -27,7 +27,32 @@ export function request(method, url, data, callback) {
 	}
 	// 请求
 	Axios(info).then((res) => {
-		// 回调
+		if (callback != null) {
+			callback(res.data);
+		}
+	}).catch((err) => {
+		Message({
+			message: '当前网络不通畅！',
+			type: 'warning'
+		});
+	})
+}
+
+// 刷新Token
+export function refreshToken(callback){
+	// 构建信息
+	let info = {
+		method: 'get',
+		url: '/api/token/refreshToken',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		params: {
+			token: Store.state.refreshToken
+		}
+	};
+	// 请求
+	Axios(info).then((res) => {
 		if (callback != null) {
 			callback(res.data);
 		}

@@ -1,13 +1,13 @@
 <template>
 	<div>
 		<el-table :data="table.data" style="width: 100%">
+			<el-table-column prop="id" label="ID" align="center">
+			</el-table-column>
 			<el-table-column prop="picture" label="头像" align="center">
 				<template slot-scope="scope">
 					<el-avatar class="transition-animations" icon="el-icon-user-solid" :size="50" :src="global.apiUrl + scope.row.picture" style="border: #000000 2px solid;"></el-avatar>
 					<span style="margin-left: 10px">{{ scope.row.date }}</span>
 				</template>
-			</el-table-column>
-			<el-table-column prop="id" label="ID" align="center">
 			</el-table-column>
 			<el-table-column prop="username" label="姓名" align="center">
 			</el-table-column>

@@ -16,8 +16,8 @@ export function getCurrent(){
 }
 
 // 分页获取当前用户
-export function list(data){
-	request("get","/systemUser/list",data);
+export function list(data,callback){
+	request("get","/systemRole/list",data,callback);
 }
 
 // 根据ID获取系统用户
