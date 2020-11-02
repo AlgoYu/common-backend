@@ -13,8 +13,8 @@ export function modify(data, callback) {
 }
 
 // 获取当前登录用户用户
-export function getCurrent(callback) {
-	request("get", "/systemUser/getCurrent", null, callback);
+export function getLoginInfo(callback) {
+	request("get", "/systemUser/getLoginInfo", null, callback);
 }
 
 // 分页获取当前用户

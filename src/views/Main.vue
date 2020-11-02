@@ -76,7 +76,7 @@
 
 <script>
 	import {
-		getCurrent
+		getLoginInfo
 	} from '../api/SystemUserApi.js';
 	import {
 		getAuthorityTree
@@ -123,7 +123,7 @@
 					}
 				});
 				// 获取用户信息
-				getCurrent((result)=>{
+				getLoginInfo((result)=>{
 					if (result.success) {
 						result.data.picture = this.global.apiUrl + res.data.data.picture;
 						this.user = result.data;
