@@ -12,6 +12,11 @@ export function getAuthorityTree(callback) {
 	request("get", "/systemAuthority/getAuthorityTree", null, callback);
 }
 
+// 增加权限树
+export function add(data, callback) {
+	request("post", "/systemAuthority/add", data, callback);
+}
+
 // 根据ID更新系统用户
 export function modify(data, callback) {
 	request("put", "/systemUser/modifyById", data);

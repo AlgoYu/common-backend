@@ -153,13 +153,7 @@
 				}]);
 			},
 			logout() {
-				logout().then((res) => {
-					if (res.data.success) {
-						this.$router.push('login');
-					}
-				}).catch((err) => {
-					this.$message.error(err);
-				})
+				
 			}
 		}
 	}
