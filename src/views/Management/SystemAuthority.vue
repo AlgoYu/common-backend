@@ -1,7 +1,6 @@
 <template>
   <div>
     <el-tree
-      show-checkbox
       node-key="id"
       :data="tree.data"
       :props="tree.defaultProps"

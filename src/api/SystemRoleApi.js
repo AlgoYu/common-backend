@@ -20,9 +20,9 @@ export function list(data,callback){
 	request("get","/systemRole/list",data,callback);
 }
 
-// 根据ID获取系统用户
-export function getById(data){
-	request("get","/systemUser/getById",data);
+// 根据ID获取系统角色
+export function getById(data,callback){
+	request("get","/systemRole/getById",data,callback);
 }
 
 // 根据ID删除系统用户
