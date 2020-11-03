@@ -190,18 +190,11 @@ export default {
     },
     methods: {
         init() {
+			// 获取菜单
+			this.menus = this.getChildren(this.$store.state.user.authorities,"0");
+			console.log(this.$store.state.user.authorities);
             // 添加路由表
-            this.addRoutes(this.$store.state.user.authorities);
-            // 获取菜单
-            getAuthorityTree(result => {
-                if (result.success) {
-                    this.menus = result.data;
-                } else {
-                    this.$router.push({
-                        name: "Login"
-                    });
-                }
-            });
+            this.initRoutes();
             // 获取用户信息
             getLoginInfo(result => {
                 if (result.success) {
@@ -211,7 +204,8 @@ export default {
                 }
             });
         },
-        addRoutes(authorities) {
+        initRoutes() {
+			var authorities = this.$store.state.user.authorities;
             var routes = new Array();
             authorities.forEach(authority => {
                 if (authority.type == 0 && authority.path != null) {
@@ -235,7 +229,17 @@ export default {
                     children: routes
                 }
             ]);
-        },
+		},
+		getChildren(authorities,id){
+			var children = new Array();
+			authorities.forEach((authority)=>{
+				if(authority.parentId === id){
+					authority.children = this.getChildren(authorities,authority.id);
+					children.push(authority);
+				}
+			});
+			return children;
+		},
         handleCommand(command) {
             switch (command) {
                 case "logout":
