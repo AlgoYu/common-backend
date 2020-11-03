@@ -66,7 +66,7 @@
                         ref="tree"
                         node-key="id"
                         :check-strictly="true"
-                        :default-checked-keys="tree.defaultChecked"
+                        :default-checked-keys="form.authorityIds"
                         :data="tree.data"
                         :props="tree.defaultProps"
                         getCheckedKeys="selectKeys"
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { list, getById } from "../../api/SystemRoleApi.js";
+import { list, getById, modifyById } from "../../api/SystemRoleApi.js";
 import { getAllAuthorityTree, add } from "@/api/SystemAuthorityApi.js";
 export default {
     data() {
@@ -91,7 +91,8 @@ export default {
             form: {
                 id: "",
                 name: "",
-                description: ""
+                description: "",
+                authorityIds: []
             },
             selects: [],
             rules: {
@@ -121,8 +122,7 @@ export default {
                 defaultProps: {
                     children: "children",
                     label: "name"
-                },
-                defaultChecked: []
+                }
             },
             formDialog: false,
             param: {
@@ -156,10 +156,7 @@ export default {
         edit(row) {
             getById({ id: row.id }, result => {
                 if (result.success) {
-                    this.form.id = result.data.id;
-                    this.form.name = result.data.name;
-                    this.form.description = result.data.description;
-                    this.tree.defaultChecked = result.data.authorityIds;
+                    this.form = result.data;
                     this.formDialog = true;
                 }
             });
@@ -167,7 +164,21 @@ export default {
         save() {
             this.$refs["form"].validate(valid => {
                 if (valid) {
-                    console.log(this.$refs.tree.getCheckedKeys());
+                    this.form.authorityIds = this.$refs.tree.getCheckedKeys();
+                    modifyById(this.form, result => {
+                        if (result.success) {
+                            this.$message({
+                                message: "保存成功!",
+                                type: "success"
+                            });
+                        } else {
+                            this.$message({
+                                message: "保存失败！",
+                                type: "warning"
+                            });
+                        }
+                        this.formDialog = false;
+                    });
                 } else {
                     this.$message({
                         message: "请完成表单",

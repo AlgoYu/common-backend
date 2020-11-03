@@ -5,9 +5,9 @@ export function add(data){
 	request("post","/systemUser/add",data);
 }
 
-// 根据ID更新系统用户
-export function modify(data){
-	request("put","/systemUser/modifyById",data);
+// 根据ID更新系统角色
+export function modifyById(data,callback){
+	request("put","/systemRole/modifyById",data,callback);
 }
 
 // 获取当前登录用户用户
