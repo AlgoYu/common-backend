@@ -9,5 +9,5 @@ export function login(data, callback) {
 
 // 登录
 export function logout() {
-	request("post", "/logout", null, null);
+	request("get", "/logout", null, null);
 }
