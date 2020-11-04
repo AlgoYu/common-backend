@@ -84,7 +84,22 @@
                     >
                     </el-input>
                 </el-form-item>
-                <el-form-item label="角色"> </el-form-item>
+                <el-form-item label="角色">
+                    <el-select
+                        v-model="form.systemRoleIds"
+                        multiple
+                        placeholder="请选择"
+                        width="100%"
+                    >
+                        <el-option
+                            v-for="role in selector.data"
+                            :key="role.id"
+                            :label="role.name"
+                            :value="role.id"
+                        >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="save">保存</el-button>
                     <el-button @click="formDialog = false">取消</el-button>
@@ -95,7 +110,8 @@
 </template>
 
 <script>
-import { list } from "../../api/SystemUserApi.js";
+import { list, getWithRoleById,modifyWithRoleById } from "../../api/SystemUserApi.js";
+import { getAll } from "../../api/SystemRoleApi";
 export default {
     data() {
         return {
@@ -105,7 +121,7 @@ export default {
                 password: "",
                 nickname: "",
                 description: "",
-                roles: []
+                systemRoleIds: []
             },
             rules: {
                 id: [
@@ -139,6 +155,9 @@ export default {
             table: {
                 total: 0,
                 data: []
+            },
+            selector: {
+                data: []
             }
         };
     },
@@ -153,12 +172,46 @@ export default {
                     this.table.data = result.data.records;
                 }
             });
+            getAll(result => {
+                if (result.success) {
+                    this.selector.data = result.data;
+                }
+            });
         },
         edit(row) {
-			
-            //this.formDialog = true;
+            getWithRoleById({id: row.id}, result => {
+                if (result.success) {
+                    this.form = result.data;
+                    this.formDialog = true;
+                }
+            });
         },
-        save() {}
+        save() {
+            this.$refs["form"].validate(valid => {
+                if (valid) {
+                    modifyWithRoleById(this.form, result => {
+                        if (result.success) {
+                            this.$message({
+                                message: "保存成功!",
+                                type: "success"
+                            });
+                        } else {
+                            this.$message({
+                                message: "保存失败！",
+                                type: "warning"
+                            });
+                        }
+                        this.formDialog = false;
+                    });
+                } else {
+                    this.$message({
+                        message: "请完成表单",
+                        type: "warning"
+                    });
+                    return false;
+                }
+            });
+        }
     }
 };
 </script>

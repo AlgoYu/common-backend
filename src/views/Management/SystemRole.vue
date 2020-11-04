@@ -66,7 +66,7 @@
                         ref="tree"
                         node-key="id"
                         :check-strictly="true"
-                        :default-checked-keys="form.authorityIds"
+                        :default-checked-keys="form.systemAuthorityIds"
                         :data="tree.data"
                         :props="tree.defaultProps"
                         getCheckedKeys="selectKeys"
@@ -92,7 +92,7 @@ export default {
                 id: "",
                 name: "",
                 description: "",
-                authorityIds: []
+                systemAuthorityIds: []
             },
             selects: [],
             rules: {
@@ -164,7 +164,7 @@ export default {
         save() {
             this.$refs["form"].validate(valid => {
                 if (valid) {
-                    this.form.authorityIds = this.$refs.tree.getCheckedKeys();
+                    this.form.systemAuthorityIds = this.$refs.tree.getCheckedKeys();
                     modifyWithAuthorityById(this.form, result => {
                         if (result.success) {
                             this.$message({

@@ -15,6 +15,11 @@ export function getCurrent(){
 	request("get","/systemUser/getCurrent",null);
 }
 
+// 获取所有角色
+export function getAll(callback){
+	request("get","/systemRole/getAll",null,callback);
+}
+
 // 分页获取当前用户
 export function list(data,callback){
 	request("get","/systemRole/list",data,callback);
