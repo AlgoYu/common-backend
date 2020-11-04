@@ -10,7 +10,7 @@ export default new Vuex.Store({
 		user: JSON.parse(localStorage.getItem("user"))
 	},
 	mutations: {
-		modifyToken(state, data){
+		updateUserInfo(state, data){
 			// 存入LocalStorage
 			localStorage.setItem("accessToken",data.accessToken);
 			localStorage.setItem("refreshToken",data.refreshToken);

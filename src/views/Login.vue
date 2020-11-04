@@ -88,7 +88,7 @@
 							password: md5(this.form.password).toUpperCase()
 						}, (result) => {
 							if (result.success) {
-								this.$store.commit("modifyToken", result.data);
+								this.$store.commit("updateUserInfo", result.data);
 								this.$message({
 									message: '登录成功！3秒后跳转至管理界面！',
 									type: 'success'

@@ -6,8 +6,8 @@ export function add(data){
 }
 
 // 根据ID更新系统角色
-export function modifyById(data,callback){
-	request("put","/systemRole/modifyById",data,callback);
+export function modifyWithAuthorityById(data,callback){
+	request("put","/systemRole/modifyWithAuthorityById",data,callback);
 }
 
 // 获取当前登录用户用户
@@ -21,8 +21,8 @@ export function list(data,callback){
 }
 
 // 根据ID获取系统角色
-export function getById(data,callback){
-	request("get","/systemRole/getById",data,callback);
+export function getWithAuthorityById(data,callback){
+	request("get","/systemRole/getWithAuthorityById",data,callback);
 }
 
 // 根据ID删除系统用户

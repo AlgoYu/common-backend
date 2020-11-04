@@ -2,14 +2,9 @@ import {
 	request
 } from "./Request.js"
 
-// 获取当前用户权限树
-export function getAllAuthorityTree(callback) {
-	request("get", "/systemAuthority/getAllAuthorityTree", null, callback);
-}
-
-// 获取当前用户权限树
-export function getAuthorityTree(callback) {
-	request("get", "/systemAuthority/getAuthorityTree", null, callback);
+// 获取权限树
+export function getTree(callback) {
+	request("get", "/systemAuthority/getTree", null, callback);
 }
 
 // 增加权限树

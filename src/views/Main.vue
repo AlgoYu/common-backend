@@ -190,9 +190,21 @@ export default {
     },
     methods: {
         init() {
-			// 获取菜单
-			this.menus = this.getChildren(this.$store.state.user.authorities,"0");
-			console.log(this.$store.state.user.authorities);
+            if (this.$store.state.user == null) {
+                this.$router.push({
+                    name: "Login"
+                });
+                return;
+            }
+            var authorities = this.$store.state.user.authorities;
+            authorities.sort((a,b)=>{
+                return b.sort - a.sort;
+            });
+            // 获取菜单
+            this.menus = this.getChildren(
+                this.$store.state.user.authorities,
+                "0"
+            );
             // 添加路由表
             this.initRoutes();
             // 获取用户信息
@@ -205,7 +217,7 @@ export default {
             });
         },
         initRoutes() {
-			var authorities = this.$store.state.user.authorities;
+            var authorities = this.$store.state.user.authorities;
             var routes = new Array();
             authorities.forEach(authority => {
                 if (authority.type == 0 && authority.path != null) {
@@ -229,17 +241,20 @@ export default {
                     children: routes
                 }
             ]);
-		},
-		getChildren(authorities,id){
-			var children = new Array();
-			authorities.forEach((authority)=>{
-				if(authority.parentId === id){
-					authority.children = this.getChildren(authorities,authority.id);
-					children.push(authority);
-				}
-			});
-			return children;
-		},
+        },
+        getChildren(authorities, id) {
+            var children = new Array();
+            authorities.forEach(authority => {
+                if (authority.parentId === id) {
+                    authority.children = this.getChildren(
+                        authorities,
+                        authority.id
+                    );
+                    children.push(authority);
+                }
+            });
+            return children;
+        },
         handleCommand(command) {
             switch (command) {
                 case "logout":

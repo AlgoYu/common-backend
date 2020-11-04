@@ -83,8 +83,8 @@
 </template>
 
 <script>
-import { list, getById, modifyById } from "../../api/SystemRoleApi.js";
-import { getAllAuthorityTree, add } from "@/api/SystemAuthorityApi.js";
+import { list, getWithAuthorityById, modifyWithAuthorityById } from "../../api/SystemRoleApi.js";
+import { getTree, add } from "@/api/SystemAuthorityApi.js";
 export default {
     data() {
         return {
@@ -147,14 +147,14 @@ export default {
                     this.table.data = result.data.records;
                 }
             });
-            getAllAuthorityTree(result => {
+            getTree(result => {
                 if (result.success) {
                     this.tree.data = result.data;
                 }
             });
         },
         edit(row) {
-            getById({ id: row.id }, result => {
+            getWithAuthorityById({ id: row.id }, result => {
                 if (result.success) {
                     this.form = result.data;
                     this.formDialog = true;
@@ -165,7 +165,7 @@ export default {
             this.$refs["form"].validate(valid => {
                 if (valid) {
                     this.form.authorityIds = this.$refs.tree.getCheckedKeys();
-                    modifyById(this.form, result => {
+                    modifyWithAuthorityById(this.form, result => {
                         if (result.success) {
                             this.$message({
                                 message: "保存成功!",
