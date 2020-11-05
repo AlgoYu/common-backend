@@ -190,7 +190,7 @@ export default {
     },
     methods: {
         init() {
-            if (this.$store.state.user == null) {
+            if (this.$store.state.user === undefined) {
                 this.$router.push({
                     name: "Login"
                 });
@@ -266,6 +266,9 @@ export default {
                     })
                         .then(() => {
                             logout();
+                            localStorage.removeItem("accessToken");
+                            localStorage.removeItem("refreshToken");
+                            localStorage.removeItem("user");
                             this.$router.push({
                                 name: "Login"
                             });
