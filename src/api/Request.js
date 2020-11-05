@@ -43,7 +43,7 @@ export function request(method, url, data, callback) {
 				}else{
 					// 请求失败则跳转到登录界面
 					Router.push({
-						name: "Login"
+						path: "/Login"
 					});
 				}
 			});

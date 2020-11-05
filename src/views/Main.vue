@@ -192,7 +192,7 @@ export default {
         init() {
             if (this.$store.state.user === undefined) {
                 this.$router.push({
-                    name: "Login"
+                    path: "/Login"
                 });
                 return;
             }
@@ -230,7 +230,7 @@ export default {
             });
             this.$router.addRoutes([
                 {
-                    path: "/login",
+                    path: "/Login",
                     name: "登录界面",
                     component: () => import("../views/Login.vue")
                 },
@@ -268,9 +268,8 @@ export default {
                             logout();
                             localStorage.removeItem("accessToken");
                             localStorage.removeItem("refreshToken");
-                            localStorage.removeItem("user");
                             this.$router.push({
-                                name: "Login"
+                                path: "/Login"
                             });
                         })
                         .catch(() => {});

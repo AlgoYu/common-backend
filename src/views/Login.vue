@@ -96,7 +96,7 @@
 								// 跳转页面
 								setTimeout(() => {
 									this.$router.push({
-										name: 'Main'
+										path: '/'
 									});
 								}, 3000);
 							}

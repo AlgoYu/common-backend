@@ -4,7 +4,7 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 const routes = [{
-	path: "/login",
+	path: "/Login",
 	name: "登录界面",
 	component: () => import("../views/Login.vue")
 }, {
