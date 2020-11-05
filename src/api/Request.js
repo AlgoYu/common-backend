@@ -2,6 +2,7 @@ import Global from '../global/Global.js';
 import Axios from 'axios';
 import Store from '../store/index.js';
 import Message from 'element-ui';
+import Router from "../router/index.js";
 
 // 携带Cookie
 Axios.defaults.withCredentials = true;
@@ -27,9 +28,39 @@ export function request(method, url, data, callback) {
 	}
 	// 请求
 	Axios(info).then((res) => {
+		// 如果已经Token过期则请求刷新Token
+		if(res.data.code == 401){
+			info.method = 'get';
+			info.url = '/api/token/refreshToken';
+			info.params = {
+				'token': Store.state.refreshToken
+			}
+			Axios(info).then((res)=>{
+				// 如果请求成功 刷新Token后再次请求
+				if(res.data.success){
+					Store.commit("updateUserInfo", res.data.data);
+					request(method, url, data, callback);
+				}else{
+					// 请求失败则跳转到登录界面
+					Router.push({
+						name: "Login"
+					});
+				}
+			});
+			return;
+		}
+		// 如果权限不足
+		if(res.data.code == 403){
+			Message({
+				message: '权限不足！',
+				type: 'warning'
+			});
+		}
+		// 如果请求成功有回调函数
 		if (callback != null) {
 			callback(res.data);
 		}
+	// 网络请求失败处理
 	}).catch((err) => {
 		Message({
 			message: '当前网络不通畅！',
