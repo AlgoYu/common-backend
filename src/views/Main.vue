@@ -196,8 +196,16 @@ export default {
                 });
                 return;
             }
+            // 获取用户信息
+            getLoginInfo(result => {
+                if (result.success) {
+                    result.data.picture =
+                        this.global.apiUrl + res.data.data.picture;
+                    this.user = result.data;
+                }
+            });
             var authorities = this.$store.state.user.authorities;
-            authorities.sort((a,b)=>{
+            authorities.sort((a, b) => {
                 return b.sort - a.sort;
             });
             // 获取菜单
@@ -207,14 +215,6 @@ export default {
             );
             // 添加路由表
             this.initRoutes();
-            // 获取用户信息
-            getLoginInfo(result => {
-                if (result.success) {
-                    result.data.picture =
-                        this.global.apiUrl + res.data.data.picture;
-                    this.user = result.data;
-                }
-            });
         },
         initRoutes() {
             var authorities = this.$store.state.user.authorities;
@@ -231,13 +231,14 @@ export default {
             this.$router.addRoutes([
                 {
                     path: "/login",
-                    name: "Login",
+                    name: "登录界面",
                     component: () => import("../views/Login.vue")
                 },
                 {
                     path: "/",
-                    name: "Main",
+                    name: "后台管理",
                     component: () => import("../views/Main.vue"),
+                    redirect: "/DataCenter",
                     children: routes
                 }
             ]);

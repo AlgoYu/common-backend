@@ -13,6 +13,7 @@ icons.set("DEVELOP:DATABASE","icon-database");
 icons.set("MANAGEMENT:SYSTEMUSER","icon-people_fill");
 icons.set("MANAGEMENT:SYSTEMROLE","icon-role");
 icons.set("MANAGEMENT:SYSTEMAUTHORITY","icon-quanxian");
+icons.set("DEVELOP:APPLICATIONHEALTH","icon-stealth_fill");
 
 export default {
 	apiUrl,

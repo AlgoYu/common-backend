@@ -5,13 +5,20 @@ Vue.use(VueRouter);
 
 const routes = [{
 	path: "/login",
-	name: "Login",
+	name: "登录界面",
 	component: () => import("../views/Login.vue")
 }, {
 	path: "/",
-	name: "Main",
+	name: "后台管理",
 	component: () => import("../views/Main.vue"),
-	children: []
+	redirect: '/DataCenter',
+	children: [
+		{
+			path: "DataCenter",
+			name: "数据中心",
+			component: ()=> import("../views/DataCenter.vue"),
+		}
+	]
 }];
 
 const router = new VueRouter({
