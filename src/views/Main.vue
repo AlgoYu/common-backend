@@ -215,6 +215,9 @@ export default {
             );
             // 添加路由表
             this.initRoutes();
+            this.$router.push({
+                path: "/DataCenter"
+            });
         },
         initRoutes() {
             var authorities = this.$store.state.user.authorities;
