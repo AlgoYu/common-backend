@@ -6,7 +6,7 @@ icons.set("SYSTEM","icon-setup_fill");
 icons.set("DATACENTER","icon-chart");
 icons.set("DEVELOP:GENERATOR","icon-barrage_fill");
 icons.set("DEVELOP:DATAMONITOR","icon-database");
-icons.set("DEVELOP:EXCEPTION","icon-flashlight_fill");
+icons.set("DEVELOP:SYSTEMEXCEPTION","icon-flashlight_fill");
 icons.set("MANAGEMENT","icon-manage_fill");
 icons.set("DEVELOP","icon-codelibrary-fill");
 icons.set("DEVELOP:DATABASE","icon-database");
