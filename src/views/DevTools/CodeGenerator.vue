@@ -9,6 +9,13 @@
             </el-table-column>
             <el-table-column prop="createTime" label="创建日期" align="center">
             </el-table-column>
+            <el-table-column prop="operate" label="操作" align="center">
+                <template slot-scope="scope">
+                    <el-button @click="showDialog(scope.row)"
+                        >生成代码</el-button
+                    >
+                </template>
+            </el-table-column>
         </el-table>
         <el-pagination
             layout="prev, pager, next"
@@ -16,6 +23,28 @@
             style="text-align: center;"
         >
         </el-pagination>
+        <el-dialog
+            title="代码生成"
+            :visible.sync="formDialog"
+            width="30%"
+            :close-on-click-modal="false"
+        >
+            <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+                <el-form-item label="表名" prop="tableName">
+                    <el-input
+                        v-model="form.tableName"
+                        :disabled="true"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item label="模块名称" prop="moduleName">
+                    <el-input v-model="form.moduleName"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="generate">生成</el-button>
+                    <el-button @click="formDialog = false">取消</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
     </div>
 </template>
 
@@ -32,7 +61,28 @@ export default {
             table: {
                 total: 0,
                 data: []
-            }
+            },
+            form: {
+                tableName: "",
+                moduleName: ""
+            },
+            rules: {
+                tableName: [
+                    {
+                        required: true,
+                        message: "表名不能为空",
+                        trigger: "blur"
+                    }
+                ],
+                moduleName: [
+                    {
+                        required: true,
+                        message: "模块名不能为空",
+                        trigger: "blur"
+                    }
+                ]
+            },
+            formDialog: false
         };
     },
     created() {
@@ -45,6 +95,48 @@ export default {
                 if (result.success) {
                     this.table.total = result.data.total;
                     this.table.data = result.data.records;
+                }
+            });
+        },
+        showDialog(row) {
+            this.form.tableName = row.tableName;
+            this.formDialog = true;
+        },
+        generate() {
+            this.$refs["form"].validate(valid => {
+                if (valid) {
+                    this.axios
+                        .get("/codeGenerator/generate", {
+                            params: this.form,
+                            responseType: "blob",
+                            headers: {
+                                Token: this.$store.state.accessToken
+                            }
+                        })
+                        .then(res => {
+                            if (!res.data) {
+                                return;
+                            }
+                            let url = window.URL.createObjectURL(
+                                new Blob([res.data])
+                            );
+                            let link = document.createElement("a");
+                            link.style.display = "none";
+                            link.href = url;
+                            link.setAttribute("download", "code.zip");
+
+                            document.body.appendChild(link);
+                            link.click();
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                } else {
+                    this.$message({
+                        message: "请完成表单",
+                        type: "warning"
+                    });
+                    return false;
                 }
             });
         }

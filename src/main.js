@@ -42,14 +42,16 @@ VueAMap.initAMapApiLoader({
 	v: '1.4.4'
 })
 
-// 导入Axios
-import Axios from 'axios'
-import VueAxios from 'vue-axios'
-Vue.use(VueAxios, Axios)
-
 // 导入全局常量
 import Global from './global/Global.js'
 Vue.prototype.global = Global;
+
+// 导入Axios
+import Axios from 'axios'
+import VueAxios from 'vue-axios'
+Axios.defaults.baseURL = Global.apiUrl;
+Vue.use(VueAxios, Axios)
+
 
 Vue.config.productionTip = false;
 
