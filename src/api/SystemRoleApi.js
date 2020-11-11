@@ -16,13 +16,13 @@ export function getCurrent(){
 }
 
 // 获取所有角色
-export function getAll(callback){
-	request("get","/systemRole/getAll",null,callback);
+export function list(callback){
+	request("get","/systemRole/list",null,callback);
 }
 
 // 分页获取当前用户
-export function list(data,callback){
-	request("get","/systemRole/list",data,callback);
+export function paging(data,callback){
+	request("get","/systemRole/paging",data,callback);
 }
 
 // 根据ID获取系统角色

@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { list } from "../../api/CodeGenerator.js";
+import { pagingTableByDatabaseName } from "../../api/CodeGenerator.js";
 export default {
     data() {
         return {
@@ -90,7 +90,7 @@ export default {
     },
     methods: {
         init() {
-            list(this.param, result => {
+            pagingTableByDatabaseName(this.param, result => {
                 console.log(result);
                 if (result.success) {
                     this.table.total = result.data.total;

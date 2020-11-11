@@ -3,6 +3,6 @@ import {
 } from "./Request.js"
 
 // 获取权限树
-export function list(data, callback) {
-	request("get", "/systemException/list", data, callback);
+export function paging(data, callback) {
+	request("get", "/systemException/paging", data, callback);
 }

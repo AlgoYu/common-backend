@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { list } from "../../api/SystemException.js";
+import { paging } from "../../api/SystemException.js";
 export default {
     data() {
         return {
@@ -107,7 +107,7 @@ export default {
     },
     methods: {
         init() {
-            list(this.param, result => {
+            paging(this.param, result => {
                 if (result.success) {
                     this.table.total = result.data.total;
                     this.table.data = result.data.records;

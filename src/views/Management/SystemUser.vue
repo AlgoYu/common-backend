@@ -110,8 +110,8 @@
 </template>
 
 <script>
-import { list, getWithRoleById,modifyWithRoleById } from "../../api/SystemUserApi.js";
-import { getAll } from "../../api/SystemRoleApi";
+import { paging, getWithRoleById,modifyWithRoleById } from "../../api/SystemUserApi.js";
+import { list } from "../../api/SystemRoleApi";
 export default {
     data() {
         return {
@@ -166,13 +166,13 @@ export default {
     },
     methods: {
         init() {
-            list(this.param, result => {
+            paging(this.param, result => {
                 if (result.success) {
                     this.table.total = result.data.total;
                     this.table.data = result.data.records;
                 }
             });
-            getAll(result => {
+            list(result => {
                 if (result.success) {
                     this.selector.data = result.data;
                 }

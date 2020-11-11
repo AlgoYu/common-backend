@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { getTree, add } from "@/api/SystemAuthorityApi.js";
+import { tree, add } from "@/api/SystemAuthorityApi.js";
 export default {
     data() {
         return {
@@ -111,7 +111,7 @@ export default {
     },
     methods: {
         init() {
-            getTree(result => {
+            tree(result => {
                 if (result.success) {
                     this.tree.data = result.data;
                 }

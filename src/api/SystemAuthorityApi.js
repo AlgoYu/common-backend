@@ -3,8 +3,8 @@ import {
 } from "./Request.js"
 
 // 获取权限树
-export function getTree(callback) {
-	request("get", "/systemAuthority/getTree", null, callback);
+export function tree(callback) {
+	request("get", "/systemAuthority/tree", null, callback);
 }
 
 // 增加权限树

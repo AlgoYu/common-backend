@@ -83,8 +83,8 @@
 </template>
 
 <script>
-import { list, getWithAuthorityById, modifyWithAuthorityById } from "../../api/SystemRoleApi.js";
-import { getTree, add } from "@/api/SystemAuthorityApi.js";
+import { paging, getWithAuthorityById, modifyWithAuthorityById } from "../../api/SystemRoleApi.js";
+import { tree, add } from "@/api/SystemAuthorityApi.js";
 export default {
     data() {
         return {
@@ -141,13 +141,13 @@ export default {
     },
     methods: {
         init() {
-            list(this.param, result => {
+            paging(this.param, result => {
                 if (result.success) {
                     this.table.total = result.data.total;
                     this.table.data = result.data.records;
                 }
             });
-            getTree(result => {
+            tree(result => {
                 if (result.success) {
                     this.tree.data = result.data;
                 }

@@ -18,8 +18,8 @@ export function getLoginInfo(callback) {
 }
 
 // 分页获取当前用户
-export function list(data, callback) {
-	request("get", "/systemUser/list", data, callback);
+export function paging(data, callback) {
+	request("get", "/systemUser/paging", data, callback);
 }
 
 // 根据ID获取系统用户与角色
