@@ -175,7 +175,7 @@ export default {
             search: "",
             user: {
                 username: "MachineGeek",
-                picture: "http://store.machine-geek.cn/Administrator.jpg"
+                picture: "https://store.machine-geek.cn/Administrator.jpg"
             },
             menus: []
         };

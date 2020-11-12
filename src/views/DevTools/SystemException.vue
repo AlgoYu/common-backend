@@ -1,5 +1,6 @@
 <template>
     <div>
+        <el-button @click="clearSytemException">清空异常信息</el-button>
         <el-table :data="table.data" style="width: 100%">
             <el-table-column prop="id" label="ID" align="center">
             </el-table-column>
@@ -87,7 +88,7 @@
 </template>
 
 <script>
-import { paging } from "../../api/SystemException.js";
+import { paging, clear } from "../../api/SystemException.js";
 export default {
     data() {
         return {
@@ -111,6 +112,16 @@ export default {
                 if (result.success) {
                     this.table.total = result.data.total;
                     this.table.data = result.data.records;
+                }
+            });
+        },
+        clearSytemException() {
+            clear(result => {
+                if(result.success){
+                    this.$message({
+                    message: "恭喜你，这是一条成功消息",
+                    type: "success"
+                });
                 }
             });
         }

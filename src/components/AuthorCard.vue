@@ -8,7 +8,8 @@
 				<div class="points center">
 					狮子座
 				</div>
-				<svg width="110" height="110" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc"
+				<img src="https://store.machine-geek.cn/Administrator.jpg" class="center picture">
+				<!-- <svg width="110" height="110" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc"
 				 class="center">
 					<title id="title">Teacher</title>
 					<desc id="desc">Cartoon of a Caucasian woman smiling, and wearing black glasses and a purple shirt with white
@@ -60,13 +61,13 @@
 							<path stroke="#daa37f" stroke-width="1" class="skin hand" id="hand-right" d="M 199,270 C 204,263 190,243 187,246 185,247 184,248 189,255 178,243 174,238 171,240 168,243 178,254 181,257 178,254 168,241 164,244 161,247 175,261 177,263 173,258 166,251 164,253 161,256 180,287 191,278" />
 						</g>
 					</g>
-				</svg>
+				</svg> -->
 			</div>
 			<div class="more-info">
-				<h1>AnyDev</h1>
+				<h1>MachineGeek</h1>
 				<div class="coords">
 					<span>肖宇</span>
-					<span>22岁</span>
+					<span>23岁</span>
 				</div>
 				<div class="coords">
 					<span>软件工程师</span>
@@ -97,7 +98,7 @@
 			</div>
 		</div>
 		<div class="general">
-			<h1>AnyDev</h1>
+			<h1>MachineGeek</h1>
 			<p>它正在途径我，尚未到达你。</p>
 			<span class="more">鼠标移动到此查看更多信息</span>
 		</div>
@@ -198,8 +199,12 @@
 		top: 85%;
 	}
 
-	.card .additional .user-card svg {
+	.card .additional .user-card .picture {
 		top: 50%;
+		border-radius: 50%;
+		border: #BF635D solid 3px;
+		width: 100px;
+		height: 100px;
 	}
 
 	.card .additional .more-info {
