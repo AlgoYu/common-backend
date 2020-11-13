@@ -1,5 +1,5 @@
 # 自用后台管理界面
-自用后台管理模板。
+
 ## 项目技术
 1. **Vue**
 2. **Vue-router**
@@ -11,23 +11,36 @@
 8. **XSS**
 
 ## 界面预览
-![预览图](http://cloud-store.anydevelop.cn/0065B4vHgy1gcybfhpmrwj31gz0sy7dx.jpg)
+![预览图](https://store.machine-geek.cn/0042.png)
+![预览图](https://store.machine-geek.cn/0043.png)
 ## 使用方法
 > 提醒：确保已经安装Node.js以及包管理工具NPM
 
 1. 克隆仓库
 
 ```bash
-git clone https://github.com/QQ794763733/Base-RBAC-BackEnd.git
+git clone https://github.com/QQ794763733/common-backend.git
 ```
-2. 运行代码
+2. 安装依赖
 
 ```bash
+npm install
+or
+yarn install
+```
+
+3. 运行代码
+```bash
 npm run serve
+or
+yarn run serve
 ```
 
 ## 关于作者
+喜欢的话就**Star**一下吧！  
+也可以逛逛[作者博客](http://blog.machine-geek.cn/)  
+和其他的项目[作者Github](https://github.com/QQ794763733)
 
 **如果这个项目有帮助到您就请作者喝一杯咖啡吧！**
 
-<img src="http://cloud-store.anydevelop.cn/0065B4vHgy1g7mv8zdyvwj3078078jr5.jpg" width="20%"/>
+<img src="https://store.machine-geek.cn/0012.jpg" width="20%"/>

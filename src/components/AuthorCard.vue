@@ -70,19 +70,19 @@
 					<span>23岁</span>
 				</div>
 				<div class="coords">
-					<span>软件工程师</span>
+					<span>学生</span>
 					<span>贵州遵义</span>
 				</div>
 				<div class="stats">
 					<div>
-						<div class="title">荣耀</div>
+						<div class="title">爱好</div>
 						<i class="fa fa-trophy"></i>
-						<div class="value">3</div>
+						<div class="value">0</div>
 					</div>
 					<div>
-						<div class="title">比赛</div>
+						<div class="title">活动</div>
 						<i class="fa fa-gamepad"></i>
-						<div class="value">3</div>
+						<div class="value">0</div>
 					</div>
 					<div>
 						<div class="title">项目</div>
