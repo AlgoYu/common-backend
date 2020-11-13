@@ -14,6 +14,7 @@
 8. **XSS**
 
 ## 界面预览
+如果图片加载不出来是缓存的问题，请谅解。
 ![预览图1](https://store.machine-geek.cn/0042.png)
 ![预览图2](https://store.machine-geek.cn/0043.png)
 ## 使用方法
