@@ -1,8 +1,8 @@
 # 自用后台管理界面
 作者正在写后端的快速开发项目，顺便写了一个比较通用的前端管理界面。  
 配套后端：  
-单体架构版本：[Java快速开发](https://github.com/QQ794763733/machine-geek)
-微服务版本：等待更新上传
+**单体架构版本**：[Java快速开发](https://github.com/QQ794763733/machine-geek)  
+**微服务版本**：等待更新上传
 ## 项目技术
 1. **Vue**
 2. **Vue-router**
@@ -14,8 +14,8 @@
 8. **XSS**
 
 ## 界面预览
-![预览图](https://store.machine-geek.cn/0042.png)
-![预览图](https://store.machine-geek.cn/0043.png)
+![预览图1](https://store.machine-geek.cn/0042.png)
+![预览图2](https://store.machine-geek.cn/0043.png)
 ## 使用方法
 > 提醒：确保已经安装Node.js以及包管理工具NPM
 
