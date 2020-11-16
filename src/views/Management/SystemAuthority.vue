@@ -1,12 +1,12 @@
 <template>
     <div>
-        <el-tree node-key="id" :data="tree.data" :props="tree.defaultProps">
+        <el-tree node-key="id" :data="tree.data" :props="tree.defaultProps" v-if='hasAuth("MANAGEMENT:SYSTEMAUTHORITY:GET")'>
             <div slot-scope="{ node, data }">
                 <span>{{ data.name }}</span>
                 <el-button
                     type="text"
                     size="mini"
-                    v-if="data.type != 1"
+                    v-if=' data.type != 1 && hasAuth("MANAGEMENT:SYSTEMAUTHORITY:ADD")'
                     @click="addNode(data.id)"
                 >
                     增加节点

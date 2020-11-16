@@ -14,7 +14,7 @@
                 </el-col>
             </el-row>
         </div>
-        <el-table :data="table.data" style="width: 100%">
+        <el-table :data="table.data" style="width: 100%" v-if='hasAuth("MANAGEMENT:SYSTEMUSER:GET")'>
             <el-table-column prop="id" label="ID" align="center">
             </el-table-column>
             <el-table-column prop="picture" label="头像" align="center">
@@ -55,10 +55,13 @@
             </el-table-column>
             <el-table-column prop="updateTime" label="创建时间" align="center">
             </el-table-column>
-            <el-table-column label="操作" align="center">
+            <el-table-column label="操作" align="center" min-width="150px">
                 <template slot-scope="scope">
-                    <el-button type="info" @click="edit(scope.row)"
+                    <el-button type="info" @click="edit(scope.row)" v-if='hasAuth("MANAGEMENT:SYSTEMUSER:MODIFY")'
                         >编辑</el-button
+                    >
+                    <el-button type="danger" @click="edit(scope.row)" v-if='hasAuth("MANAGEMENT:SYSTEMUSER:DELETE")'
+                        >删除</el-button
                     >
                 </template>
             </el-table-column>

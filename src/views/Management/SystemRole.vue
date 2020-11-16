@@ -3,7 +3,7 @@
         <div style="margin-top: 10px; margin-bottom: 10px">
             <el-row>
                 <el-col :span="10">
-                    <el-button type="primary">增加</el-button>
+                    <el-button type="primary" v-if='hasAuth("MANAGEMENT:SYSTEMROLE:ADD")'>增加</el-button>
                 </el-col>
                 <el-col :span="4">
                     <el-input
@@ -14,7 +14,7 @@
                 </el-col>
             </el-row>
         </div>
-        <el-table :data="table.data" style="width: 100%">
+        <el-table :data="table.data" style="width: 100%" v-if='hasAuth("MANAGEMENT:SYSTEMROLE:GET")'>
             <el-table-column prop="id" label="ID" align="center">
             </el-table-column>
             <el-table-column prop="name" label="角色名" align="center">

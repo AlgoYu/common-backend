@@ -3,7 +3,7 @@
         <div style="margin-top: 10px; margin-bottom: 10px">
             <el-row>
                 <el-col :span="10">
-                    <el-button @click="clearSytemException">清空异常信息</el-button>
+                    <el-button @click="clearSytemException" v-if='hasAuth("DEVELOP:SYSTEMEXCEPTION:CLEAR")'>清空异常信息</el-button>
                 </el-col>
                 <el-col :span="4" :offset="10">
                     <el-input
@@ -14,7 +14,7 @@
                 </el-col>
             </el-row>
         </div>
-        <el-table :data="table.data" style="width: 100%">
+        <el-table :data="table.data" style="width: 100%" v-if='hasAuth("DEVELOP:SYSTEMEXCEPTION:GET")'>
             <el-table-column prop="id" label="ID" align="center">
             </el-table-column>
             <el-table-column prop="uri" label="URI" align="center">
