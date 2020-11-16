@@ -3,7 +3,12 @@
         <div style="margin-top: 10px; margin-bottom: 10px">
             <el-row>
                 <el-col :span="10">
-                    <el-button type="primary" v-if='hasAuth("MANAGEMENT:SYSTEMROLE:ADD")'>增加</el-button>
+                    <el-button
+                        type="primary"
+                        v-if="hasAuth('MANAGEMENT:SYSTEMROLE:ADD')"
+                        @click="addData"
+                        >增加</el-button
+                    >
                 </el-col>
                 <el-col :span="4">
                     <el-input
@@ -14,7 +19,11 @@
                 </el-col>
             </el-row>
         </div>
-        <el-table :data="table.data" style="width: 100%" v-if='hasAuth("MANAGEMENT:SYSTEMROLE:GET")'>
+        <el-table
+            :data="table.data"
+            style="width: 100%"
+            v-if="hasAuth('MANAGEMENT:SYSTEMROLE:GET')"
+        >
             <el-table-column prop="id" label="ID" align="center">
             </el-table-column>
             <el-table-column prop="name" label="角色名" align="center">
@@ -23,19 +32,9 @@
             </el-table-column>
             <el-table-column prop="description" label="描述" align="center">
             </el-table-column>
-            <el-table-column prop="disable" label="是否禁用" align="center">
-                <template slot-scope="scope">
-                    <el-switch
-                        v-model="scope.row.disable"
-                        active-color="#ff4949"
-                        inactive-color="#13ce66"
-                    >
-                    </el-switch>
-                </template>
-            </el-table-column>
             <el-table-column prop="createTime" label="创建时间" align="center">
             </el-table-column>
-            <el-table-column prop="updateTime" label="创建时间" align="center">
+            <el-table-column prop="updateTime" label="更新时间" align="center">
             </el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
@@ -58,7 +57,11 @@
             :close-on-click-modal="false"
         >
             <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-                <el-form-item label="角色ID" prop="parentId">
+                <el-form-item
+                    label="角色ID"
+                    prop="parentId"
+                    v-if="statu == 'edit'"
+                >
                     <el-input v-model="form.id" :disabled="true"></el-input>
                 </el-form-item>
                 <el-form-item label="角色名称" prop="name">
@@ -101,11 +104,13 @@ import {
     paging,
     getWithAuthorityById,
     modifyWithAuthorityById,
+    addWithAuthority,
 } from "../../api/SystemRoleApi.js";
 import { tree, add } from "@/api/SystemAuthorityApi.js";
 export default {
     data() {
         return {
+            statu: "",
             form: {
                 id: "",
                 name: "",
@@ -172,6 +177,7 @@ export default {
             });
         },
         edit(row) {
+            this.statu = "edit";
             getWithAuthorityById({ id: row.id }, (result) => {
                 if (result.success) {
                     this.form = result.data;
@@ -179,24 +185,53 @@ export default {
                 }
             });
         },
+        addData() {
+            this.statu = "add";
+            this.form = {
+                id: "",
+                name: "",
+                description: "",
+                systemAuthorityIds: [],
+            };
+            this.formDialog = true;
+        },
         save() {
             this.$refs["form"].validate((valid) => {
                 if (valid) {
                     this.form.systemAuthorityIds = this.$refs.tree.getCheckedKeys();
-                    modifyWithAuthorityById(this.form, (result) => {
-                        if (result.success) {
-                            this.$message({
-                                message: "保存成功!",
-                                type: "success",
+                    switch (this.statu) {
+                        case "add":
+                            addWithAuthority(this.form, (result) => {
+                                if (result.success) {
+                                    this.$message({
+                                        message: "保存成功!",
+                                        type: "success",
+                                    });
+                                } else {
+                                    this.$message({
+                                        message: "保存失败！",
+                                        type: "warning",
+                                    });
+                                }
                             });
-                        } else {
-                            this.$message({
-                                message: "保存失败！",
-                                type: "warning",
+                            break;
+                        case "edit":
+                            modifyWithAuthorityById(this.form, (result) => {
+                                if (result.success) {
+                                    this.$message({
+                                        message: "保存成功!",
+                                        type: "success",
+                                    });
+                                } else {
+                                    this.$message({
+                                        message: "保存失败！",
+                                        type: "warning",
+                                    });
+                                }
                             });
-                        }
-                        this.formDialog = false;
-                    });
+                            break;
+                    }
+                    this.formDialog = false;
                 } else {
                     this.$message({
                         message: "请完成表单",

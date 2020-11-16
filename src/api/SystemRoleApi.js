@@ -5,6 +5,11 @@ export function add(data){
 	request("post","/systemUser/add",data);
 }
 
+// 增加系统用户及权限关系
+export function addWithAuthority(data,callback){
+	request("post","/systemRole/addWithAuthority",data,callback);
+}
+
 // 根据ID更新系统角色
 export function modifyWithAuthorityById(data,callback){
 	request("put","/systemRole/modifyWithAuthorityById",data,callback);

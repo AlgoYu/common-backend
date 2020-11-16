@@ -233,14 +233,17 @@ export default {
                 type: "warning",
             })
                 .then(() => {
-                    deleteById({
-                        id: row.id
-                    }, (result) => {
-                        this.$message({
-                            message: "删除成功!",
-                            type: "success",
-                        });
-                    });
+                    deleteById(
+                        {
+                            id: row.id,
+                        },
+                        (result) => {
+                            this.$message({
+                                message: "删除成功!",
+                                type: "success",
+                            });
+                        }
+                    );
                 })
                 .catch(() => {});
         },
@@ -288,10 +291,10 @@ export default {
                                         type: "warning",
                                     });
                                 }
-                                this.formDialog = false;
                             });
                             break;
                     }
+                    this.formDialog = false;
                 } else {
                     this.$message({
                         message: "请完成表单",
