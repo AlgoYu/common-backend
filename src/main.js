@@ -43,8 +43,12 @@ VueAMap.initAMapApiLoader({
 })
 
 // 导入全局常量
-import Global from './global/Global.js'
+import Global from './global/Global'
 Vue.prototype.global = Global;
+
+// 导入权限验证
+import AuthorityVerity from "./global/AuthorityVerify"
+Vue.prototype.hasAuth = AuthorityVerity;
 
 // 导入Axios
 import Axios from 'axios'

@@ -3,7 +3,7 @@
         <div style="margin-top: 10px; margin-bottom: 10px">
             <el-row>
                 <el-col :span="10">
-                    <el-button type="primary">增加</el-button>
+                    <el-button type="primary" v-if='hasAuth("MANAGEMENT:SYSTEMUSER:ADD")'>增加</el-button>
                 </el-col>
                 <el-col :span="4" :offset="10">
                     <el-input
