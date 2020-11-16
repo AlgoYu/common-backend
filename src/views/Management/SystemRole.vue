@@ -38,8 +38,17 @@
             </el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-button type="info" @click="edit(scope.row)"
+                    <el-button
+                        type="info"
+                        @click="edit(scope.row)"
+                        v-if="hasAuth('MANAGEMENT:SYSTEMROLE:MODIFY')"
                         >编辑</el-button
+                    >
+                    <el-button
+                        type="danger"
+                        @click="deleteData(scope.row)"
+                        v-if="hasAuth('MANAGEMENT:SYSTEMROLE:ADD')"
+                        >删除</el-button
                     >
                 </template>
             </el-table-column>
@@ -105,6 +114,7 @@ import {
     getWithAuthorityById,
     modifyWithAuthorityById,
     addWithAuthority,
+    deleteById,
 } from "../../api/SystemRoleApi.js";
 import { tree, add } from "@/api/SystemAuthorityApi.js";
 export default {
@@ -171,13 +181,34 @@ export default {
                 }
             });
         },
-        getPage(){
+        getPage() {
             paging(this.param, (result) => {
                 if (result.success) {
                     this.table.total = result.data.total;
                     this.table.data = result.data.records;
                 }
             });
+        },
+        deleteData(row) {
+            this.$confirm("确认删除这条数据吗?", "警告", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+                .then(() => {
+                    deleteById({
+                        id: row.id
+                    },(result)=>{
+                        if(result.success){
+                            this.$message({
+                                message: "删除成功!",
+                                type: "success",
+                            });
+                            this.getPage();
+                        }
+                    });
+                })
+                .catch(() => {});
         },
         edit(row) {
             this.statu = "edit";

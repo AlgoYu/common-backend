@@ -105,9 +105,7 @@
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
-                    <el-input
-                        v-model="form.password"
-                    ></el-input>
+                    <el-input v-model="form.password"></el-input>
                 </el-form-item>
                 <el-form-item label="昵称" prop="nickname">
                     <el-input v-model="form.nickname"></el-input>
@@ -155,7 +153,7 @@ import {
     modifyWithRoleById,
 } from "../../api/SystemUserApi.js";
 import { list } from "../../api/SystemRoleApi";
-import md5 from 'js-md5';
+import md5 from "js-md5";
 export default {
     data() {
         return {
@@ -246,11 +244,13 @@ export default {
                             id: row.id,
                         },
                         (result) => {
-                            this.getPage();
-                            this.$message({
-                                message: "删除成功!",
-                                type: "success",
-                            });
+                            if (result.success) {
+                                this.$message({
+                                    message: "删除成功!",
+                                    type: "success",
+                                });
+                                this.getPage();
+                            }
                         }
                     );
                 })
@@ -268,7 +268,7 @@ export default {
             };
             this.formDialog = true;
         },
-        getPage(){
+        getPage() {
             paging(this.param, (result) => {
                 if (result.success) {
                     this.table.total = result.data.total;

@@ -36,6 +36,6 @@ export function getWithAuthorityById(data,callback){
 }
 
 // 根据ID删除系统用户
-export function deleteById(data){
-	request("get","/systemUser/deleteById",data);
+export function deleteById(data,callback){
+	request("delete","/systemRole/deleteById",data,callback);
 }
