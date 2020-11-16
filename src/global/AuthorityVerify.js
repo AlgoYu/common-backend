@@ -7,7 +7,6 @@ import Vuex from "../store"
  */
 export default function hasAuthority(key){
     for (var authority of Vuex.state.user.authorities) {
-        console.log("执行");
         if(authority.key == key){
             return true;
         }

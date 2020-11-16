@@ -4,7 +4,7 @@ import {
 
 // 增加系统用户
 export function add(data, callback) {
-	request("post", "/systemUser/add", data, callback);
+	request("post", "/systemUser/addWithRole", data, callback);
 }
 
 // 根据ID更新系统用户与角色
@@ -29,5 +29,5 @@ export function getWithRoleById(data, callback) {
 
 // 根据ID删除系统用户
 export function deleteById(data, callback) {
-	request("get", "/systemUser/deleteById", data, callback);
+	request("delete", "/systemUser/deleteById", data, callback);
 }

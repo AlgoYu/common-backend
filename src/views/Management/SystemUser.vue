@@ -3,7 +3,12 @@
         <div style="margin-top: 10px; margin-bottom: 10px">
             <el-row>
                 <el-col :span="10">
-                    <el-button type="primary" v-if='hasAuth("MANAGEMENT:SYSTEMUSER:ADD")'>增加</el-button>
+                    <el-button
+                        type="primary"
+                        v-if="hasAuth('MANAGEMENT:SYSTEMUSER:ADD')"
+                        @click="addData"
+                        >增加</el-button
+                    >
                 </el-col>
                 <el-col :span="4" :offset="10">
                     <el-input
@@ -14,7 +19,11 @@
                 </el-col>
             </el-row>
         </div>
-        <el-table :data="table.data" style="width: 100%" v-if='hasAuth("MANAGEMENT:SYSTEMUSER:GET")'>
+        <el-table
+            :data="table.data"
+            style="width: 100%"
+            v-if="hasAuth('MANAGEMENT:SYSTEMUSER:GET')"
+        >
             <el-table-column prop="id" label="ID" align="center">
             </el-table-column>
             <el-table-column prop="picture" label="头像" align="center">
@@ -53,14 +62,20 @@
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间" align="center">
             </el-table-column>
-            <el-table-column prop="updateTime" label="创建时间" align="center">
+            <el-table-column prop="updateTime" label="修改时间" align="center">
             </el-table-column>
             <el-table-column label="操作" align="center" min-width="150px">
                 <template slot-scope="scope">
-                    <el-button type="info" @click="edit(scope.row)" v-if='hasAuth("MANAGEMENT:SYSTEMUSER:MODIFY")'
+                    <el-button
+                        type="info"
+                        @click="edit(scope.row)"
+                        v-if="hasAuth('MANAGEMENT:SYSTEMUSER:MODIFY')"
                         >编辑</el-button
                     >
-                    <el-button type="danger" @click="edit(scope.row)" v-if='hasAuth("MANAGEMENT:SYSTEMUSER:DELETE")'
+                    <el-button
+                        type="danger"
+                        @click="deleteData(scope.row)"
+                        v-if="hasAuth('MANAGEMENT:SYSTEMUSER:DELETE')"
                         >删除</el-button
                     >
                 </template>
@@ -80,13 +95,13 @@
             :close-on-click-modal="false"
         >
             <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-                <el-form-item label="id" prop="parentId">
+                <el-form-item label="id" prop="parentId" v-if="statu == 'edit'">
                     <el-input v-model="form.id" :disabled="true"></el-input>
                 </el-form-item>
                 <el-form-item label="用户名" prop="username">
                     <el-input
                         v-model="form.username"
-                        :disabled="true"
+                        :disabled="statu == 'edit'"
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="昵称" prop="nickname">
@@ -128,6 +143,8 @@
 
 <script>
 import {
+    add,
+    deleteById,
     paging,
     getWithRoleById,
     modifyWithRoleById,
@@ -136,6 +153,7 @@ import { list } from "../../api/SystemRoleApi";
 export default {
     data() {
         return {
+            statu: "",
             form: {
                 id: "",
                 username: "",
@@ -200,6 +218,7 @@ export default {
             });
         },
         edit(row) {
+            this.statu = "edit";
             getWithRoleById({ id: row.id }, (result) => {
                 if (result.success) {
                     this.form = result.data;
@@ -207,23 +226,72 @@ export default {
                 }
             });
         },
+        deleteData(row) {
+            this.$confirm("确认删除这条数据吗?", "警告", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+                .then(() => {
+                    deleteById({
+                        id: row.id
+                    }, (result) => {
+                        this.$message({
+                            message: "删除成功!",
+                            type: "success",
+                        });
+                    });
+                })
+                .catch(() => {});
+        },
+        addData() {
+            this.statu = "add";
+            this.form = {
+                id: "",
+                username: "",
+                password: "",
+                nickname: "",
+                description: "",
+                systemRoleIds: [],
+            };
+            this.formDialog = true;
+        },
         save() {
             this.$refs["form"].validate((valid) => {
                 if (valid) {
-                    modifyWithRoleById(this.form, (result) => {
-                        if (result.success) {
-                            this.$message({
-                                message: "保存成功!",
-                                type: "success",
+                    switch (this.statu) {
+                        case "add":
+                            add(this.form, (result) => {
+                                if (result.success) {
+                                    this.$message({
+                                        message: "保存成功!",
+                                        type: "success",
+                                    });
+                                } else {
+                                    this.$message({
+                                        message: "保存失败！",
+                                        type: "warning",
+                                    });
+                                }
                             });
-                        } else {
-                            this.$message({
-                                message: "保存失败！",
-                                type: "warning",
+                            break;
+                        case "edit":
+                            modifyWithRoleById(this.form, (result) => {
+                                if (result.success) {
+                                    this.$message({
+                                        message: "保存成功!",
+                                        type: "success",
+                                    });
+                                } else {
+                                    this.$message({
+                                        message: "保存失败！",
+                                        type: "warning",
+                                    });
+                                }
+                                this.formDialog = false;
                             });
-                        }
-                        this.formDialog = false;
-                    });
+                            break;
+                    }
                 } else {
                     this.$message({
                         message: "请完成表单",
