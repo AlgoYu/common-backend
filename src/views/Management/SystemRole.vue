@@ -164,15 +164,18 @@ export default {
     },
     methods: {
         init() {
+            this.getPage();
+            tree((result) => {
+                if (result.success) {
+                    this.tree.data = result.data;
+                }
+            });
+        },
+        getPage(){
             paging(this.param, (result) => {
                 if (result.success) {
                     this.table.total = result.data.total;
                     this.table.data = result.data.records;
-                }
-            });
-            tree((result) => {
-                if (result.success) {
-                    this.tree.data = result.data;
                 }
             });
         },
@@ -207,6 +210,7 @@ export default {
                                         message: "保存成功!",
                                         type: "success",
                                     });
+                                    this.getPage();
                                 } else {
                                     this.$message({
                                         message: "保存失败！",
@@ -222,6 +226,7 @@ export default {
                                         message: "保存成功!",
                                         type: "success",
                                     });
+                                    this.getPage();
                                 } else {
                                     this.$message({
                                         message: "保存失败！",

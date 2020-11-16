@@ -104,6 +104,11 @@
                         :disabled="statu == 'edit'"
                     ></el-input>
                 </el-form-item>
+                <el-form-item label="密码" prop="password">
+                    <el-input
+                        v-model="form.password"
+                    ></el-input>
+                </el-form-item>
                 <el-form-item label="昵称" prop="nickname">
                     <el-input v-model="form.nickname"></el-input>
                 </el-form-item>
@@ -150,6 +155,7 @@ import {
     modifyWithRoleById,
 } from "../../api/SystemUserApi.js";
 import { list } from "../../api/SystemRoleApi";
+import md5 from 'js-md5';
 export default {
     data() {
         return {
@@ -174,6 +180,13 @@ export default {
                     {
                         required: true,
                         message: "用户名不可为空",
+                        trigger: "blur",
+                    },
+                ],
+                password: [
+                    {
+                        required: true,
+                        message: "密码不可为空",
                         trigger: "blur",
                     },
                 ],
@@ -205,12 +218,7 @@ export default {
     },
     methods: {
         init() {
-            paging(this.param, (result) => {
-                if (result.success) {
-                    this.table.total = result.data.total;
-                    this.table.data = result.data.records;
-                }
-            });
+            this.getPage();
             list((result) => {
                 if (result.success) {
                     this.selector.data = result.data;
@@ -238,6 +246,7 @@ export default {
                             id: row.id,
                         },
                         (result) => {
+                            this.getPage();
                             this.$message({
                                 message: "删除成功!",
                                 type: "success",
@@ -259,17 +268,28 @@ export default {
             };
             this.formDialog = true;
         },
+        getPage(){
+            paging(this.param, (result) => {
+                if (result.success) {
+                    this.table.total = result.data.total;
+                    this.table.data = result.data.records;
+                }
+            });
+        },
         save() {
             this.$refs["form"].validate((valid) => {
                 if (valid) {
                     switch (this.statu) {
                         case "add":
-                            add(this.form, (result) => {
+                            let temp = this.form;
+                            temp.password = md5(temp.password);
+                            add(temp, (result) => {
                                 if (result.success) {
                                     this.$message({
                                         message: "保存成功!",
                                         type: "success",
                                     });
+                                    this.getPage();
                                 } else {
                                     this.$message({
                                         message: "保存失败！",
@@ -285,6 +305,7 @@ export default {
                                         message: "保存成功!",
                                         type: "success",
                                     });
+                                    this.getPage();
                                 } else {
                                     this.$message({
                                         message: "保存失败！",
