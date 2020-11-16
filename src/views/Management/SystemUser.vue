@@ -1,5 +1,19 @@
 <template>
     <div>
+        <div style="margin-top: 10px; margin-bottom: 10px">
+            <el-row>
+                <el-col :span="10">
+                    <el-button type="primary">增加</el-button>
+                </el-col>
+                <el-col :span="4" :offset="10">
+                    <el-input
+                        v-model="form.keyWord"
+                        placeholder="按关键字搜索内容"
+                        suffix-icon="el-icon-search"
+                    ></el-input>
+                </el-col>
+            </el-row>
+        </div>
         <el-table :data="table.data" style="width: 100%">
             <el-table-column prop="id" label="ID" align="center">
             </el-table-column>
@@ -10,7 +24,7 @@
                         icon="el-icon-user-solid"
                         :size="50"
                         :src="global.apiUrl + scope.row.picture"
-                        style="border: #000000 2px solid;"
+                        style="border: #000000 2px solid"
                     ></el-avatar>
                     <span style="margin-left: 10px">{{ scope.row.date }}</span>
                 </template>
@@ -53,7 +67,7 @@
         <el-pagination
             layout="prev, pager, next"
             :total="table.total"
-            style="text-align: center;"
+            style="text-align: center"
         >
         </el-pagination>
         <el-dialog
@@ -110,7 +124,11 @@
 </template>
 
 <script>
-import { paging, getWithRoleById,modifyWithRoleById } from "../../api/SystemUserApi.js";
+import {
+    paging,
+    getWithRoleById,
+    modifyWithRoleById,
+} from "../../api/SystemUserApi.js";
 import { list } from "../../api/SystemRoleApi";
 export default {
     data() {
@@ -121,44 +139,44 @@ export default {
                 password: "",
                 nickname: "",
                 description: "",
-                systemRoleIds: []
+                systemRoleIds: [],
             },
             rules: {
                 id: [
                     {
                         required: true,
                         message: "用户ID不可为空",
-                        trigger: "change"
-                    }
+                        trigger: "change",
+                    },
                 ],
                 username: [
                     {
                         required: true,
                         message: "用户名不可为空",
-                        trigger: "blur"
-                    }
+                        trigger: "blur",
+                    },
                 ],
                 nickname: [
                     {
                         required: true,
                         message: "用户昵称不可为空",
-                        trigger: "blur"
-                    }
-                ]
+                        trigger: "blur",
+                    },
+                ],
             },
             formDialog: false,
             param: {
                 page: 1,
                 size: 10,
-                keyWord: ""
+                keyWord: "",
             },
             table: {
                 total: 0,
-                data: []
+                data: [],
             },
             selector: {
-                data: []
-            }
+                data: [],
+            },
         };
     },
     created() {
@@ -166,20 +184,20 @@ export default {
     },
     methods: {
         init() {
-            paging(this.param, result => {
+            paging(this.param, (result) => {
                 if (result.success) {
                     this.table.total = result.data.total;
                     this.table.data = result.data.records;
                 }
             });
-            list(result => {
+            list((result) => {
                 if (result.success) {
                     this.selector.data = result.data;
                 }
             });
         },
         edit(row) {
-            getWithRoleById({id: row.id}, result => {
+            getWithRoleById({ id: row.id }, (result) => {
                 if (result.success) {
                     this.form = result.data;
                     this.formDialog = true;
@@ -187,18 +205,18 @@ export default {
             });
         },
         save() {
-            this.$refs["form"].validate(valid => {
+            this.$refs["form"].validate((valid) => {
                 if (valid) {
-                    modifyWithRoleById(this.form, result => {
+                    modifyWithRoleById(this.form, (result) => {
                         if (result.success) {
                             this.$message({
                                 message: "保存成功!",
-                                type: "success"
+                                type: "success",
                             });
                         } else {
                             this.$message({
                                 message: "保存失败！",
-                                type: "warning"
+                                type: "warning",
                             });
                         }
                         this.formDialog = false;
@@ -206,13 +224,13 @@ export default {
                 } else {
                     this.$message({
                         message: "请完成表单",
-                        type: "warning"
+                        type: "warning",
                     });
                     return false;
                 }
             });
-        }
-    }
+        },
+    },
 };
 </script>
 

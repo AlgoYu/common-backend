@@ -1,6 +1,19 @@
 <template>
     <div>
-        <el-button @click="clearSytemException">清空异常信息</el-button>
+        <div style="margin-top: 10px; margin-bottom: 10px">
+            <el-row>
+                <el-col :span="10">
+                    <el-button @click="clearSytemException">清空异常信息</el-button>
+                </el-col>
+                <el-col :span="4" :offset="10">
+                    <el-input
+                        v-model="param.keyWord"
+                        placeholder="按关键字搜索内容"
+                        suffix-icon="el-icon-search"
+                    ></el-input>
+                </el-col>
+            </el-row>
+        </div>
         <el-table :data="table.data" style="width: 100%">
             <el-table-column prop="id" label="ID" align="center">
             </el-table-column>

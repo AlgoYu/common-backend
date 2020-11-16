@@ -1,5 +1,19 @@
 <template>
     <div>
+        <div style="margin-top: 10px; margin-bottom: 10px">
+            <el-row>
+                <el-col :span="10">
+                    <el-button type="primary">增加</el-button>
+                </el-col>
+                <el-col :span="4">
+                    <el-input
+                        v-model="form.keyWord"
+                        placeholder="按关键字搜索内容"
+                        suffix-icon="el-icon-search"
+                    ></el-input>
+                </el-col>
+            </el-row>
+        </div>
         <el-table :data="table.data" style="width: 100%">
             <el-table-column prop="id" label="ID" align="center">
             </el-table-column>
@@ -34,7 +48,7 @@
         <el-pagination
             layout="prev, pager, next"
             :total="table.total"
-            style="text-align: center;"
+            style="text-align: center"
         >
         </el-pagination>
         <el-dialog
@@ -83,7 +97,11 @@
 </template>
 
 <script>
-import { paging, getWithAuthorityById, modifyWithAuthorityById } from "../../api/SystemRoleApi.js";
+import {
+    paging,
+    getWithAuthorityById,
+    modifyWithAuthorityById,
+} from "../../api/SystemRoleApi.js";
 import { tree, add } from "@/api/SystemAuthorityApi.js";
 export default {
     data() {
@@ -92,7 +110,7 @@ export default {
                 id: "",
                 name: "",
                 description: "",
-                systemAuthorityIds: []
+                systemAuthorityIds: [],
             },
             selects: [],
             rules: {
@@ -100,40 +118,40 @@ export default {
                     {
                         required: true,
                         message: "请输入权限名称",
-                        trigger: "blur"
+                        trigger: "blur",
                     },
                     {
                         min: 2,
                         max: 10,
                         message: "长度在 2 到 10 个字符",
-                        trigger: "blur"
-                    }
+                        trigger: "blur",
+                    },
                 ],
                 id: [
                     {
                         required: true,
                         message: "角色ID不可为空",
-                        trigger: "change"
-                    }
-                ]
+                        trigger: "change",
+                    },
+                ],
             },
             tree: {
                 data: [],
                 defaultProps: {
                     children: "children",
-                    label: "name"
-                }
+                    label: "name",
+                },
             },
             formDialog: false,
             param: {
                 page: 1,
                 size: 10,
-                keyWord: ""
+                keyWord: "",
             },
             table: {
                 total: 0,
-                data: []
-            }
+                data: [],
+            },
         };
     },
     created() {
@@ -141,20 +159,20 @@ export default {
     },
     methods: {
         init() {
-            paging(this.param, result => {
+            paging(this.param, (result) => {
                 if (result.success) {
                     this.table.total = result.data.total;
                     this.table.data = result.data.records;
                 }
             });
-            tree(result => {
+            tree((result) => {
                 if (result.success) {
                     this.tree.data = result.data;
                 }
             });
         },
         edit(row) {
-            getWithAuthorityById({ id: row.id }, result => {
+            getWithAuthorityById({ id: row.id }, (result) => {
                 if (result.success) {
                     this.form = result.data;
                     this.formDialog = true;
@@ -162,19 +180,19 @@ export default {
             });
         },
         save() {
-            this.$refs["form"].validate(valid => {
+            this.$refs["form"].validate((valid) => {
                 if (valid) {
                     this.form.systemAuthorityIds = this.$refs.tree.getCheckedKeys();
-                    modifyWithAuthorityById(this.form, result => {
+                    modifyWithAuthorityById(this.form, (result) => {
                         if (result.success) {
                             this.$message({
                                 message: "保存成功!",
-                                type: "success"
+                                type: "success",
                             });
                         } else {
                             this.$message({
                                 message: "保存失败！",
-                                type: "warning"
+                                type: "warning",
                             });
                         }
                         this.formDialog = false;
@@ -182,7 +200,7 @@ export default {
                 } else {
                     this.$message({
                         message: "请完成表单",
-                        type: "warning"
+                        type: "warning",
                     });
                     return false;
                 }
@@ -190,8 +208,8 @@ export default {
         },
         selectKeys(data) {
             console.log(data);
-        }
-    }
+        },
+    },
 };
 </script>
 
