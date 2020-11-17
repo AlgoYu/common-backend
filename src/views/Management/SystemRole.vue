@@ -10,7 +10,7 @@
                         >增加</el-button
                     >
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="4" :offset="10">
                     <el-input
                         v-model="form.keyWord"
                         placeholder="按关键字搜索内容"
