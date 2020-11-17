@@ -15,6 +15,7 @@
                         v-model="form.keyWord"
                         placeholder="按关键字搜索内容"
                         suffix-icon="el-icon-search"
+                        v-if="hasAuth('MANAGEMENT:SYSTEMUSER:GET')"
                     ></el-input>
                 </el-col>
             </el-row>
@@ -23,6 +24,7 @@
             :data="table.data"
             style="width: 100%"
             v-if="hasAuth('MANAGEMENT:SYSTEMUSER:GET')"
+            v-loading="load"
         >
             <el-table-column prop="id" label="ID" align="center">
             </el-table-column>
@@ -104,7 +106,7 @@
                         :disabled="statu == 'edit'"
                     ></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="password">
+                <el-form-item label="密码" prop="password" v-if="statu=='add'">
                     <el-input v-model="form.password"></el-input>
                 </el-form-item>
                 <el-form-item label="昵称" prop="nickname">
@@ -157,6 +159,7 @@ import md5 from "js-md5";
 export default {
     data() {
         return {
+            load: true,
             statu: "",
             form: {
                 id: "",
@@ -212,7 +215,9 @@ export default {
         };
     },
     created() {
-        this.init();
+        if(this.hasAuth('MANAGEMENT:SYSTEMUSER:GET')){
+            this.init();
+        }
     },
     methods: {
         init() {
@@ -273,6 +278,7 @@ export default {
                 if (result.success) {
                     this.table.total = result.data.total;
                     this.table.data = result.data.records;
+                    this.load = false;
                 }
             });
         },
@@ -281,6 +287,7 @@ export default {
                 if (valid) {
                     switch (this.statu) {
                         case "add":
+                            this.load = true;
                             let temp = this.form;
                             temp.password = md5(temp.password);
                             add(temp, (result) => {
@@ -296,6 +303,7 @@ export default {
                                         type: "warning",
                                     });
                                 }
+                                this.load = false;
                             });
                             break;
                         case "edit":
@@ -312,6 +320,7 @@ export default {
                                         type: "warning",
                                     });
                                 }
+                                this.load = false;
                             });
                             break;
                     }

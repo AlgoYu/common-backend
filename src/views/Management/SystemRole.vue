@@ -15,6 +15,7 @@
                         v-model="form.keyWord"
                         placeholder="按关键字搜索内容"
                         suffix-icon="el-icon-search"
+                        v-if="hasAuth('MANAGEMENT:SYSTEMROLE:GET')"
                     ></el-input>
                 </el-col>
             </el-row>
@@ -23,6 +24,7 @@
             :data="table.data"
             style="width: 100%"
             v-if="hasAuth('MANAGEMENT:SYSTEMROLE:GET')"
+            v-loading="load"
         >
             <el-table-column prop="id" label="ID" align="center">
             </el-table-column>
@@ -120,6 +122,7 @@ import { tree, add } from "@/api/SystemAuthorityApi.js";
 export default {
     data() {
         return {
+            load: true,
             statu: "",
             form: {
                 id: "",
@@ -186,6 +189,7 @@ export default {
                 if (result.success) {
                     this.table.total = result.data.total;
                     this.table.data = result.data.records;
+                    this.load = false;
                 }
             });
         },

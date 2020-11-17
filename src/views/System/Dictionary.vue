@@ -1,6 +1,6 @@
 <template>
 	<div>
-		这是设置页面
+		这是系统字典
 	</div>
 </template>
 

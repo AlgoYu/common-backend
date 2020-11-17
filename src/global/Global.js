@@ -15,6 +15,7 @@ icons.set("MANAGEMENT:SYSTEMROLE","icon-role");
 icons.set("MANAGEMENT:SYSTEMAUTHORITY","icon-quanxian");
 icons.set("DEVELOP:APPLICATIONMONITOR","icon-stealth_fill");
 icons.set("DEVELOP:DOCUMENTATION","icon-order_fill");
+icons.set("SYSTEM:DICTIONARY","icon-createtask");
 
 export default {
 	apiUrl,
