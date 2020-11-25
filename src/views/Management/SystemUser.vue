@@ -12,7 +12,8 @@
                 </el-col>
                 <el-col :span="4" :offset="10">
                     <el-input
-                        v-model="form.keyWord"
+                        @keyup.enter.native="getPage"
+                        v-model="param.keyWord"
                         placeholder="按关键字搜索内容"
                         suffix-icon="el-icon-search"
                         v-if="hasAuth('MANAGEMENT:SYSTEMUSER:GET')"
@@ -83,11 +84,11 @@
                 </template>
             </el-table-column>
         </el-table>
-        <div></div>
         <el-pagination
             layout="prev, pager, next"
             :total="table.total"
             style="text-align: center"
+            v-if="table.data.length > 0"
         >
         </el-pagination>
         <el-dialog
@@ -274,12 +275,13 @@ export default {
             this.formDialog = true;
         },
         getPage() {
+            this.load = true;
             paging(this.param, (result) => {
                 if (result.success) {
                     this.table.total = result.data.total;
                     this.table.data = result.data.records;
-                    this.load = false;
                 }
+                this.load = false;
             });
         },
         save() {
