@@ -1,8 +1,8 @@
 # 自用后台管理界面
 作者正在写后端的快速开发项目，顺便写了一个比较通用的前端管理界面。  
 配套后端：  
-**单体架构版本**：[Java快速开发](https://github.com/QQ794763733/machine-geek)  
-**微服务版本**：等待更新上传
+**单体架构版本**：[Java快速开发单体架构版本](https://github.com/QQ794763733/machine-geek)  
+**微服务版本**：[Java快速开发微服务版本](https://github.com/QQ794763733/micro-service)
 ## 项目技术
 1. **Vue**
 2. **Vue-router**
