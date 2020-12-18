@@ -21,7 +21,7 @@
     "vue-echarts": "^5.0.0-beta.0",
     "vue-router": "^3.1.5",
     "vuex": "^3.1.2",
-    "wangeditor": "^3.1.1",
+    "wangeditor": "^4.5.4",
     "xss": "^1.0.6"
   },
   "devDependencies": {
