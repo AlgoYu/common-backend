@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { tree, add } from "@/api/SystemAuthorityApi.js";
+import { tree, add } from "@/api/module/AuthorityApi.js";
 export default {
     data() {
         return {

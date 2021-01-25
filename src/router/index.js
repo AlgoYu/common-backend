@@ -6,11 +6,11 @@ Vue.use(VueRouter);
 const routes = [{
 	path: "/Login",
 	name: "登录界面",
-	component: () => import("../views/Login.vue")
+	component: () => import("@/views/Login.vue")
 }, {
 	path: "/",
 	name: "后台管理",
-	component: () => import("../views/Main.vue")
+	component: () => import("@/views/Main.vue")
 }];
 
 const router = new VueRouter({

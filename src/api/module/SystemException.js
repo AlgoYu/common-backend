@@ -1,6 +1,6 @@
 import {
 	request
-} from "./Request.js"
+} from "@/api/Request.js"
 
 // 分页获取异常信息
 export function paging(data, callback) {

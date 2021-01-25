@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { pagingTableByDatabaseName } from "../../api/CodeGenerator.js";
+import { pagingTableByDatabaseName } from "@/api/module/CodeGenerator.js";
 export default {
     data() {
         return {

@@ -9,15 +9,16 @@
                     class="transition-animations"
                     icon="el-icon-user-solid"
                     :size="isCollapse ? 35 : 100"
-                    :src="user.picture"
+                    :src="account.picture"
                     style="border: #000000 3px solid;"
                 ></el-avatar>
                 <div>
                     <p style="text-align: center;">
-                        <b>{{ user.username }}</b>
+                        <b>{{ account.name }}</b>
                     </p>
                 </div>
             </section>
+            <!-- 左侧菜单栏 -->
             <section>
                 <el-menu
                     router
@@ -26,10 +27,12 @@
                     :unique-opened="true"
                     style="width: auto;"
                 >
-                    <template v-for="menu in menus">
+                    <!-- 循环左侧菜单渲染 -->
+                    <template v-for="route in routes">
+                        <!-- child大于0的菜单组 -->
                         <el-submenu
-                            v-if="menu.children.length > 0"
-                            :index="menu.path"
+                            v-if="route.child.length > 0"
+                            :index="route.uri"
                         >
                             <template slot="title">
                                 <svg
@@ -39,15 +42,16 @@
                                 >
                                     <use
                                         :xlink:href="
-                                            '#' + global.icons.get(menu.key)
+                                            '#' + icons.get(route.key)
                                         "
                                     ></use>
                                 </svg>
-                                <span slot="title">{{ menu.name }}</span>
+                                <span slot="title">{{ route.name }}</span>
                             </template>
+                            <!-- 渲染没有子节点的单个菜单 -->
                             <el-menu-item
-                                :index="child.path"
-                                v-for="child in menu.children"
+                                :index="item.uri"
+                                v-for="item in route.child"
                             >
                                 <svg
                                     class="icon"
@@ -56,14 +60,15 @@
                                 >
                                     <use
                                         :xlink:href="
-                                            '#' + global.icons.get(child.key)
+                                            '#' + icons.get(item.key)
                                         "
                                     ></use>
                                 </svg>
-                                <span slot="title">{{ child.name }}</span>
+                                <span slot="title">{{ item.name }}</span>
                             </el-menu-item>
                         </el-submenu>
-                        <el-menu-item v-else :index="menu.path">
+                        <!-- 渲染没有子节点的单个菜单 -->
+                        <el-menu-item v-else :index="route.uri">
                             <svg
                                 class="icon"
                                 aria-hidden="true"
@@ -71,11 +76,11 @@
                             >
                                 <use
                                     :xlink:href="
-                                        '#' + global.icons.get(menu.key)
+                                        '#' + icons.get(route.key)
                                     "
                                 ></use>
                             </svg>
-                            <span slot="title">{{ menu.name }}</span>
+                            <span slot="title">{{ route.name }}</span>
                         </el-menu-item>
                     </template>
                 </el-menu>
@@ -161,9 +166,10 @@
 </template>
 
 <script>
-import { getLoginInfo } from "../api/SystemUserApi.js";
-import { getAuthorityTree } from "../api/SystemAuthorityApi.js";
-import { logout } from "../api/LoginApi.js";
+import { apiUrl,icons } from '@/global/Global.js';
+import { getMyInfo } from "@/api/module/AccountApi.js";
+import { getMyAuthorities } from "@/api/module/AuthorityApi.js";
+import { logout } from "@/api/module/LoginApi.js";
 
 export default {
     name: "Management",
@@ -173,11 +179,12 @@ export default {
             isCollapse: false,
             asideWidth: "200px",
             search: "",
-            user: {
+            account: {
                 username: "MachineGeek",
                 picture: "https://store.machine-geek.cn/Administrator.jpg"
             },
-            menus: []
+            routes: [],
+            icons: icons
         };
     },
     watch: {
@@ -190,33 +197,18 @@ export default {
     },
     methods: {
         init() {
-            if (this.$store.state.user === undefined) {
-                this.$router.push({
-                    path: "/Login"
-                });
-                return;
-            }
             // 获取用户信息
-            getLoginInfo(result => {
+            getMyInfo(result => {
                 if (result.success) {
-                    result.data.picture =
-                        this.global.apiUrl + res.data.data.picture;
-                    this.user = result.data;
+                    this.account = result.data;
+                    this.account.picture = apiUrl + this.account.picture;
                 }
             });
-            var authorities = this.$store.state.user.authorities;
-            authorities.sort((a, b) => {
-                return b.sort - a.sort;
-            });
-            // 获取菜单
-            this.menus = this.getChildren(
-                this.$store.state.user.authorities,
-                "0"
-            );
-            // 添加路由表
-            this.initRoutes();
-            this.$router.push({
-                path: "/DataCenter"
+            // 获取用户权限信息以及路由
+            getMyAuthorities(result => {
+                if(result.success){
+                    this.routes = result.data.routes;
+                }
             });
         },
         initRoutes() {

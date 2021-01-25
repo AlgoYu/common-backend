@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import { paging, clear } from "../../api/SystemException.js";
+import { paging, clear } from "@/api/module/SystemException.js";
 export default {
     data() {
         return {

@@ -7,18 +7,18 @@ export default new Vuex.Store({
 	state: {
 		accessToken: localStorage.getItem("accessToken"),
 		refreshToken: localStorage.getItem("refreshToken"),
-		user: JSON.parse(localStorage.getItem("user"))
+		id: localStorage.getItem("id")
 	},
 	mutations: {
-		updateUserInfo(state, data){
+		updateToken(state, data){
 			// 存入状态
 			state.accessToken = data.accessToken;
 			state.refreshToken = data.refreshToken;
-			state.user = data.user;
+			state.id = data.id;
 			// 存入LocalStorage
 			localStorage.setItem("accessToken",data.accessToken);
 			localStorage.setItem("refreshToken",data.refreshToken);
-			localStorage.setItem("user",JSON.stringify(data.user));
+			localStorage.setItem("id",data.id);
 		}
 	},
 	actions: {},

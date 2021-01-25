@@ -117,8 +117,8 @@ import {
     modifyWithAuthorityById,
     addWithAuthority,
     deleteById,
-} from "../../api/SystemRoleApi.js";
-import { tree, add } from "@/api/SystemAuthorityApi.js";
+} from "@/api/module/SystemRoleApi.js";
+import { tree, add } from "@/api/module/AuthorityApi.js";
 export default {
     data() {
         return {

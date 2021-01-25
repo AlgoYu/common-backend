@@ -1,13 +1,12 @@
-import Global from '../global/Global.js';
+import { apiUrl } from '@/global/Global.js';
 import Axios from 'axios';
-import Store from '../store/index.js';
-import Message from 'element-ui';
-import Router from "../router/index.js";
+import Store from '@/store/index.js';
+import Router from "@/router/index.js";
 
 // 携带Cookie
 Axios.defaults.withCredentials = true;
 // 默认URL
-Axios.defaults.baseURL = Global.apiUrl;
+Axios.defaults.baseURL = apiUrl;
 
 // 封装的请求
 export function request(method, url, data, callback) {
@@ -51,10 +50,6 @@ export function request(method, url, data, callback) {
 		}
 		// 如果权限不足
 		if(res.data.code == 403){
-			Message({
-				message: '权限不足！',
-				type: 'warning'
-			});
 		}
 		// 如果请求成功有回调函数
 		if (callback != null) {
@@ -62,10 +57,6 @@ export function request(method, url, data, callback) {
 		}
 	// 网络请求失败处理
 	}).catch((err) => {
-		Message({
-			message: '当前网络不通畅！',
-			type: 'warning'
-		});
 	})
 }
 

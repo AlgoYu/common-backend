@@ -1,6 +1,6 @@
 import {
 	request
-} from "./Request.js"
+} from "@/api/Request.js"
 
 // 获取数据库表
 export function pagingTableByDatabaseName(data, callback) {

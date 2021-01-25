@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<el-card class="box-card">
-			<section v-if="!faceView" class="login-panel">
+			<section class="login-panel">
 				<img src="https://wx4.sinaimg.cn/large/0065B4vHgy1g7u65sx5jsj309s08jwek.jpg" style="width: 50px;" class="logo" />
 				<h2>后台管理系统</h2>
 				<el-form :model="form" :rules="rules" ref="loginForm" label-width="100px">
@@ -29,7 +29,7 @@
 	import SwipeVerification from '../components/SwipeVerification.vue';
 	import {
 		login
-	} from '../api/LoginApi.js';
+	} from '@/api/module/LoginApi.js';
 
 	export default {
 		name: 'Login',
@@ -38,8 +38,6 @@
 		},
 		data() {
 			return {
-				faceView: false,
-				interval: null,
 				form: {
 					username: '',
 					password: ''
@@ -88,12 +86,12 @@
 							password: md5(this.form.password).toUpperCase()
 						}, (result) => {
 							if (result.success) {
-								this.$store.commit("updateUserInfo", result.data);
+								this.$store.commit("updateToken", result.data);
 								this.$message({
 									message: '登录成功！3秒后跳转至管理界面！',
 									type: 'success'
 								});
-								// 跳转页面
+								跳转页面
 								setTimeout(() => {
 									this.$router.push({
 										path: '/'

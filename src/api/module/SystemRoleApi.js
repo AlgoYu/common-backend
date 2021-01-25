@@ -1,4 +1,6 @@
-import { request } from "./Request.js"
+import {
+	request
+} from "@/api/Request.js"
 
 // 增加系统用户
 export function add(data){

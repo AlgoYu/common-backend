@@ -1,6 +1,6 @@
 import {
 	request
-} from "./Request.js"
+} from "@/api/Request.js"
 
 // 登录
 export function login(data, callback) {

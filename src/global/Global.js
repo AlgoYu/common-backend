@@ -1,7 +1,8 @@
-const apiUrl = "http://localhost:8888"
+// 后端地址
+const apiUrl = "http://127.0.0.1:8888"
 
 // 菜单图标
-var icons = new Map();
+const icons = new Map();
 icons.set("SYSTEM","icon-setup_fill");
 icons.set("DATACENTER","icon-chart");
 icons.set("DEVELOP:GENERATOR","icon-barrage_fill");
@@ -17,7 +18,5 @@ icons.set("DEVELOP:APPLICATIONMONITOR","icon-stealth_fill");
 icons.set("DEVELOP:DOCUMENTATION","icon-order_fill");
 icons.set("SYSTEM:DICTIONARY","icon-createtask");
 
-export default {
-	apiUrl,
-	icons
-}
+// 导出
+export {apiUrl, icons};

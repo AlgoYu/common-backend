@@ -42,21 +42,6 @@ VueAMap.initAMapApiLoader({
 	v: '1.4.4'
 })
 
-// 导入全局常量
-import Global from './global/Global'
-Vue.prototype.global = Global;
-
-// 导入权限验证
-import AuthorityVerity from "./global/AuthorityVerify"
-Vue.prototype.hasAuth = AuthorityVerity;
-
-// 导入Axios
-import Axios from 'axios'
-import VueAxios from 'vue-axios'
-Axios.defaults.baseURL = Global.apiUrl;
-Vue.use(VueAxios, Axios)
-
-
 Vue.config.productionTip = false;
 
 new Vue({

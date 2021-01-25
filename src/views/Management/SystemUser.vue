@@ -154,8 +154,8 @@ import {
     paging,
     getWithRoleById,
     modifyWithRoleById,
-} from "../../api/SystemUserApi.js";
-import { list } from "../../api/SystemRoleApi";
+} from "@/api/module/AccountApi.js";
+import { list } from "@/api/module/SystemRoleApi";
 import md5 from "js-md5";
 export default {
     data() {
