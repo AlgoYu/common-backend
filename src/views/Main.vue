@@ -4,6 +4,7 @@
             class="aside-area transition-animations"
             v-bind:style="{ width: asideWidth }"
         >
+            <!-- 头像 -->
             <section class="profile">
                 <el-avatar
                     class="transition-animations"
@@ -21,7 +22,7 @@
             <!-- 左侧菜单栏 -->
             <section>
                 <el-menu
-                    router
+                    @select="selectMenu"
                     :collapse="isCollapse"
                     :collapse-transition="false"
                     :unique-opened="true"
@@ -211,45 +212,14 @@ export default {
                 }
             });
         },
-        initRoutes() {
-            var authorities = this.$store.state.user.authorities;
-            var routes = new Array();
-            authorities.forEach(authority => {
-                if (authority.type == 0 && authority.path != null) {
-                    routes.push({
-                        path: authority.path,
-                        name: authority.name,
-                        component: () => import("@/views" + authority.path)
-                    });
-                }
+        // 跳转菜单
+        selectMenu(index){
+            let file = "@/views"+index+"/Index.vue";
+            console.log(file);
+            this.$router.push({
+                path: index,
+                component: ()=>import(file)
             });
-            this.$router.addRoutes([
-                {
-                    path: "/Login",
-                    name: "登录界面",
-                    component: () => import("../views/Login.vue")
-                },
-                {
-                    path: "/",
-                    name: "后台管理",
-                    component: () => import("../views/Main.vue"),
-                    redirect: "/DataCenter",
-                    children: routes
-                }
-            ]);
-        },
-        getChildren(authorities, id) {
-            var children = new Array();
-            authorities.forEach(authority => {
-                if (authority.parentId === id) {
-                    authority.children = this.getChildren(
-                        authorities,
-                        authority.id
-                    );
-                    children.push(authority);
-                }
-            });
-            return children;
         },
         handleCommand(command) {
             switch (command) {
