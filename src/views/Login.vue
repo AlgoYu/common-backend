@@ -91,7 +91,7 @@
 									message: '登录成功！3秒后跳转至管理界面！',
 									type: 'success'
 								});
-								跳转页面
+								//跳转页面
 								setTimeout(() => {
 									this.$router.push({
 										path: '/'

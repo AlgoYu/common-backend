@@ -22,7 +22,7 @@
             <!-- 左侧菜单栏 -->
             <section>
                 <el-menu
-                    @select="selectMenu"
+                    router
                     :collapse="isCollapse"
                     :collapse-transition="false"
                     :unique-opened="true"
@@ -170,6 +170,7 @@
 import { apiUrl,icons } from '@/global/Global.js';
 import { getMyInfo } from "@/api/module/AccountApi.js";
 import { getMyAuthorities } from "@/api/module/AuthorityApi.js";
+import { createRoutes } from "@/util/RouterUtil.js";
 import { logout } from "@/api/module/LoginApi.js";
 
 export default {
@@ -184,8 +185,8 @@ export default {
                 username: "MachineGeek",
                 picture: "https://store.machine-geek.cn/Administrator.jpg"
             },
-            routes: [],
-            icons: icons
+            icons: icons,
+            routes: []
         };
     },
     watch: {
@@ -209,17 +210,13 @@ export default {
             getMyAuthorities(result => {
                 if(result.success){
                     this.routes = result.data.routes;
+                    // 创建新的路由
+                    let temp = createRoutes(result.data.routes);
+                    console.log(temp);
+                    this.$router.addRoutes(temp);                    
                 }
             });
-        },
-        // 跳转菜单
-        selectMenu(index){
-            let file = "@/views"+index+"/Index.vue";
-            console.log(file);
-            this.$router.push({
-                path: index,
-                component: ()=>import(file)
-            });
+            // console.log(this.$route);
         },
         handleCommand(command) {
             switch (command) {

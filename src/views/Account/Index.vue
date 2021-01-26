@@ -5,7 +5,6 @@
                 <el-col :span="10">
                     <el-button
                         type="primary"
-                        v-if="hasAuth('MANAGEMENT:SYSTEMUSER:ADD')"
                         @click="addData"
                         >增加</el-button
                     >
@@ -16,7 +15,6 @@
                         v-model="param.keyWord"
                         placeholder="按关键字搜索内容"
                         suffix-icon="el-icon-search"
-                        v-if="hasAuth('MANAGEMENT:SYSTEMUSER:GET')"
                     ></el-input>
                 </el-col>
             </el-row>
@@ -24,7 +22,6 @@
         <el-table
             :data="table.data"
             style="width: 100%"
-            v-if="hasAuth('MANAGEMENT:SYSTEMUSER:GET')"
             v-loading="load"
         >
             <el-table-column prop="id" label="ID" align="center">
@@ -35,7 +32,7 @@
                         class="transition-animations"
                         icon="el-icon-user-solid"
                         :size="50"
-                        :src="global.apiUrl + scope.row.picture"
+                        :src="scope.row.picture"
                         style="border: #000000 2px solid"
                     ></el-avatar>
                     <span style="margin-left: 10px">{{ scope.row.date }}</span>
@@ -72,13 +69,11 @@
                     <el-button
                         type="info"
                         @click="edit(scope.row)"
-                        v-if="hasAuth('MANAGEMENT:SYSTEMUSER:MODIFY')"
                         >编辑</el-button
                     >
                     <el-button
                         type="danger"
                         @click="deleteData(scope.row)"
-                        v-if="hasAuth('MANAGEMENT:SYSTEMUSER:DELETE')"
                         >删除</el-button
                     >
                 </template>
@@ -216,9 +211,7 @@ export default {
         };
     },
     created() {
-        if(this.hasAuth('MANAGEMENT:SYSTEMUSER:GET')){
-            this.init();
-        }
+        this.init();
     },
     methods: {
         init() {
