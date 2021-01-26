@@ -223,7 +223,8 @@ export default {
                         .then(() => {
                             logout(
                                 {
-                                    refreshToken: this.$store.state.refreshToken
+                                    refreshToken: this.$store.state
+                                        .refreshToken,
                                 },
                                 (result) => {
                                     if (result.success) {
