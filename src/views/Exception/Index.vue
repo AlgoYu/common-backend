@@ -3,7 +3,9 @@
         <div style="margin-top: 10px; margin-bottom: 10px">
             <el-row>
                 <el-col :span="10">
-                    <el-button @click="clearSytemException">清空异常信息</el-button>
+                    <el-button @click="clearSytemException"
+                        >清空异常信息</el-button
+                    >
                 </el-col>
                 <el-col :span="4" :offset="10">
                     <el-input
@@ -94,7 +96,7 @@
         <el-pagination
             layout="prev, pager, next"
             :total="table.total"
-            style="text-align: center;"
+            style="text-align: center"
         >
         </el-pagination>
     </div>
@@ -108,12 +110,12 @@ export default {
             param: {
                 page: 1,
                 size: 10,
-                keyWord: ""
+                keyWord: "",
             },
             table: {
                 total: 0,
-                data: []
-            }
+                data: [],
+            },
         };
     },
     created() {
@@ -121,7 +123,7 @@ export default {
     },
     methods: {
         init() {
-            paging(this.param, result => {
+            paging(this.param, (result) => {
                 if (result.success) {
                     this.table.total = parseInt(result.data.total);
                     this.table.data = result.data.records;
@@ -129,16 +131,17 @@ export default {
             });
         },
         clearSytemException() {
-            clear(result => {
-                if(result.success){
+            clear((result) => {
+                if (result.success) {
                     this.$message({
-                    message: "恭喜你，这是一条成功消息",
-                    type: "success"
-                });
+                        message: "恭喜你，这是一条成功消息",
+                        type: "success",
+                    });
+                    this.init();
                 }
             });
-        }
-    }
+        },
+    },
 };
 </script>
 

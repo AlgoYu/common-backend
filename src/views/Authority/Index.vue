@@ -1,58 +1,22 @@
 <template>
     <div>
-        <el-tree node-key="id" :data="tree.data" :props="tree.defaultProps">
-            <div slot-scope="{ node, data }">
-                <span>{{ data.name }}</span>
-                <el-button
-                    type="text"
-                    size="mini"
-                    @click="addNode(data.id)"
-                >
-                    增加节点
-                </el-button>
-            </div>
-        </el-tree>
-        <el-dialog
-            title="添加子节点"
-            :visible.sync="formDialog"
-            width="30%"
-            :close-on-click-modal="false"
+        <el-table
+            :data="table.data"
+            style="width: 100%; margin-bottom: 20px"
+            row-key="id"
+            :tree-props="{ children: 'child',hasChildren: 'hasChildren'}"
         >
-            <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-                <el-form-item label="权限名称" prop="name">
-                    <el-input v-model="form.name"></el-input>
-                </el-form-item>
-                <el-form-item label="父菜单ID" prop="parentId">
-                    <el-input
-                        v-model="form.parentId"
-                        :disabled="true"
-                    ></el-input>
-                </el-form-item>
-                <el-form-item label="描述" prop="description">
-                    <el-input
-                        type="textarea"
-                        :rows="2"
-                        placeholder="请输入内容"
-                        v-model="form.description"
-                    >
-                    </el-input>
-                </el-form-item>
-                <el-form-item label="路径" prop="path">
-                    <el-input
-                        placeholder="请输入路径"
-                        v-model="form.path"
-                        clearable
-                    >
-                    </el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="addAuthority"
-                        >立即创建</el-button
-                    >
-                    <el-button @click="formDialog = false">取消</el-button>
-                </el-form-item>
-            </el-form>
-        </el-dialog>
+            <el-table-column prop="id" label="ID" align="center">
+            </el-table-column>
+            <el-table-column prop="name" label="权限名" align="center">
+            </el-table-column>
+            <el-table-column prop="key" label="权限字符" align="center">
+            </el-table-column>
+            <el-table-column prop="sort" label="排序" align="center">
+            </el-table-column>
+            <el-table-column prop="uri" label="组件" align="center">
+            </el-table-column>
+        </el-table>
     </div>
 </template>
 
@@ -61,48 +25,9 @@ import AuthorityApi from "@/api/module/AuthorityApi.js";
 export default {
     data() {
         return {
-            form: {
-                name: "",
-                parentId: "",
-                sort: "",
-                description: "",
-                path: ""
-            },
-            rules: {
-                name: [
-                    {
-                        required: true,
-                        message: "请输入权限名称",
-                        trigger: "blur"
-                    },
-                    {
-                        min: 2,
-                        max: 10,
-                        message: "长度在 2 到 10 个字符",
-                        trigger: "blur"
-                    }
-                ],
-                parentId: [
-                    {
-                        required: true,
-                        message: "父节点ID不可为空",
-                        trigger: "change"
-                    }
-                ]
-            },
-            param: {
-                page: 1,
-                size: 10,
-                keyWord: ""
-            },
-            formDialog: false,
-            tree: {
+            table: {
                 data: [],
-                defaultProps: {
-                    children: "children",
-                    label: "name"
-                }
-            }
+            },
         };
     },
     created() {
@@ -110,43 +35,13 @@ export default {
     },
     methods: {
         init() {
-            AuthorityApi.tree(result => {
+            AuthorityApi.tree((result) => {
                 if (result.success) {
-                    this.tree.data = result.data;
-                }
-            });
-        },
-        addNode(id) {
-            this.form.parentId = id;
-            this.formDialog = true;
-        },
-        addAuthority() {
-            this.$refs["form"].validate(valid => {
-                if (valid) {
-                    add(this.form, result => {
-                        if (result.success) {
-                            this.$message({
-                                message: "添加成功",
-                                type: "success"
-                            });
-                            this.formDialog = false;
-                        } else {
-                            this.$message({
-                                message: result.msg,
-                                type: "warning"
-                            });
-                        }
-                    });
-                } else {
-                    this.$message({
-                        message: "请完成表单",
-                        type: "warning"
-                    });
-                    return false;
+                    this.table.data = result.data;
                 }
             });
         }
-    }
+    },
 };
 </script>
 

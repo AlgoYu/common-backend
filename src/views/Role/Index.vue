@@ -227,6 +227,7 @@ export default {
             this.$refs["form"].validate((valid) => {
                 if (valid) {
                     this.form.authorityIds = this.$refs.tree.getCheckedKeys();
+                    this.form.name = "ROLE_"
                     switch (this.statu) {
                         case "add":
                             RoleApi.addWithAuthority(this.form, (result) => {
