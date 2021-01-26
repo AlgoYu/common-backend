@@ -18,8 +18,8 @@ function modifyById(data,callback){
 }
 
 // 获取角色列表
-function list(){
-	request("get","/role/list",null);
+function list(callback){
+	request("get","/role/list",null,callback);
 }
 
 // 分页获取角色

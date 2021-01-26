@@ -1,9 +1,10 @@
 <template>
     <div>
+        <!-- 顶部菜单 -->
         <div style="margin-top: 10px; margin-bottom: 10px">
             <el-row>
                 <el-col :span="10">
-                    <el-button type="primary" @click="addData">增加</el-button>
+                    <el-button type="primary" @click="add">增加</el-button>
                 </el-col>
                 <el-col :span="4" :offset="10">
                     <el-input
@@ -15,7 +16,7 @@
                 </el-col>
             </el-row>
         </div>
-        <!-- 表单 -->
+        <!-- 表格 -->
         <el-table :data="table.data" style="width: 100%" v-loading="load">
             <el-table-column prop="id" label="ID" align="center">
             </el-table-column>
@@ -48,13 +49,7 @@
                     >
                         启用
                     </el-tag>
-                    <el-tag
-                        v-else
-                        type="danger"
-                        effect="dark"
-                    >
-                        禁用
-                    </el-tag>
+                    <el-tag v-else type="danger" effect="dark"> 禁用 </el-tag>
                 </template>
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间" align="center">
@@ -66,12 +61,13 @@
                     <el-button type="info" @click="edit(scope.row)"
                         >编辑</el-button
                     >
-                    <el-button type="danger" @click="deleteData(scope.row)"
+                    <el-button type="danger" @click="remove(scope.row)"
                         >删除</el-button
                     >
                 </template>
             </el-table-column>
         </el-table>
+        <!-- 分页 -->
         <el-pagination
             layout="prev, pager, next"
             :total="table.total"
@@ -79,6 +75,7 @@
             v-if="table.data.length > 0"
         >
         </el-pagination>
+        <!-- 表单 -->
         <el-dialog
             title="角色"
             :visible.sync="formDialog"
@@ -87,36 +84,38 @@
         >
             <el-form ref="form" :rules="rules" :model="form" label-width="80px">
                 <el-form-item label="id" prop="parentId" v-if="statu == 'edit'">
-                    <el-input v-model="form.id" :disabled="true"></el-input>
+                    {{ form.id }}
                 </el-form-item>
                 <el-form-item label="用户名" prop="username">
+                    <el-tag v-if="statu == 'edit'" type="success" effect="dark">
+                        {{ form.name }}
+                    </el-tag>
                     <el-input
-                        v-model="form.username"
+                        v-else
+                        v-model="form.name"
                         :disabled="statu == 'edit'"
                     ></el-input>
                 </el-form-item>
-                <el-form-item
-                    label="密码"
-                    prop="password"
-                    v-if="statu == 'add'"
-                >
-                    <el-input v-model="form.password"></el-input>
+                <el-form-item label="手机" prop="mobile">
+                    <el-input v-model="form.mobile"></el-input>
                 </el-form-item>
-                <el-form-item label="昵称" prop="nickname">
-                    <el-input v-model="form.nickname"></el-input>
+                <el-form-item label="密码" prop="password" v-if="statu == 'add'">
+                    <el-input type="password" v-model="form.password"></el-input>
                 </el-form-item>
-                <el-form-item label="描述" prop="description">
-                    <el-input
-                        type="textarea"
-                        :rows="2"
-                        placeholder="请输入内容"
-                        v-model="form.description"
+                <el-form-item label="邮箱" prop="email">
+                    <el-input v-model="form.email"></el-input>
+                </el-form-item>
+                <el-form-item label="状态" prop="enable">
+                    <el-switch
+                        v-model="form.enable"
+                        active-color="#13ce66"
+                        inactive-color="#ff4949"
                     >
-                    </el-input>
+                    </el-switch>
                 </el-form-item>
                 <el-form-item label="角色">
                     <el-select
-                        v-model="form.systemRoleIds"
+                        v-model="form.roleIds"
                         multiple
                         placeholder="请选择"
                         width="100%"
@@ -150,24 +149,18 @@ export default {
             statu: "",
             form: {
                 id: "",
-                username: "",
+                name: "",
+                mobile: "",
                 password: "",
-                nickname: "",
-                description: "",
-                systemRoleIds: [],
+                email: "",
+                enable: false,
+                roleIds: [],
             },
             rules: {
-                id: [
+                mobile: [
                     {
                         required: true,
-                        message: "用户ID不可为空",
-                        trigger: "change",
-                    },
-                ],
-                username: [
-                    {
-                        required: true,
-                        message: "用户名不可为空",
+                        message: "手机号码不可为空",
                         trigger: "blur",
                     },
                 ],
@@ -178,10 +171,10 @@ export default {
                         trigger: "blur",
                     },
                 ],
-                nickname: [
+                email: [
                     {
                         required: true,
-                        message: "用户昵称不可为空",
+                        message: "邮箱不可为空",
                         trigger: "blur",
                     },
                 ],
@@ -205,31 +198,47 @@ export default {
         this.init();
     },
     methods: {
+        // 初始化角色数据
         init() {
             this.getPage();
             RoleApi.list((result) => {
+                console.log(result.data);
                 if (result.success) {
                     this.selector.data = result.data;
+                    console.log(result.data);
                 }
             });
         },
+        // 编辑账户
         edit(row) {
             this.statu = "edit";
-            getWithRoleById({ id: row.id }, (result) => {
+            AccountApi.getWithRoleById({ id: row.id }, (result) => {
                 if (result.success) {
-                    this.form = result.data;
+                    this.form = {
+                        id: result.data.account.id,
+                        name: result.data.account.name,
+                        mobile: result.data.account.mobile,
+                        email: result.data.account.email,
+                        enable: result.data.account.enable,
+                        roleIds: [],
+                    };
+                    let ids = [];
+                    result.data.roles.forEach((role) => {
+                        ids.push(role.id);
+                    });
+                    this.form.roleIds = ids;
                     this.formDialog = true;
                 }
             });
         },
-        deleteData(row) {
+        remove(row) {
             this.$confirm("确认删除这条数据吗?", "警告", {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
                 type: "warning",
             })
                 .then(() => {
-                    deleteById(
+                    AccountApi.deleteById(
                         {
                             id: row.id,
                         },
@@ -246,18 +255,21 @@ export default {
                 })
                 .catch(() => {});
         },
-        addData() {
+        // 增加账户
+        add() {
             this.statu = "add";
-            this.form = {
+            (this.form = {
                 id: "",
-                username: "",
+                name: "",
+                mobile: "",
                 password: "",
-                nickname: "",
-                description: "",
-                systemRoleIds: [],
-            };
-            this.formDialog = true;
+                email: "",
+                enable: false,
+                roleIds: [],
+            }),
+                (this.formDialog = true);
         },
+        // 获取分页
         getPage() {
             this.load = true;
             AccountApi.paging(this.param, (result) => {
@@ -268,6 +280,7 @@ export default {
                 this.load = false;
             });
         },
+        // 保存操作
         save() {
             this.$refs["form"].validate((valid) => {
                 if (valid) {
@@ -276,7 +289,7 @@ export default {
                             this.load = true;
                             let temp = this.form;
                             temp.password = md5(temp.password);
-                            add(temp, (result) => {
+                            AccountApi.add(temp, (result) => {
                                 if (result.success) {
                                     this.$message({
                                         message: "保存成功!",
@@ -293,21 +306,24 @@ export default {
                             });
                             break;
                         case "edit":
-                            modifyWithRoleById(this.form, (result) => {
-                                if (result.success) {
-                                    this.$message({
-                                        message: "保存成功!",
-                                        type: "success",
-                                    });
-                                    this.getPage();
-                                } else {
-                                    this.$message({
-                                        message: "保存失败！",
-                                        type: "warning",
-                                    });
+                            AccountApi.modifyWithRoleById(
+                                this.form,
+                                (result) => {
+                                    if (result.success) {
+                                        this.$message({
+                                            message: "保存成功!",
+                                            type: "success",
+                                        });
+                                        this.getPage();
+                                    } else {
+                                        this.$message({
+                                            message: "保存失败！",
+                                            type: "warning",
+                                        });
+                                    }
+                                    this.load = false;
                                 }
-                                this.load = false;
-                            });
+                            );
                             break;
                     }
                     this.formDialog = false;

@@ -8,8 +8,8 @@ function add(data, callback) {
 }
 
 // 根据ID账户
-function modifyById(data, callback) {
-	request("put", "/account/modifyById", data, callback);
+function modifyWithRoleById(data, callback) {
+	request("put", "/account/modifyWithRoleById", data, callback);
 }
 
 // 根据ID重置账户密码
@@ -22,9 +22,9 @@ function paging(data, callback) {
 	request("get", "/account/paging", data, callback);
 }
 
-// 根据ID获取账户
-function getById(data, callback) {
-	request("get", "/account/getById", data, callback);
+// 根据ID获取账户以及角色信息
+function getWithRoleById(data, callback) {
+	request("get", "/account/getWithRoleById", data, callback);
 }
 
 // 获取当前账户信息
@@ -41,9 +41,9 @@ function deleteById(data, callback) {
 export default {
 	add,
 	deleteById,
-	modifyById,
+	modifyWithRoleById,
 	reset,
 	paging,
-	getById,
+	getWithRoleById,
 	getMyInfo
 }
