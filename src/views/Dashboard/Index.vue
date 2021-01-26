@@ -142,7 +142,7 @@
 </template>
 
 <script>
-	import AuthorCard from '../components/AuthorCard.vue'
+	import AuthorCard from '@/components/AuthorCard.vue'
 	export default {
 		name: 'Dashboard',
 		components:{
