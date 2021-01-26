@@ -79,15 +79,17 @@
         <el-dialog
             title="角色"
             :visible.sync="formDialog"
-            width="30%"
+            width="600px"
             :close-on-click-modal="false"
         >
             <el-form ref="form" :rules="rules" :model="form" label-width="80px">
                 <el-form-item label="id" prop="parentId" v-if="statu == 'edit'">
-                    {{ form.id }}
+                    <el-tag v-if="statu == 'edit'" type="" effect="plain">
+                        {{ form.id }}
+                    </el-tag>
                 </el-form-item>
                 <el-form-item label="用户名" prop="username">
-                    <el-tag v-if="statu == 'edit'" type="success" effect="dark">
+                    <el-tag v-if="statu == 'edit'" type="" effect="plain">
                         {{ form.name }}
                     </el-tag>
                     <el-input
@@ -118,7 +120,6 @@
                         v-model="form.roleIds"
                         multiple
                         placeholder="请选择"
-                        width="100%"
                     >
                         <el-option
                             v-for="role in selector.data"
@@ -220,7 +221,7 @@ export default {
                         mobile: result.data.account.mobile,
                         email: result.data.account.email,
                         enable: result.data.account.enable,
-                        roleIds: [],
+                        roleIds: []
                     };
                     let ids = [];
                     result.data.roles.forEach((role) => {

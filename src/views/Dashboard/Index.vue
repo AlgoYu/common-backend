@@ -1,7 +1,8 @@
 <template>
 	<section>
+		<!-- 第一行 -->
 		<el-row :gutter="20" class="row-style">
-			<el-col :span="6">
+			<el-col :xs="24" :sm="12" :lg="6">
 				<el-card class="box-card">
 					<div class="info-box">
 						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #2E68AA;">
@@ -21,7 +22,7 @@
 					<font style="margin-left: 5px;">截止现在</font>
 				</el-card>
 			</el-col>
-			<el-col :span="6">
+			<el-col :xs="24" :sm="12" :lg="6">
 				<el-card class="box-card">
 					<div class="info-box">
 						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #56A36C;">
@@ -41,7 +42,7 @@
 					<font style="margin-left: 5px;">截止现在</font>
 				</el-card>
 			</el-col>
-			<el-col :span="6">
+			<el-col :xs="24" :sm="12" :lg="6">
 				<el-card class="box-card">
 					<div class="info-box">
 						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #EB3F2F;">
@@ -61,7 +62,7 @@
 					<font style="margin-left: 5px;">截止现在</font>
 				</el-card>
 			</el-col>
-			<el-col :span="6">
+			<el-col :xs="24" :sm="12" :lg="6">
 				<el-card class="box-card">
 					<div class="info-box">
 						<svg class="icon" aria-hidden="true" style="font-size: 50px;color: #00D2D0;">
@@ -82,6 +83,7 @@
 				</el-card>
 			</el-col>
 		</el-row>
+		<!-- 第二行 -->
 		<el-row :gutter="20" class="row-style">
 			<el-col :span="6">
 				<el-row :gutter="20">

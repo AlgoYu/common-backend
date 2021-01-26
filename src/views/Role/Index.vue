@@ -46,7 +46,7 @@
         <el-dialog
             title="角色"
             :visible.sync="formDialog"
-            width="30%"
+            width="600px"
             :close-on-click-modal="false"
         >
             <el-form ref="form" :rules="rules" :model="form" label-width="80px">
