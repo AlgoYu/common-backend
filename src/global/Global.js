@@ -17,4 +17,4 @@ icons.set("DOCUMENT","icon-order_fill");
 icons.set("SYSTEM","icon-createtask");
 
 // 导出
-export {apiUrl, icons};
+export { apiUrl, icons};

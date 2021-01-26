@@ -1,7 +1,7 @@
 <template>
     <el-card class="box-card" style="height:100%;width:100%" body-style="height:100%">
         <iframe
-            :src="global.apiUrl + '/druid/index.html'"
+            :src="apiUrl + '/druid/index.html'"
             frameborder="0"
             scrolling="no"
             width="100%"

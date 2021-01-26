@@ -42,6 +42,10 @@ VueAMap.initAMapApiLoader({
 	v: '1.4.4'
 })
 
+// 导入全局常量
+import {apiUrl} from "@/global/Global.js"
+Vue.prototype.apiUrl = apiUrl;
+
 Vue.config.productionTip = false;
 
 new Vue({

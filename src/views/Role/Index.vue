@@ -5,7 +5,6 @@
                 <el-col :span="10">
                     <el-button
                         type="primary"
-                        v-if="hasAuth('MANAGEMENT:SYSTEMROLE:ADD')"
                         @click="addData"
                         >增加</el-button
                     >
@@ -15,7 +14,6 @@
                         v-model="form.keyWord"
                         placeholder="按关键字搜索内容"
                         suffix-icon="el-icon-search"
-                        v-if="hasAuth('MANAGEMENT:SYSTEMROLE:GET')"
                     ></el-input>
                 </el-col>
             </el-row>
@@ -23,7 +21,6 @@
         <el-table
             :data="table.data"
             style="width: 100%"
-            v-if="hasAuth('MANAGEMENT:SYSTEMROLE:GET')"
             v-loading="load"
         >
             <el-table-column prop="id" label="ID" align="center">
@@ -43,13 +40,11 @@
                     <el-button
                         type="info"
                         @click="edit(scope.row)"
-                        v-if="hasAuth('MANAGEMENT:SYSTEMROLE:MODIFY')"
                         >编辑</el-button
                     >
                     <el-button
                         type="danger"
                         @click="deleteData(scope.row)"
-                        v-if="hasAuth('MANAGEMENT:SYSTEMROLE:ADD')"
                         >删除</el-button
                     >
                 </template>
