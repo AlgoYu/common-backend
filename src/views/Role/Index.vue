@@ -69,7 +69,6 @@
                         accordion
                         ref="tree"
                         node-key="id"
-                        :default-checked-keys="form.authorityIds"
                         :data="tree.data"
                         :props="tree.defaultProps"
                     >
@@ -111,7 +110,7 @@ export default {
                         max: 10,
                         message: "长度在 2 到 10 个字符",
                         trigger: "blur",
-                    },
+                    }
                 ],
                 key: [
                     {
@@ -203,31 +202,35 @@ export default {
                         key: result.data.role.key,
                         authorityIds: [],
                     };
-                    let ids = [];
-                    result.data.authorities.forEach((authority)=>{
-                        ids.push(authority.id);
-                    });
-                    this.form.authorityIds = ids;
                     this.formDialog = true;
-                    this.$refs.tree.setCheckedKeys([])
+                    // 循环勾选节点（ElementUI必须这么做）
+                    this.$nextTick(() => {
+                        result.data.authorities.forEach((authority) => {
+                            // 先确定在树种属于叶子节点，是的话进行勾选，这样父节点也会变成半选状态。
+                            if(this.$refs.tree.getNode(authority.id).isLeaf){
+                                this.$refs.tree.setChecked(authority.id,true,false);
+                            }
+                        });
+                    });
                 }
             });
         },
         add() {
             this.statu = "add";
-            (this.form = {
+            this.form = {
                 id: "",
                 name: "",
                 key: "",
                 authorityIds: [],
-            }),
-                (this.formDialog = true);
+            };
+            this.formDialog = true;
         },
         save() {
             this.$refs["form"].validate((valid) => {
                 if (valid) {
-                    this.form.authorityIds = this.$refs.tree.getCheckedKeys();
-                    this.form.name = "ROLE_"
+                    // 获取所有选中节点和半选节点
+                    this.form.authorityIds = this.$refs.tree.getCheckedKeys().concat(this.$refs.tree.getHalfCheckedKeys());
+                    console.log(this.form.authorityIds);
                     switch (this.statu) {
                         case "add":
                             RoleApi.addWithAuthority(this.form, (result) => {
@@ -247,20 +250,23 @@ export default {
                             });
                             break;
                         case "edit":
-                            RoleApi.modifyWithAuthorityById(this.form, (result) => {
-                                if (result.success) {
-                                    this.$message({
-                                        message: "保存成功!",
-                                        type: "success",
-                                    });
-                                    this.getPage();
-                                } else {
-                                    this.$message({
-                                        message: "保存失败！",
-                                        type: "warning",
-                                    });
+                            RoleApi.modifyWithAuthorityById(
+                                this.form,
+                                (result) => {
+                                    if (result.success) {
+                                        this.$message({
+                                            message: "保存成功!",
+                                            type: "success",
+                                        });
+                                        this.getPage();
+                                    } else {
+                                        this.$message({
+                                            message: "保存失败！",
+                                            type: "warning",
+                                        });
+                                    }
                                 }
-                            });
+                            );
                             break;
                     }
                     this.formDialog = false;
