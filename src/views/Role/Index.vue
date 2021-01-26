@@ -3,11 +3,7 @@
         <div style="margin-top: 10px; margin-bottom: 10px">
             <el-row>
                 <el-col :span="10">
-                    <el-button
-                        type="primary"
-                        @click="addData"
-                        >增加</el-button
-                    >
+                    <el-button type="primary" @click="add">增加</el-button>
                 </el-col>
                 <el-col :span="4" :offset="10">
                     <el-input
@@ -18,18 +14,12 @@
                 </el-col>
             </el-row>
         </div>
-        <el-table
-            :data="table.data"
-            style="width: 100%"
-            v-loading="load"
-        >
+        <el-table :data="table.data" style="width: 100%" v-loading="load">
             <el-table-column prop="id" label="ID" align="center">
             </el-table-column>
             <el-table-column prop="name" label="角色名" align="center">
             </el-table-column>
             <el-table-column prop="key" label="权限字符" align="center">
-            </el-table-column>
-            <el-table-column prop="description" label="描述" align="center">
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间" align="center">
             </el-table-column>
@@ -37,14 +27,10 @@
             </el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-button
-                        type="info"
-                        @click="edit(scope.row)"
+                    <el-button type="info" @click="edit(scope.row)"
                         >编辑</el-button
                     >
-                    <el-button
-                        type="danger"
-                        @click="deleteData(scope.row)"
+                    <el-button type="danger" @click="remove(scope.row)"
                         >删除</el-button
                     >
                 </template>
@@ -56,6 +42,7 @@
             style="text-align: center"
         >
         </el-pagination>
+        <!-- 表单 -->
         <el-dialog
             title="角色"
             :visible.sync="formDialog"
@@ -73,14 +60,8 @@
                 <el-form-item label="角色名称" prop="name">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
-                <el-form-item label="描述" prop="description">
-                    <el-input
-                        type="textarea"
-                        :rows="2"
-                        placeholder="请输入内容"
-                        v-model="form.description"
-                    >
-                    </el-input>
+                <el-form-item label="角色字符" prop="key">
+                    <el-input v-model="form.key"></el-input>
                 </el-form-item>
                 <el-form-item label="权限">
                     <el-tree
@@ -88,11 +69,9 @@
                         accordion
                         ref="tree"
                         node-key="id"
-                        :check-strictly="true"
-                        :default-checked-keys="form.systemAuthorityIds"
+                        :default-checked-keys="form.authorityIds"
                         :data="tree.data"
                         :props="tree.defaultProps"
-                        getCheckedKeys="selectKeys"
                     >
                     </el-tree>
                 </el-form-item>
@@ -107,7 +86,7 @@
 
 <script>
 import RoleApi from "@/api/module/RoleApi.js";
-import { tree, add } from "@/api/module/AuthorityApi.js";
+import AuthorityApi from "@/api/module/AuthorityApi.js";
 export default {
     data() {
         return {
@@ -116,8 +95,8 @@ export default {
             form: {
                 id: "",
                 name: "",
-                description: "",
-                systemAuthorityIds: [],
+                key: "",
+                authorityIds: [],
             },
             selects: [],
             rules: {
@@ -134,6 +113,13 @@ export default {
                         trigger: "blur",
                     },
                 ],
+                key: [
+                    {
+                        required: true,
+                        message: "角色字符不可为空",
+                        trigger: "change",
+                    },
+                ],
                 id: [
                     {
                         required: true,
@@ -145,7 +131,7 @@ export default {
             tree: {
                 data: [],
                 defaultProps: {
-                    children: "children",
+                    children: "child",
                     label: "name",
                 },
             },
@@ -167,84 +153,100 @@ export default {
     methods: {
         init() {
             this.getPage();
-            tree((result) => {
+            AuthorityApi.tree((result) => {
                 if (result.success) {
                     this.tree.data = result.data;
                 }
             });
         },
         getPage() {
+            this.load = true;
             RoleApi.paging(this.param, (result) => {
                 if (result.success) {
-                    this.table.total = result.data.total;
+                    this.table.total = parseInt(result.data.total);
                     this.table.data = result.data.records;
-                    this.load = false;
                 }
+                this.load = false;
             });
         },
-        deleteData(row) {
+        remove(row) {
             this.$confirm("确认删除这条数据吗?", "警告", {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
                 type: "warning",
             })
                 .then(() => {
-                    deleteById({
-                        id: row.id
-                    },(result)=>{
-                        if(result.success){
-                            this.$message({
-                                message: "删除成功!",
-                                type: "success",
-                            });
-                            this.getPage();
+                    RoleApi.deleteById(
+                        {
+                            id: row.id,
+                        },
+                        (result) => {
+                            if (result.success) {
+                                this.$message({
+                                    message: "删除成功!",
+                                    type: "success",
+                                });
+                                this.getPage();
+                            }
                         }
-                    });
+                    );
                 })
                 .catch(() => {});
         },
         edit(row) {
             this.statu = "edit";
-            getWithAuthorityById({ id: row.id }, (result) => {
+            RoleApi.getWithAuthorityById({ id: row.id }, (result) => {
                 if (result.success) {
-                    this.form = result.data;
+                    this.form = {
+                        id: result.data.role.id,
+                        name: result.data.role.name,
+                        key: result.data.role.key,
+                        authorityIds: [],
+                    };
+                    let ids = [];
+                    result.data.authorities.forEach((authority)=>{
+                        ids.push(authority.id);
+                    });
+                    this.form.authorityIds = ids;
                     this.formDialog = true;
+                    this.$refs.tree.setCheckedKeys([])
                 }
             });
         },
-        addData() {
+        add() {
             this.statu = "add";
-            this.form = {
+            (this.form = {
                 id: "",
                 name: "",
-                description: "",
-                systemAuthorityIds: [],
-            };
-            this.formDialog = true;
+                key: "",
+                authorityIds: [],
+            }),
+                (this.formDialog = true);
         },
         save() {
             this.$refs["form"].validate((valid) => {
                 if (valid) {
-                    this.form.systemAuthorityIds = this.$refs.tree.getCheckedKeys();
+                    this.form.authorityIds = this.$refs.tree.getCheckedKeys();
                     switch (this.statu) {
                         case "add":
-                            addWithAuthority(this.form, (result) => {
+                            RoleApi.addWithAuthority(this.form, (result) => {
+                                console.log(result);
                                 if (result.success) {
                                     this.$message({
-                                        message: "保存成功!",
+                                        message: "添加成功!",
                                         type: "success",
                                     });
                                     this.getPage();
                                 } else {
                                     this.$message({
-                                        message: "保存失败！",
+                                        message: "添加失败！",
                                         type: "warning",
                                     });
                                 }
                             });
                             break;
                         case "edit":
-                            modifyWithAuthorityById(this.form, (result) => {
+                            RoleApi.modifyWithAuthorityById(this.form, (result) => {
                                 if (result.success) {
                                     this.$message({
                                         message: "保存成功!",
@@ -269,9 +271,6 @@ export default {
                     return false;
                 }
             });
-        },
-        selectKeys(data) {
-            console.log(data);
         },
     },
 };

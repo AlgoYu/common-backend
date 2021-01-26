@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { tree, add } from "@/api/module/AuthorityApi.js";
+import AuthorityApi from "@/api/module/AuthorityApi.js";
 export default {
     data() {
         return {
@@ -110,7 +110,7 @@ export default {
     },
     methods: {
         init() {
-            tree(result => {
+            AuthorityApi.tree(result => {
                 if (result.success) {
                     this.tree.data = result.data;
                 }

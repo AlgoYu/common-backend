@@ -8,6 +8,6 @@ export function login(data, callback) {
 }
 
 // 登录
-export function logout() {
-	request("get", "/logout", null, null);
+export function logout(data, callback) {
+	request("get", "/logout", data, callback);
 }

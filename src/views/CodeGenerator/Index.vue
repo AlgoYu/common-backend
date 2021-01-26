@@ -20,7 +20,7 @@
         <el-pagination
             layout="prev, pager, next"
             :total="table.total"
-            style="text-align: center;"
+            style="text-align: center"
         >
         </el-pagination>
         <el-dialog
@@ -39,6 +39,12 @@
                 <el-form-item label="模块名称" prop="moduleName">
                     <el-input v-model="form.moduleName"></el-input>
                 </el-form-item>
+                <el-form-item label="包名" prop="packageName">
+                    <el-input
+                        v-model="form.packageName"
+                        placeholder="不填默认为cn.machine.geek"
+                    ></el-input>
+                </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="generate">生成</el-button>
                     <el-button @click="formDialog = false">取消</el-button>
@@ -49,40 +55,41 @@
 </template>
 
 <script>
-import { pagingTableByDatabaseName } from "@/api/module/CodeGenerator.js";
+import CodeGeneratorAPI from "@/api/module/CodeGeneratorAPI.js";
 export default {
     data() {
         return {
             param: {
                 page: 1,
                 size: 10,
-                keyWord: ""
+                keyWord: "",
             },
             table: {
                 total: 0,
-                data: []
+                data: [],
             },
             form: {
                 tableName: "",
-                moduleName: ""
+                moduleName: "",
+                packageName: "",
             },
             rules: {
                 tableName: [
                     {
                         required: true,
                         message: "表名不能为空",
-                        trigger: "blur"
-                    }
+                        trigger: "blur",
+                    },
                 ],
                 moduleName: [
                     {
                         required: true,
                         message: "模块名不能为空",
-                        trigger: "blur"
-                    }
-                ]
+                        trigger: "blur",
+                    },
+                ],
             },
-            formDialog: false
+            formDialog: false,
         };
     },
     created() {
@@ -90,10 +97,10 @@ export default {
     },
     methods: {
         init() {
-            pagingTableByDatabaseName(this.param, result => {
+            CodeGeneratorAPI.paging(this.param, (result) => {
                 console.log(result);
                 if (result.success) {
-                    this.table.total = result.data.total;
+                    this.table.total = parseInt(result.data.total);
                     this.table.data = result.data.records;
                 }
             });
@@ -103,17 +110,17 @@ export default {
             this.formDialog = true;
         },
         generate() {
-            this.$refs["form"].validate(valid => {
+            this.$refs["form"].validate((valid) => {
                 if (valid) {
                     this.axios
-                        .get("/codeGenerator/generate", {
+                        .get("/generator/generate", {
                             params: this.form,
                             responseType: "blob",
                             headers: {
-                                Token: this.$store.state.accessToken
-                            }
+                                Token: this.$store.state.accessToken,
+                            },
                         })
-                        .then(res => {
+                        .then((res) => {
                             if (!res.data) {
                                 return;
                             }
@@ -127,20 +134,26 @@ export default {
 
                             document.body.appendChild(link);
                             link.click();
+                            this.formDialog = {
+                                tableName: "",
+                                moduleName: "",
+                                packageName: "",
+                            };
+                            this.formDialog = false;
                         })
-                        .catch(err => {
+                        .catch((err) => {
                             console.log(err);
                         });
                 } else {
                     this.$message({
                         message: "请完成表单",
-                        type: "warning"
+                        type: "warning",
                     });
                     return false;
                 }
             });
-        }
-    }
+        },
+    },
 };
 </script>
 

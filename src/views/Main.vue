@@ -11,10 +11,10 @@
                     icon="el-icon-user-solid"
                     :size="isCollapse ? 35 : 100"
                     :src="account.picture"
-                    style="border: #000000 3px solid;"
+                    style="border: #000000 3px solid"
                 ></el-avatar>
                 <div>
-                    <p style="text-align: center;">
+                    <p style="text-align: center">
                         <b>{{ account.name }}</b>
                     </p>
                 </div>
@@ -26,7 +26,7 @@
                     :collapse="isCollapse"
                     :collapse-transition="false"
                     :unique-opened="true"
-                    style="width: auto;"
+                    style="width: auto"
                 >
                     <!-- 循环左侧菜单渲染 -->
                     <template v-for="route in routes">
@@ -39,12 +39,10 @@
                                 <svg
                                     class="icon"
                                     aria-hidden="true"
-                                    style="font-size: 20px;margin-right: 10px;"
+                                    style="font-size: 20px; margin-right: 10px"
                                 >
                                     <use
-                                        :xlink:href="
-                                            '#' + icons.get(route.key)
-                                        "
+                                        :xlink:href="'#' + icons.get(route.key)"
                                     ></use>
                                 </svg>
                                 <span slot="title">{{ route.name }}</span>
@@ -57,12 +55,10 @@
                                 <svg
                                     class="icon"
                                     aria-hidden="true"
-                                    style="font-size: 20px;margin-right: 10px"
+                                    style="font-size: 20px; margin-right: 10px"
                                 >
                                     <use
-                                        :xlink:href="
-                                            '#' + icons.get(item.key)
-                                        "
+                                        :xlink:href="'#' + icons.get(item.key)"
                                     ></use>
                                 </svg>
                                 <span slot="title">{{ item.name }}</span>
@@ -73,12 +69,10 @@
                             <svg
                                 class="icon"
                                 aria-hidden="true"
-                                style="font-size: 20px;margin-right: 10px"
+                                style="font-size: 20px; margin-right: 10px"
                             >
                                 <use
-                                    :xlink:href="
-                                        '#' + icons.get(route.key)
-                                    "
+                                    :xlink:href="'#' + icons.get(route.key)"
                                 ></use>
                             </svg>
                             <span slot="title">{{ route.name }}</span>
@@ -90,8 +84,8 @@
         <el-container style="width: auto">
             <el-header>
                 <div class="main-head">
-                    <el-row style="height: 100%;">
-                        <el-col :span="1" style="height: 100%;">
+                    <el-row style="height: 100%">
+                        <el-col :span="1" style="height: 100%">
                             <div class="flex-center">
                                 <el-button
                                     :icon="
@@ -105,20 +99,20 @@
                                 ></el-button>
                             </div>
                         </el-col>
-                        <el-col :span="18" style="height: 100%;">
+                        <el-col :span="18" style="height: 100%">
                             <div class="flex-center">
                                 <font
                                     size="5"
                                     color="#1D2F3B"
-                                    style="align-self:center"
+                                    style="align-self: center"
                                     ><b>{{ title }}</b></font
                                 >
                             </div>
                         </el-col>
-                        <el-col :span="5" style="height: 100%;">
+                        <el-col :span="5" style="height: 100%">
                             <div class="flex-center">
                                 <el-input
-                                    style="width: 250px;"
+                                    style="width: 250px"
                                     prefix-icon="el-icon-search"
                                     v-model="search"
                                     placeholder="搜索"
@@ -127,7 +121,7 @@
                                     <el-button
                                         icon="el-icon-menu"
                                         circle
-                                        style="margin-left: 10px;"
+                                        style="margin-left: 10px"
                                     ></el-button>
                                     <el-dropdown-menu slot="dropdown">
                                         <el-dropdown-item
@@ -157,7 +151,7 @@
                         </el-col>
                     </el-row>
                 </div>
-                <el-divider style="margin: 10px 0px;"></el-divider>
+                <el-divider style="margin: 10px 0px"></el-divider>
             </el-header>
             <el-main>
                 <router-view></router-view>
@@ -167,9 +161,9 @@
 </template>
 
 <script>
-import { apiUrl,icons } from '@/global/Global.js';
+import { apiUrl, icons } from "@/global/Global.js";
 import AccountApi from "@/api/module/AccountApi.js";
-import { getMyAuthorities } from "@/api/module/AuthorityApi.js";
+import AuthorityApi from "@/api/module/AuthorityApi.js";
 import { createRoutes } from "@/util/RouterUtil.js";
 import { logout } from "@/api/module/LoginApi.js";
 
@@ -183,16 +177,16 @@ export default {
             search: "",
             account: {
                 username: "MachineGeek",
-                picture: "https://store.machine-geek.cn/Administrator.jpg"
+                picture: "https://store.machine-geek.cn/Administrator.jpg",
             },
             icons: icons,
-            routes: []
+            routes: [],
         };
     },
     watch: {
         isCollapse(value) {
             this.asideWidth = value ? "70px" : "200px";
-        }
+        },
     },
     created() {
         this.init();
@@ -200,20 +194,20 @@ export default {
     methods: {
         init() {
             // 获取用户信息
-            AccountApi.getMyInfo(result => {
+            AccountApi.getMyInfo((result) => {
                 if (result.success) {
                     this.account = result.data;
                     this.account.picture = apiUrl + this.account.picture;
                 }
             });
             // 获取用户权限信息以及路由
-            getMyAuthorities(result => {
-                if(result.success){
+            AuthorityApi.getMyAuthorities((result) => {
+                if (result.success) {
                     this.routes = result.data.routes;
                     // 创建新的路由
                     let temp = createRoutes(result.data.routes);
                     console.log(temp);
-                    this.$router.addRoutes(temp);                    
+                    this.$router.addRoutes(temp);
                 }
             });
             // console.log(this.$route);
@@ -224,21 +218,28 @@ export default {
                     this.$confirm("是否退出当前账户?", "提示", {
                         confirmButtonText: "确定",
                         cancelButtonText: "取消",
-                        type: "warning"
+                        type: "warning",
                     })
                         .then(() => {
-                            logout();
-                            localStorage.removeItem("accessToken");
-                            localStorage.removeItem("refreshToken");
-                            this.$router.push({
-                                path: "/Login"
-                            });
+                            logout(
+                                {
+                                    refreshToken: this.$store.state.refreshToken
+                                },
+                                (result) => {
+                                    if (result.success) {
+                                        this.$store.commit("deleteToken");
+                                        this.$router.push({
+                                            path: "/Login",
+                                        });
+                                    }
+                                }
+                            );
                         })
                         .catch(() => {});
                     break;
             }
-        }
-    }
+        },
+    },
 };
 </script>
 

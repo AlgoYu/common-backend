@@ -289,7 +289,8 @@ export default {
                             this.load = true;
                             let temp = this.form;
                             temp.password = md5(temp.password);
-                            AccountApi.add(temp, (result) => {
+                            AccountApi.addWithRole(temp, (result) => {
+                                console.log(result);
                                 if (result.success) {
                                     this.$message({
                                         message: "保存成功!",

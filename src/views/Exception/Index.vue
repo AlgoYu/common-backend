@@ -123,7 +123,7 @@ export default {
         init() {
             paging(this.param, result => {
                 if (result.success) {
-                    this.table.total = result.data.total;
+                    this.table.total = parseInt(result.data.total);
                     this.table.data = result.data.records;
                 }
             });

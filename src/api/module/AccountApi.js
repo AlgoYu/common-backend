@@ -3,8 +3,8 @@ import {
 } from "@/api/Request.js"
 
 // 增加账户
-function add(data, callback) {
-	request("post", "/account/add", data, callback);
+function addWithRole(data, callback) {
+	request("post", "/account/addWithRole", data, callback);
 }
 
 // 根据ID账户
@@ -39,7 +39,7 @@ function deleteById(data, callback) {
 
 // 导出为API对象
 export default {
-	add,
+	addWithRole,
 	deleteById,
 	modifyWithRoleById,
 	reset,
