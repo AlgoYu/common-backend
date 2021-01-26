@@ -106,13 +106,7 @@
 </template>
 
 <script>
-import {
-    paging,
-    getWithAuthorityById,
-    modifyWithAuthorityById,
-    addWithAuthority,
-    deleteById,
-} from "@/api/module/SystemRoleApi.js";
+import RoleApi from "@/api/module/RoleApi.js";
 import { tree, add } from "@/api/module/AuthorityApi.js";
 export default {
     data() {
@@ -180,7 +174,7 @@ export default {
             });
         },
         getPage() {
-            paging(this.param, (result) => {
+            RoleApi.paging(this.param, (result) => {
                 if (result.success) {
                     this.table.total = result.data.total;
                     this.table.data = result.data.records;

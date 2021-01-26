@@ -3,11 +3,7 @@
         <div style="margin-top: 10px; margin-bottom: 10px">
             <el-row>
                 <el-col :span="10">
-                    <el-button
-                        type="primary"
-                        @click="addData"
-                        >增加</el-button
-                    >
+                    <el-button type="primary" @click="addData">增加</el-button>
                 </el-col>
                 <el-col :span="4" :offset="10">
                     <el-input
@@ -19,11 +15,8 @@
                 </el-col>
             </el-row>
         </div>
-        <el-table
-            :data="table.data"
-            style="width: 100%"
-            v-loading="load"
-        >
+        <!-- 表单 -->
+        <el-table :data="table.data" style="width: 100%" v-loading="load">
             <el-table-column prop="id" label="ID" align="center">
             </el-table-column>
             <el-table-column prop="picture" label="头像" align="center">
@@ -32,32 +25,36 @@
                         class="transition-animations"
                         icon="el-icon-user-solid"
                         :size="50"
-                        :src="scope.row.picture"
+                        :src="apiUrl + scope.row.picture"
                         style="border: #000000 2px solid"
                     ></el-avatar>
                     <span style="margin-left: 10px">{{ scope.row.date }}</span>
                 </template>
             </el-table-column>
-            <el-table-column prop="username" label="姓名" align="center">
+            <el-table-column prop="name" label="姓名" align="center">
             </el-table-column>
-            <el-table-column prop="nickname" label="昵称" align="center">
-            </el-table-column>
-            <el-table-column prop="phone" label="手机" align="center">
-            </el-table-column>
-            <el-table-column prop="description" label="描述" align="center">
+            <el-table-column prop="mobile" label="手机" align="center">
             </el-table-column>
             <el-table-column prop="email" label="邮箱" align="center">
             </el-table-column>
             <el-table-column prop="ip" label="IP地址" align="center">
             </el-table-column>
-            <el-table-column prop="disable" label="是否禁用" align="center">
+            <el-table-column prop="disable" label="是否启用" align="center">
                 <template slot-scope="scope">
-                    <el-switch
-                        v-model="scope.row.disable"
-                        active-color="#ff4949"
-                        inactive-color="#13ce66"
+                    <el-tag
+                        v-if="scope.row.enable"
+                        type="success"
+                        effect="dark"
                     >
-                    </el-switch>
+                        启用
+                    </el-tag>
+                    <el-tag
+                        v-else
+                        type="danger"
+                        effect="dark"
+                    >
+                        禁用
+                    </el-tag>
                 </template>
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间" align="center">
@@ -66,14 +63,10 @@
             </el-table-column>
             <el-table-column label="操作" align="center" min-width="150px">
                 <template slot-scope="scope">
-                    <el-button
-                        type="info"
-                        @click="edit(scope.row)"
+                    <el-button type="info" @click="edit(scope.row)"
                         >编辑</el-button
                     >
-                    <el-button
-                        type="danger"
-                        @click="deleteData(scope.row)"
+                    <el-button type="danger" @click="deleteData(scope.row)"
                         >删除</el-button
                     >
                 </template>
@@ -102,7 +95,11 @@
                         :disabled="statu == 'edit'"
                     ></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="password" v-if="statu=='add'">
+                <el-form-item
+                    label="密码"
+                    prop="password"
+                    v-if="statu == 'add'"
+                >
                     <el-input v-model="form.password"></el-input>
                 </el-form-item>
                 <el-form-item label="昵称" prop="nickname">
@@ -143,14 +140,8 @@
 </template>
 
 <script>
-import {
-    add,
-    deleteById,
-    paging,
-    getWithRoleById,
-    modifyWithRoleById,
-} from "@/api/module/AccountApi.js";
-import { list } from "@/api/module/SystemRoleApi";
+import AccountApi from "@/api/module/AccountApi.js";
+import RoleApi from "@/api/module/RoleApi.js";
 import md5 from "js-md5";
 export default {
     data() {
@@ -216,7 +207,7 @@ export default {
     methods: {
         init() {
             this.getPage();
-            list((result) => {
+            RoleApi.list((result) => {
                 if (result.success) {
                     this.selector.data = result.data;
                 }
@@ -269,9 +260,9 @@ export default {
         },
         getPage() {
             this.load = true;
-            paging(this.param, (result) => {
+            AccountApi.paging(this.param, (result) => {
                 if (result.success) {
-                    this.table.total = result.data.total;
+                    this.table.total = parseInt(result.data.total);
                     this.table.data = result.data.records;
                 }
                 this.load = false;

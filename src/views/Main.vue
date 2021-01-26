@@ -168,7 +168,7 @@
 
 <script>
 import { apiUrl,icons } from '@/global/Global.js';
-import { getMyInfo } from "@/api/module/AccountApi.js";
+import AccountApi from "@/api/module/AccountApi.js";
 import { getMyAuthorities } from "@/api/module/AuthorityApi.js";
 import { createRoutes } from "@/util/RouterUtil.js";
 import { logout } from "@/api/module/LoginApi.js";
@@ -200,7 +200,7 @@ export default {
     methods: {
         init() {
             // 获取用户信息
-            getMyInfo(result => {
+            AccountApi.getMyInfo(result => {
                 if (result.success) {
                     this.account = result.data;
                     this.account.picture = apiUrl + this.account.picture;
