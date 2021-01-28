@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div v-auth="'EXCEPTION:GET'">
         <div style="margin-top: 10px; margin-bottom: 10px">
             <el-row>
                 <el-col :span="10">
-                    <el-button @click="clearSytemException"
+                    <el-button @click="clearSytemException" v-auth="'EXCEPTION:DELETE'"
                         >清空异常信息</el-button
                     >
                 </el-col>
@@ -88,7 +88,7 @@
             </el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-button type="danger">删除</el-button>
+                    <el-button type="danger" v-auth="'EXCEPTION:DELETE'">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>

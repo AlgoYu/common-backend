@@ -1,80 +1,94 @@
 <template>
     <div>
-        <!-- 顶部菜单 -->
-        <div style="margin-top: 10px; margin-bottom: 10px">
-            <el-row>
-                <el-col :span="10">
-                    <el-button type="primary" @click="add">增加</el-button>
-                </el-col>
-                <el-col :span="4" :offset="10">
-                    <el-input
-                        @keyup.enter.native="getPage"
-                        v-model="param.keyWord"
-                        placeholder="按关键字搜索内容"
-                        suffix-icon="el-icon-search"
-                    ></el-input>
-                </el-col>
-            </el-row>
+        <div v-auth="'ACCOUNT:GET'">
+            <!-- 顶部菜单 -->
+            <div style="margin-top: 10px; margin-bottom: 10px">
+                <el-row>
+                    <el-col :span="10">
+                        <el-button type="primary" @click="add" v-auth="'ACCOUNT:ADD'">增加</el-button>
+                    </el-col>
+                    <el-col :span="4" :offset="10">
+                        <el-input
+                            @keyup.enter.native="getPage"
+                            v-model="param.keyWord"
+                            placeholder="按关键字搜索内容"
+                            suffix-icon="el-icon-search"
+                        ></el-input>
+                    </el-col>
+                </el-row>
+            </div>
+            <!-- 表格 -->
+            <el-table :data="table.data" style="width: 100%" v-loading="load">
+                <el-table-column prop="id" label="ID" align="center">
+                </el-table-column>
+                <el-table-column prop="picture" label="头像" align="center">
+                    <template slot-scope="scope">
+                        <el-avatar
+                            class="transition-animations"
+                            icon="el-icon-user-solid"
+                            :size="50"
+                            :src="apiUrl + scope.row.picture"
+                            style="border: #000000 2px solid"
+                        ></el-avatar>
+                        <span style="margin-left: 10px">{{
+                            scope.row.date
+                        }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="name" label="姓名" align="center">
+                </el-table-column>
+                <el-table-column prop="mobile" label="手机" align="center">
+                </el-table-column>
+                <el-table-column prop="email" label="邮箱" align="center">
+                </el-table-column>
+                <el-table-column prop="ip" label="IP地址" align="center">
+                </el-table-column>
+                <el-table-column prop="disable" label="是否启用" align="center">
+                    <template slot-scope="scope">
+                        <el-tag
+                            v-if="scope.row.enable"
+                            type="success"
+                            effect="dark"
+                        >
+                            启用
+                        </el-tag>
+                        <el-tag v-else type="danger" effect="dark">
+                            禁用
+                        </el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    prop="createTime"
+                    label="创建时间"
+                    align="center"
+                >
+                </el-table-column>
+                <el-table-column
+                    prop="updateTime"
+                    label="修改时间"
+                    align="center"
+                >
+                </el-table-column>
+                <el-table-column label="操作" align="center" min-width="150px">
+                    <template slot-scope="scope">
+                        <el-button type="info" @click="edit(scope.row)" v-auth="'ACCOUNT:MODIFY'"
+                            >编辑</el-button
+                        >
+                        <el-button type="danger" @click="remove(scope.row)" v-auth="'ACCOUNT:DELETE'"
+                            >删除</el-button
+                        >
+                    </template>
+                </el-table-column>
+            </el-table>
+            <!-- 分页 -->
+            <el-pagination
+                layout="prev, pager, next"
+                :total="table.total"
+                style="text-align: center"
+                v-if="table.data.length > 0"
+            >
+            </el-pagination>
         </div>
-        <!-- 表格 -->
-        <el-table :data="table.data" style="width: 100%" v-loading="load">
-            <el-table-column prop="id" label="ID" align="center">
-            </el-table-column>
-            <el-table-column prop="picture" label="头像" align="center">
-                <template slot-scope="scope">
-                    <el-avatar
-                        class="transition-animations"
-                        icon="el-icon-user-solid"
-                        :size="50"
-                        :src="apiUrl + scope.row.picture"
-                        style="border: #000000 2px solid"
-                    ></el-avatar>
-                    <span style="margin-left: 10px">{{ scope.row.date }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column prop="name" label="姓名" align="center">
-            </el-table-column>
-            <el-table-column prop="mobile" label="手机" align="center">
-            </el-table-column>
-            <el-table-column prop="email" label="邮箱" align="center">
-            </el-table-column>
-            <el-table-column prop="ip" label="IP地址" align="center">
-            </el-table-column>
-            <el-table-column prop="disable" label="是否启用" align="center">
-                <template slot-scope="scope">
-                    <el-tag
-                        v-if="scope.row.enable"
-                        type="success"
-                        effect="dark"
-                    >
-                        启用
-                    </el-tag>
-                    <el-tag v-else type="danger" effect="dark"> 禁用 </el-tag>
-                </template>
-            </el-table-column>
-            <el-table-column prop="createTime" label="创建时间" align="center">
-            </el-table-column>
-            <el-table-column prop="updateTime" label="修改时间" align="center">
-            </el-table-column>
-            <el-table-column label="操作" align="center" min-width="150px">
-                <template slot-scope="scope">
-                    <el-button type="info" @click="edit(scope.row)"
-                        >编辑</el-button
-                    >
-                    <el-button type="danger" @click="remove(scope.row)"
-                        >删除</el-button
-                    >
-                </template>
-            </el-table-column>
-        </el-table>
-        <!-- 分页 -->
-        <el-pagination
-            layout="prev, pager, next"
-            :total="table.total"
-            style="text-align: center"
-            v-if="table.data.length > 0"
-        >
-        </el-pagination>
         <!-- 表单 -->
         <el-dialog
             title="角色"
@@ -101,8 +115,15 @@
                 <el-form-item label="手机" prop="mobile">
                     <el-input v-model="form.mobile"></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="password" v-if="statu == 'add'">
-                    <el-input type="password" v-model="form.password"></el-input>
+                <el-form-item
+                    label="密码"
+                    prop="password"
+                    v-if="statu == 'add'"
+                >
+                    <el-input
+                        type="password"
+                        v-model="form.password"
+                    ></el-input>
                 </el-form-item>
                 <el-form-item label="邮箱" prop="email">
                     <el-input v-model="form.email"></el-input>
@@ -221,7 +242,7 @@ export default {
                         mobile: result.data.account.mobile,
                         email: result.data.account.email,
                         enable: result.data.account.enable,
-                        roleIds: []
+                        roleIds: [],
                     };
                     let ids = [];
                     result.data.roles.forEach((role) => {

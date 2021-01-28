@@ -204,13 +204,14 @@ export default {
             AuthorityApi.getMyAuthorities((result) => {
                 if (result.success) {
                     this.routes = result.data.routes;
-                    // 创建新的路由
+                    // 为叶子节点导入路由组件
                     let temp = createRoutes(result.data.routes);
-                    console.log(temp);
+                    // 添加路由
                     this.$router.addRoutes(temp);
+                    // 导入权限信息
+                    this.$store.commit('updateApis',result.data.apis);
                 }
             });
-            // console.log(this.$route);
         },
         handleCommand(command) {
             switch (command) {

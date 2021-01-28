@@ -1,47 +1,62 @@
 <template>
     <div>
-        <div style="margin-top: 10px; margin-bottom: 10px">
-            <el-row>
-                <el-col :span="10">
-                    <el-button type="primary" @click="add">增加</el-button>
-                </el-col>
-                <el-col :span="4" :offset="10">
-                    <el-input
-                        v-model="form.keyWord"
-                        placeholder="按关键字搜索内容"
-                        suffix-icon="el-icon-search"
-                    ></el-input>
-                </el-col>
-            </el-row>
+        <div v-auth="'ROLE:GET'">
+            <div style="margin-top: 10px; margin-bottom: 10px">
+                <el-row>
+                    <el-col :span="10">
+                        <el-button
+                            type="primary"
+                            @click="add"
+                            v-auth="'ROLE:ADD'"
+                            >增加</el-button
+                        >
+                    </el-col>
+                    <el-col :span="4" :offset="10">
+                        <el-input
+                            v-model="form.keyWord"
+                            placeholder="按关键字搜索内容"
+                            suffix-icon="el-icon-search"
+                        ></el-input>
+                    </el-col>
+                </el-row>
+            </div>
+            <el-table :data="table.data" style="width: 100%" v-loading="load">
+                <el-table-column prop="id" label="ID" align="center">
+                </el-table-column>
+                <el-table-column prop="name" label="角色名" align="center">
+                </el-table-column>
+                <el-table-column prop="key" label="权限字符" align="center">
+                </el-table-column>
+                <el-table-column
+                    prop="createTime"
+                    label="创建时间"
+                    align="center"
+                >
+                </el-table-column>
+                <el-table-column
+                    prop="updateTime"
+                    label="更新时间"
+                    align="center"
+                >
+                </el-table-column>
+                <el-table-column label="操作" align="center">
+                    <template slot-scope="scope">
+                        <el-button type="info" @click="edit(scope.row)" v-auth="'ROLE:EDIT'"
+                            >编辑</el-button
+                        >
+                        <el-button type="danger" @click="remove(scope.row)" v-auth="'ROLE:DELETE'"
+                            >删除</el-button
+                        >
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination
+                layout="prev, pager, next"
+                :total="table.total"
+                style="text-align: center"
+            >
+            </el-pagination>
         </div>
-        <el-table :data="table.data" style="width: 100%" v-loading="load">
-            <el-table-column prop="id" label="ID" align="center">
-            </el-table-column>
-            <el-table-column prop="name" label="角色名" align="center">
-            </el-table-column>
-            <el-table-column prop="key" label="权限字符" align="center">
-            </el-table-column>
-            <el-table-column prop="createTime" label="创建时间" align="center">
-            </el-table-column>
-            <el-table-column prop="updateTime" label="更新时间" align="center">
-            </el-table-column>
-            <el-table-column label="操作" align="center">
-                <template slot-scope="scope">
-                    <el-button type="info" @click="edit(scope.row)"
-                        >编辑</el-button
-                    >
-                    <el-button type="danger" @click="remove(scope.row)"
-                        >删除</el-button
-                    >
-                </template>
-            </el-table-column>
-        </el-table>
-        <el-pagination
-            layout="prev, pager, next"
-            :total="table.total"
-            style="text-align: center"
-        >
-        </el-pagination>
         <!-- 表单 -->
         <el-dialog
             title="角色"
@@ -110,7 +125,7 @@ export default {
                         max: 10,
                         message: "长度在 2 到 10 个字符",
                         trigger: "blur",
-                    }
+                    },
                 ],
                 key: [
                     {
@@ -207,8 +222,12 @@ export default {
                     this.$nextTick(() => {
                         result.data.authorities.forEach((authority) => {
                             // 先确定在树种属于叶子节点，是的话进行勾选，这样父节点也会变成半选状态。
-                            if(this.$refs.tree.getNode(authority.id).isLeaf){
-                                this.$refs.tree.setChecked(authority.id,true,false);
+                            if (this.$refs.tree.getNode(authority.id).isLeaf) {
+                                this.$refs.tree.setChecked(
+                                    authority.id,
+                                    true,
+                                    false
+                                );
                             }
                         });
                     });
@@ -229,7 +248,9 @@ export default {
             this.$refs["form"].validate((valid) => {
                 if (valid) {
                     // 获取所有选中节点和半选节点
-                    this.form.authorityIds = this.$refs.tree.getCheckedKeys().concat(this.$refs.tree.getHalfCheckedKeys());
+                    this.form.authorityIds = this.$refs.tree
+                        .getCheckedKeys()
+                        .concat(this.$refs.tree.getHalfCheckedKeys());
                     console.log(this.form.authorityIds);
                     switch (this.statu) {
                         case "add":

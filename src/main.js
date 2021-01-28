@@ -54,6 +54,16 @@ axios.defaults.baseURL = apiUrl;
 
 Vue.use(VueAxios, axios)
 
+// 自定义权限指令
+Vue.directive('auth',{
+	inserted(el, binding, vnode){
+		let value = binding.value;
+		if(!store.state.apis.get(value)){
+			el.parentNode.removeChild(el);
+		}
+	}
+});
+
 Vue.config.productionTip = false;
 
 new Vue({

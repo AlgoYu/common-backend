@@ -1,28 +1,40 @@
 <template>
     <div>
-        <el-table :data="table.data" style="width: 100%">
-            <el-table-column prop="tableName" label="表名" align="center">
-            </el-table-column>
-            <el-table-column prop="engine" label="表引擎" align="center">
-            </el-table-column>
-            <el-table-column prop="tableComment" label="表注释" align="center">
-            </el-table-column>
-            <el-table-column prop="createTime" label="创建日期" align="center">
-            </el-table-column>
-            <el-table-column prop="operate" label="操作" align="center">
-                <template slot-scope="scope">
-                    <el-button @click="showDialog(scope.row)"
-                        >生成代码</el-button
-                    >
-                </template>
-            </el-table-column>
-        </el-table>
-        <el-pagination
-            layout="prev, pager, next"
-            :total="table.total"
-            style="text-align: center"
-        >
-        </el-pagination>
+        <div v-auth="'GENERATOR:GET'">
+            <el-table :data="table.data" style="width: 100%">
+                <el-table-column prop="tableName" label="表名" align="center">
+                </el-table-column>
+                <el-table-column prop="engine" label="表引擎" align="center">
+                </el-table-column>
+                <el-table-column
+                    prop="tableComment"
+                    label="表注释"
+                    align="center"
+                >
+                </el-table-column>
+                <el-table-column
+                    prop="createTime"
+                    label="创建日期"
+                    align="center"
+                >
+                </el-table-column>
+                <el-table-column prop="operate" label="操作" align="center">
+                    <template slot-scope="scope">
+                        <el-button
+                            @click="showDialog(scope.row)"
+                            v-auth="'GENERATOR:GENERATE'"
+                            >生成代码</el-button
+                        >
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination
+                layout="prev, pager, next"
+                :total="table.total"
+                style="text-align: center"
+            >
+            </el-pagination>
+        </div>
         <el-dialog
             title="代码生成"
             :visible.sync="formDialog"
