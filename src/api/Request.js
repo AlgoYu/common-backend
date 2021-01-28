@@ -9,7 +9,7 @@ Axios.defaults.withCredentials = true;
 Axios.defaults.baseURL = apiUrl;
 
 // 封装的请求
-export function request(method, url, data, callback) {
+export async function request(method, url, data, callback) {
 	// 构建信息
 	let info = {
 		method: method,
@@ -32,12 +32,13 @@ export function request(method, url, data, callback) {
 			info.method = 'get';
 			info.url = '/api/token/refreshToken';
 			info.params = {
-				'token': Store.state.refreshToken
+				'refreshToken': Store.state.refreshToken
 			}
 			Axios(info).then((res)=>{
+				console.log(res);
 				// 如果请求成功 刷新Token后再次请求
 				if(res.data.success){
-					Store.commit("updateUserInfo", res.data.data);
+					Store.commit("updateToken", res.data.data);
 					request(method, url, data, callback);
 				}else{
 					// 请求失败则跳转到登录界面
@@ -57,31 +58,5 @@ export function request(method, url, data, callback) {
 		}
 	// 网络请求失败处理
 	}).catch((err) => {
-	})
-}
-
-// 刷新Token
-export function refreshToken(callback){
-	// 构建信息
-	let info = {
-		method: 'get',
-		url: '/api/token/refreshToken',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		params: {
-			token: Store.state.refreshToken
-		}
-	};
-	// 请求
-	Axios(info).then((res) => {
-		if (callback != null) {
-			callback(res.data);
-		}
-	}).catch((err) => {
-		Message({
-			message: '当前网络不通畅！',
-			type: 'warning'
-		});
 	})
 }
